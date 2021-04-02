@@ -1,6 +1,6 @@
 # gamabank-grupo2
 
-INFORMAÇÕES E DOCUMENTAÇÃO DO PROJETO gamabank-grupo2
+# INFORMAÇÕES E DOCUMENTAÇÃO DO PROJETO gamabank-grupo2
 
 Critérios de aceite
 Entregou a API Backend devidade documentada
@@ -12,11 +12,11 @@ Exibiu o extrato bancário e fatura de crédito
 
 
 
-INSTRUÇÕES DE INSTALAÇÃO :
+# INSTRUÇÕES DE INSTALAÇÃO :
 
 
 
-FUNCIONALIDADES :
+# FUNCIONALIDADES :
 
 1 - Cadastrou usúarios com as respectivas contas.
 2 - Realizou transferencia entre conta existes e/ou inexistentes.
@@ -27,7 +27,7 @@ FUNCIONALIDADES :
 
 
 
-MEMBROS : 
+# MEMBROS : 
 
 Andréa Riveiro Hammel : Gihub 
 
@@ -40,15 +40,17 @@ Matheus V. B. : Github https://github.com/MVIEIRAB
 Marcello Cavalcanti de Albuquerque : Github https://github.com/marcelloalbuca
 
 
-BOARD DO PROJETO gamabank-grupo2  https://trello.com/b/Wcz6srr1/projeto-gamabank
+# BOARD DO PROJETO gamabank-grupo2: 
+
+https://trello.com/b/Wcz6srr1/projeto-gamabank
 
 
 
-DOCUMENTAÇÃO : https://swagger.io/
+# DOCUMENTAÇÃO : https://swagger.io/
 
 
 
-LINK PARA ACESSO :
+# LINK PARA ACESSO :
 
 
 
