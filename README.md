@@ -1,0 +1,3 @@
+# gamabank-grupo2
+
+INFORMAÇÕES E DOCUMENTAÇÃO DO PROJETO
