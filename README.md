@@ -1,6 +1,6 @@
 # gamabank-grupo2
 
-# INFORMAÇÕES E DOCUMENTAÇÃO DO PROJETO gamabank-grupo2
+# INFORMAÇÕES E DOCUMENTAÇÃO DO PROJETO - Decodificadores do Amanhã
 
 
 Critérios de aceite
