@@ -41,7 +41,7 @@ Exibiu o extrato bancário e fatura de crédito
 
 # MEMBROS : 
 
-Andréa Riveiro Hammel : Gihub 
+Andréa Riveiro Hammel : Gihub https://github.com/AndreaRiverio
 
 Evandro Costa da Silva : Github 
 
