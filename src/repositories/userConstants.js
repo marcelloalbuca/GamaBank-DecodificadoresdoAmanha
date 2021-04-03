@@ -1,6 +1,6 @@
 module.exports = {
-  userSuccess: "User has been created",
-  userError: "user can't be created",
-  userNotFound: 'User not found',
-  userAlreadyExist: 'User already exist'
+  userSuccess: "Usuario foi criado com sucesso",
+  userError: "Erro na criação do usuario",
+  userNotFound: 'Usuario não encontrado',
+  userAlreadyExist: 'Usuario já existente'
 }
