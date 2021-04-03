@@ -1,10 +1,12 @@
-const Hapi = require("@hapi/hapi");
+const Hapi = require("@hapi/hapi")
+
+const env = require('./configs/env.js')
 
 const server = async () => {
 
     const hapiServer = Hapi.Server({
-        port: process.env.PORT || 3000,
-        host: process.env.HOST || 'localhost'
+        port: env.server.port || 3000,
+        host: env.server.host || 'localhost'
     })
 
     return hapiServer
