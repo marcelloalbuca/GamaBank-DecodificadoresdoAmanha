@@ -1,7 +1,9 @@
-const server = require('./infraestructure/server.js')
+const server = require('./server.js')
 
-const HOST = process.env.HOST || 'localhost'
-const PORT = process.env.PORT || 3000
+const env = require('./configs/env.js')
+
+const HOST = env.server.SERVER_HOST || 'localhost'
+const PORT = env.server.SERVER_PORT
 
 server.then(hapi => {
 	console.log(`server has been started on http://${HOST}:${PORT}`)
