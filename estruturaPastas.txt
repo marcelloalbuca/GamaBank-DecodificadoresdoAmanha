@@ -1,0 +1,14 @@
+[src]
+  |--[api]
+  |----[controller] delega a requisição feita pela rota à camada de tratamento dos dados
+  |----[data]: consulta e manipulação de dados / consulta no banco (responsavel por lidar requisição e retorno de dados).
+  |----[models]: instancias e definições do banco de dados e modelos de configuração.
+  |-------->[dto]: definições do modelo tipo DTO.
+  |----[service]: trata as informações que recebe da requisição tendo retorno de dados da camada DATA e retorna para o CONTROLLER.
+  |--[infraestructure]: configurações da aplicação.
+  |----> server.js: configuração do servidor/conexão.
+  |----> database.js: configuração e conexão com o banco.
+  |--[configs] -> configuração de modulos, separação de responsabilidades.
+  |--[repositories] -> funções e configurações globais da aplicação.
+  |--[routes] -> acomplamento das rotas da aplicação.
+  |--app.js: arquivo root do projeto.
