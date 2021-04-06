@@ -1,19 +1,10 @@
 const mysql = require('mysql')
 
-const dotenv = require('dotenv')
-
-const env = require('../configs/env')
-
-var connection = mysql.createConnection({
+const database = mysql.createConnection({
 	host: 'localhost',
 	user: 'root',
-	password: '12345'
+	password: '12345',
+	database: 'gamabank'
 })
 
-const connectionStatus = () => {
-	console.log('Database connected...')
-}
-
-connection.connect(connectionStatus())
-
-connection.end()
+module.exports = database
