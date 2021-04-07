@@ -1,6 +1,6 @@
 const usuarioService = require('../api/service/usuarioService.js')
 
-const User = require('../api/models/user')
+const userSchema = require('../api/models/userSchema')
 
 const listarUsuarios = {
   method: 'GET',
@@ -32,13 +32,21 @@ const criarUsuario = {
   path: '/usuarios',
   handler: async (request, h) => {
     try {
-      const user = new User(request.payload)
+      const user = request.payload
 
-      await usuarioService.criarUsuario(user)
+      const userCreated = await usuarioService.criarUsuario(user)
 
-      return { message: 'usuario criado com sucesso!' }
+      console.log(user)
+      console.log(userCreated)
+
+      return userCreated
     } catch (error) {
-      if (error) throw new Error(error)
+      console.log(error)
+    }
+  },
+  options: {
+    validate: {
+      payload: userSchema
     }
   }
 }

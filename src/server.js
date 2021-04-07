@@ -1,4 +1,5 @@
 const Hapi = require("@hapi/hapi")
+const Joi = require("@hapi/joi")
 
 const routes = require('./routes/index.js')
 
@@ -9,6 +10,8 @@ const server = async () => {
         port: env.server.port || 3000,
         host: env.server.host || 'localhost'
     })
+
+    hapiServer.validator(Joi)
 
     hapiServer.route(routes)
 

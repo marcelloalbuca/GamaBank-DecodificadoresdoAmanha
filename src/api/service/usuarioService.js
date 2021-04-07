@@ -1,5 +1,5 @@
 const usuariosData = require('../data/usuariosData')
-const crypto = require('../../repositories/encryptPassword')
+const crypto = require('../../helpers/encryptPassword')
 
 exports.buscarUsuarios = async () => {
   const rows = await usuariosData.buscarUsuarios()
@@ -12,9 +12,15 @@ exports.buscarUsuarioPorId = async (id) => {
 }
 
 exports.criarUsuario = async (sqlStatement) => {
-  const { senha } = sqlStatement
-  const encrypt = await crypto.encryptPassword(senha)
-  return usuariosData.criarUsuario(sqlStatement, encrypt)
+  try {
+    const { senha } = sqlStatement
+
+    const encrypt = await crypto.encryptPassword(senha)
+    return usuariosData.criarUsuario(sqlStatement, encrypt)
+  } catch (error) {
+    console.log(error)
+  }
+
 }
 
 exports.deletarUsuarioPorId = async (sqlStatement) => {

@@ -7,4 +7,6 @@ const database = mysql.createConnection({
 	database: 'gamabank'
 })
 
+database.connect()
+
 module.exports = database
