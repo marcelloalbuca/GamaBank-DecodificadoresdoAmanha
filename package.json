@@ -24,7 +24,6 @@
     "@hapi/vision": "^6.0.1",
     "bcrypt": "^5.0.1",
     "dotenv": "^8.2.0",
-    "bcrypt": "^5.0.1",
     "hapi-swagger": "^14.1.0",
     "http-status-codes": "^2.1.4",
     "joi": "^17.4.0",
@@ -33,7 +32,10 @@
     "node-fetch": "^2.6.1"
   },
   "devDependencies": {
+    "chai": "^4.3.4",
     "cross-env": "^7.0.3",
+    "faker": "^5.5.2",
+    "mocha": "^8.3.2",
     "nodemon": "^2.0.7"
   }
 }
