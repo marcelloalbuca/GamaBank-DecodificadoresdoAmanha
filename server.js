@@ -1,6 +1,9 @@
 const Hapi = require("@hapi/hapi")
+const routes = require("./src/routes/index")
 
-const env = require('./configs/env.js')
+// Documentação com swagger
+const swagger = require('./src/configs/swagger')
+const env = require('./src/configs/env.js')
 
 const server = async () => {
 
@@ -9,6 +12,13 @@ const server = async () => {
         host: env.server.host || 'localhost'
     })
 
+    console.log(env.server.port)
+    console.log(env.server.host)
+
+    //REGISTRANDO SWAGGER
+    await hapiServer.register(swagger)
+    //Usando as rotas
+    hapiServer.route(routes)
     return hapiServer
 
 }
