@@ -1,17 +1,12 @@
 const Hapi = require("@hapi/hapi")
-const Joi = require("@hapi/joi")
 
 const routes = require('./routes/index.js')
-
-const env = require('./configs/env.js')
 
 const server = async () => {
     const hapiServer = Hapi.Server({
         port: process.env.PORT || 3000,
         host: process.env.HOST || 'localhost'
     })
-
-    hapiServer.validator(Joi)
 
     hapiServer.route(routes)
 

@@ -1,17 +1,11 @@
 const usuarioService = require('../api/service/usuarioService.js')
 
-const userSchema = require('../api/models/userSchema')
-
 const listarUsuarios = {
   method: 'GET',
   path: '/usuarios',
-  handler: async () => {
-    try {
-      return await usuarioService.buscarUsuarios()
-    } catch (error) {
-      console.log(error)
-      return { message: 'Erro ao listar usuário!' }
-    }
+  handler: async (request, h) => {
+    const data = await usuarioService.buscarUsuarios()
+    return data
   }
 }
 
@@ -45,11 +39,6 @@ const criarUsuario = {
       h.response(userCreated).code(200)
     } catch (error) {
 
-    }
-  },
-  options: {
-    validate: {
-      payload: userSchema
     }
   }
 }

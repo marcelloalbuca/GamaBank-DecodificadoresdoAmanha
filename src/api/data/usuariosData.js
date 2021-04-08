@@ -2,19 +2,15 @@ const database = require('../../infraestructure/database')
 
 exports.criarUsuario = async (sqlStatement, passEncrypted) => {
   return new Promise((resolve, reject) => {
-    try {
-      const { nome, email, cpf } = sqlStatement
+    const { nome, email, cpf } = sqlStatement
 
-      const queryString = `INSERT INTO usuarios (nome, email, cpf, senha) 
+    const queryString = `INSERT INTO usuarios (nome, email, cpf, senha) 
       values ("${nome}", "${email}", "${cpf}", "${passEncrypted.encryptedPassword}");`
 
-      database.query(queryString, (err, rows) => {
-
-        resolve(rows)
-      })
-    } catch (error) {
+    database.query(queryString, (err, rows) => {
       reject(err)
-    }
+      resolve(rows)
+    })
   })
 }
 
