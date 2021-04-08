@@ -124,7 +124,11 @@ const atualizarUsuario = {
   }
 }
 
+<<<<<<< HEAD
 module.exports = [root, listarUsuarioPorId, listarUsuarios, criarUsuario, deletarUsuario, atualizarUsuario]
 
 // listarUsuarioPorId, listarUsuarios, criarUsuario, deletarUsuario, atualizarUsuario
 
+=======
+module.exports = [listarUsuarioPorId, listarUsuarios, criarUsuario, deletarUsuario, atualizarUsuario]
+>>>>>>> 71767a13bc91aab127516f1b7bf1da124b02477c
