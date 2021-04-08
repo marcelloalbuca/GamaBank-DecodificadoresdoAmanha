@@ -7,7 +7,7 @@ const listarUsuarios = {
   path: '/usuarios',
   handler: async () => {
     try {
-      return usuarioService.buscarUsuarios()
+      return await usuarioService.buscarUsuarios()
     } catch (error) {
       console.log(error)
       return { message: 'Erro ao listar usuário!' }
