@@ -9,6 +9,7 @@ const listarUsuarios = {
     try {
       return await usuarioService.buscarUsuarios()
     } catch (error) {
+      console.log(error)
       return { message: 'Erro ao listar usuário!' }
     }
   }
@@ -22,6 +23,7 @@ const listarUsuarioPorId = {
       const { id } = request.params
       return await usuarioService.buscarUsuarioPorId(id)
     } catch (error) {
+      console.log(error)
       return { message: 'Erro ao procurar usuário!' }
     
     }
