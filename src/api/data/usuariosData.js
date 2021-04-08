@@ -1,5 +1,7 @@
 const database = require('../../infraestructure/database')
 
+database.connect()
+
 exports.criarUsuario = async (sqlStatement, passEncrypted) => {
   try {
     return new Promise((resolve, reject) => {
@@ -22,6 +24,8 @@ exports.buscarUsuarios = () => {
     database.query('select * from usuarios;', (err, rows) => {
       if (err) return reject(err)
       resolve(rows)
+      // database.end()
+     console.log(rows)
     })
   })
   } catch (error) {

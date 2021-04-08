@@ -24,9 +24,46 @@ inner join contas c ON u.id = c.idUsuario
 inner join movimentacoesInterna m on m.idConta = c.idUsuario AND m.idTransacao = 3
 inner join transacoes t where t.nome = "DEPOSITO" 
 
--- HISTÓRICO DE SAQUES DO USUÁRIO  --
--- HISTÓRICO DE DEPOSITOS DO USUÁRIO --
--- HISTÓRICO DE TRANSFERÊNCIAS DO USUÁRIO--
+-- SET SQL_SAFE_UPDATES = 0;
+
+-- HISTÓRICO DE SAQUES DO USUÁRIO - Movimentação Interna --
+select u.id, u.nome, t.nome, mi.valor, mi.data_criacao, mi.idConta from usuarios u
+inner join movimentacoesInterna mi on mi.idUsuario = u.id 
+inner join transacoes t on mi.idTransacao = t.id
+WHERE u.id = 2 AND mi.idTransacao=2;
+
+-- HISTÓRICO DE SAQUES DO USUÁRIO - Movimentação Externa --
+select u.id, u.nome, t.nome, me.valor, me.data_criacao, me.idConta,me.cod_banco,me.cpf_depositante, me.email_usuario from usuarios u
+inner join movimentacoesExterna me on me.idUsuario = u.id 
+inner join transacoes t on me.idTransacao = t.id
+WHERE u.id = 1 AND me.idTransacao=2;
+
+
+-- HISTÓRICO DE DEPOSITOS DO USUÁRIO - Movimentação Interna --
+select u.id, u.nome, t.nome, mi.valor, mi.data_criacao, mi.idConta from usuarios u
+inner join movimentacoesInterna mi on mi.idUsuario = u.id 
+inner join transacoes t on mi.idTransacao = t.id
+WHERE u.id = 2 AND mi.idTransacao=3;
+
+-- HISTÓRICO DE DEPOSITOS DO USUÁRIO - Movimentação Externa --
+select u.id, u.nome, t.nome, me.valor, me.data_criacao, me.idConta,me.cod_banco,me.cpf_depositante, me.email_usuario from usuarios u
+inner join movimentacoesExterna me on me.idUsuario = u.id 
+inner join transacoes t on me.idTransacao = t.id
+WHERE u.id = 2 AND me.idTransacao=3;
+
+-- HISTÓRICO DE TRANSFERÊNCIAS DO USUÁRIO - Movimentação Interna --
+select u.id, u.nome, t.nome, mi.valor, mi.data_criacao, mi.idConta from usuarios u
+inner join movimentacoesInterna mi on mi.idUsuario = u.id 
+inner join transacoes t on mi.idTransacao = t.id
+WHERE u.id = 2 AND mi.idTransacao=2;
+
+-- HISTÓRICO DE TRANSFERÊNCIAS DO USUÁRIO - Movimentação Externa --
+select u.id, u.nome, t.nome, me.valor, me.data_criacao, me.idConta,me.cod_banco,me.cpf_depositante, me.email_usuario from usuarios u
+inner join movimentacoesExterna me on me.idUsuario = u.id 
+inner join transacoes t on me.idTransacao = t.id
+WHERE u.id = 2 AND me.idTransacao=2;
+
+
 -- TRANSAÇÕES POR DATA ORDEM DESC (TRANSAÇÕES: COMPRAS(DÉBITO, CRÉDITO), SAQUES, TRANFERÊNCIAS, DEPOSITOS)--
 -- FILTRO DE PESQUISA DE TRANSAÇÕES POR DATA(INICIO E FIM) --
 -- O USUARIO QUER VERIFICAR SUAS FATURAS EM ABERTO DATA INICIO E DATA FIM
