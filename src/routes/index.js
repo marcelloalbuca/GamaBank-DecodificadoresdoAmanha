@@ -9,7 +9,7 @@ const listarUsuarios = {
     try {
       return await usuarioService.buscarUsuarios()
     } catch (error) {
-      console.log(error)
+      return { message: 'Erro ao listar usuário!' }
     }
   }
 }
@@ -22,7 +22,8 @@ const listarUsuarioPorId = {
       const { id } = request.params
       return await usuarioService.buscarUsuarioPorId(id)
     } catch (error) {
-      console.log(error)
+      return { message: 'Erro ao procurar usuário!' }
+    
     }
   }
 }
@@ -36,9 +37,10 @@ const criarUsuario = {
 
       await usuarioService.criarUsuario(user)
 
-      return { message: 'usuario criado com sucesso!' }
+      return { message: 'Usuário criado com sucesso!' }
     } catch (error) {
-      if (error) throw new Error(error)
+      return { message: 'Erro ao criar usuário!' }
+      
     }
   }
 }
@@ -50,9 +52,9 @@ const deletarUsuario = {
     try {
       const { id } = request.params
       await usuarioService.deletarUsuarioPorId(id)
-      return { message: 'Usuario Deletado!' }
+      return { message: 'Usuário Deletado!' }
     } catch (error) {
-      console.log(error)
+      return { message: 'Erro ao deletar usuário!' }
     }
   }
 }
@@ -66,9 +68,9 @@ const atualizarUsuario = {
       const { senha } = request.payload
 
       await usuarioService.alterarUsuarioPorId(id, senha)
-      return { message: 'Usuario alterado!' }
+      return { message: 'Usuário atualizado!' }
     } catch (error) {
-      console.log(error)
+      return { message: 'Erro ao atualizar usuário!' }
     }
   }
 }
