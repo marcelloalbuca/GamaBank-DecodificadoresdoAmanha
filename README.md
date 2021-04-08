@@ -1,4 +1,4 @@
-# gamabank-grupo2
+# API Gamabank
 
 # INFORMAÇÕES E DOCUMENTAÇÃO DO PROJETO - Decodificadores do Amanhã
 
@@ -41,7 +41,7 @@ Exibiu o extrato bancário e fatura de crédito
 
 # MEMBROS : 
 
-Daniel Monteiro Panzarini : Github
+Daniel Monteiro Panzarini : Github https://github.com/PanzariniDaniel
 
 Crystyan S. Santos : Github https://github.com/CrystyanSantos9
 

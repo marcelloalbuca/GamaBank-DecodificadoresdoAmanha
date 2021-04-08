@@ -1,5 +1,7 @@
 const database = require('../../infraestructure/database')
 
+database.connect()
+
 exports.criarUsuario = async (sqlStatement, passEncrypted) => {
   return new Promise((resolve, reject) => {
     const { nome, email, cpf } = sqlStatement
@@ -23,6 +25,7 @@ exports.buscarUsuarios = () => {
       })
     })
   } catch (error) {
+    database.restart();
     console.log(error)
   }
 }
@@ -52,4 +55,11 @@ exports.alterarUsuarioPorId = (id, sqlStatement) => {
       resolve(rows)
     })
   })
+<<<<<<< HEAD
 }
+=======
+} catch (error) {
+  console.log(error)
+}
+}
+>>>>>>> 84784cceb227f48f6e1c4122454a350632f9d485
