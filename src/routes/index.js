@@ -38,8 +38,16 @@
 // module.exports = [ root, login ]
 // =======
 const usuarioService = require('../api/service/usuarioService.js')
-
 const User = require('../api/models/user')
+
+const root = {
+  method: 'GET',
+        path: '/',
+        handler: (request, h) => {
+
+            return 'Hello World!';
+        }
+}
 
 const listarUsuarios = {
   method: 'GET',
@@ -116,5 +124,7 @@ const atualizarUsuario = {
   }
 }
 
-module.exports = [listarUsuarioPorId, listarUsuarios, criarUsuario, deletarUsuario, atualizarUsuario]
-// >>>>>>> 3fbb560c080c5bdfab923eecb5ad3220a976fd4c
+module.exports = [root, listarUsuarioPorId, listarUsuarios, criarUsuario, deletarUsuario, atualizarUsuario]
+
+// listarUsuarioPorId, listarUsuarios, criarUsuario, deletarUsuario, atualizarUsuario
+
