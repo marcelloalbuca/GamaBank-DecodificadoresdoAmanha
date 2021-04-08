@@ -7,7 +7,7 @@ const env = require('./configs/env.js')
 const server = async () => {
     const hapiServer = Hapi.Server({
         port: process.env.PORT || 3000,
-        host: rocess.env.HOST || 'localhost'
+        host: process.env.HOST || 'localhost'
     })
 
     hapiServer.route(routes)
