@@ -41,9 +41,7 @@ Exibiu o extrato bancário e fatura de crédito
 
 # MEMBROS : 
 
-Andréa Riveiro Hammel : Gihub https://github.com/AndreaRiverio
-
-Evandro Costa da Silva : Github 
+Daniel Monteiro Panzarini : Github
 
 Crystyan S. Santos : Github https://github.com/CrystyanSantos9
 
@@ -51,6 +49,7 @@ Matheus V. B. : Github https://github.com/MVIEIRAB
 
 Marcello Cavalcanti de Albuquerque : Github https://github.com/marcelloalbuca
 
+Rafael Azevedo : Github https://github.com/Rafaelraas
 
 # BOARD DO PROJETO gamabank-grupo2: 
 
