@@ -23,7 +23,7 @@ const listarUsuarioPorId = {
       return await usuarioService.buscarUsuarioPorId(id)
     } catch (error) {
       return { message: 'Erro ao procurar usuário!' }
-    
+
     }
   }
 }
@@ -37,24 +37,17 @@ const criarUsuario = {
 
       const userCreated = await usuarioService.criarUsuario(user)
 
-<<<<<<< HEAD
       console.log(user)
       console.log(userCreated)
 
       h.response(userCreated).code(200)
     } catch (error) {
-      console.log(error)
+
     }
   },
   options: {
     validate: {
       payload: userSchema
-=======
-      return { message: 'Usuário criado com sucesso!' }
-    } catch (error) {
-      return { message: 'Erro ao criar usuário!' }
-      
->>>>>>> 5cf4c1a8103a9afb21adc416ac76e2a287c51191
     }
   }
 }

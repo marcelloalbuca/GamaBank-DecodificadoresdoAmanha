@@ -21,17 +21,6 @@ exports.buscarUsuarioPorId = async (id) => {
 }
 
 exports.criarUsuario = async (sqlStatement) => {
-<<<<<<< HEAD
-  try {
-    const { senha } = sqlStatement
-
-    const encrypt = await crypto.encryptPassword(senha)
-    return usuariosData.criarUsuario(sqlStatement, encrypt)
-  } catch (error) {
-    console.log(error)
-  }
-
-=======
   const { senha } = sqlStatement
     try{
       const encrypt = await crypto.encryptPassword(senha)
@@ -39,7 +28,6 @@ exports.criarUsuario = async (sqlStatement) => {
     }catch (err){
       throw err
     }
->>>>>>> 5cf4c1a8103a9afb21adc416ac76e2a287c51191
 }
 
 exports.deletarUsuarioPorId = async (sqlStatement) => {
