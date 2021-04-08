@@ -17,5 +17,4 @@ module.exports = {
   senha: Joi.string().
     min(6).message('digite uma senha maior, minimo de caractere = 6').
     required().message('senha é requirido')
-
 }

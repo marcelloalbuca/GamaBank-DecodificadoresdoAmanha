@@ -39,7 +39,7 @@ const criarUsuario = {
       console.log(user)
       console.log(userCreated)
 
-      return userCreated
+      h.response(userCreated).code(200)
     } catch (error) {
       console.log(error)
     }
