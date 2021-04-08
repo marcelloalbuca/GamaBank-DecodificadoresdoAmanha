@@ -25,6 +25,7 @@ exports.buscarUsuarios = () => {
     })
   })
   } catch (error) {
+    database.restart();
     console.log(error)
   }
 }
