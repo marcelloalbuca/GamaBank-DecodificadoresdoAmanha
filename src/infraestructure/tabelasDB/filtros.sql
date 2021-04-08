@@ -63,11 +63,17 @@ inner join movimentacoesExterna me on me.idUsuario = u.id
 inner join transacoes t on me.idTransacao = t.id
 WHERE u.id = 2 AND me.idTransacao=2;
 
+-- LISTAR TODAS AS TRANSAÇÕES DE COMPRAS DE FORMA DECRECENTE DESC DATA INICIO E DATA FIM
+select u.id, u.nome, t.nome, c.valor, c.data_criacao from usuarios u
+inner join compras c on c.idUsuario = u.id 
+inner join transacoes t on c.idTransacao = t.id
+WHERE u.id = 1 ORDER BY c.data_criacao desc;
+
 
 -- TRANSAÇÕES POR DATA ORDEM DESC (TRANSAÇÕES: COMPRAS(DÉBITO, CRÉDITO), SAQUES, TRANFERÊNCIAS, DEPOSITOS)--
 -- FILTRO DE PESQUISA DE TRANSAÇÕES POR DATA(INICIO E FIM) --
 -- O USUARIO QUER VERIFICAR SUAS FATURAS EM ABERTO DATA INICIO E DATA FIM
--- LISTAR TODAS AS TRANSAÇÕES DE COMPRAS DE FORMA DECRECENTE DESC DATA INICIO E DATA FIM
+
 
 
 
