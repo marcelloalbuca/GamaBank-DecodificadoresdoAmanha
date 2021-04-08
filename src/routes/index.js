@@ -1,6 +1,53 @@
-const usuarioService = require('../api/service/usuarioService.js')
+// <<<<<<< HEAD
+// const Joi = require('joi')
+// const {status} = require('../api/controllers/app.controller')
+// const authController = require('../api/controllers/auth.controller')
+// const {LoginRequestDTO,LoginResponseDTO} = require('../api/models/dto/auth.dto')
 
+// const root = ({
+//      method: 'GET', 
+//     path: "/", 
+//     handler: status,
+//     options:{
+//         tags: ['api'], //tenho que ter pelo menos essa tag
+//         description: 'Verificação do status da aplicação', 
+//         notes: 'Pode ser utilizado para ver o status da aplicação'
+//     }
+// })
+
+// const login  = ({
+//     method: 'POST', 
+//    path: "/", 
+//    handler: authController.login,
+//    options:{
+//     tags: ['api', 'login'],
+//     description: 'Rota para autenticação', 
+//     notes: 'Anotações da rota...',
+//     validate:{
+//         payload: LoginRequestDTO
+//     }, 
+//     response:{
+//         status:{
+//             200:LoginResponseDTO,
+//             400:Joi.any() //retorna qualquer coisa 
+//         }
+//     }  
+//    }
+// })
+ 
+// module.exports = [ root, login ]
+// =======
+const usuarioService = require('../api/service/usuarioService.js')
 const User = require('../api/models/user')
+
+// const root = {
+//   method: 'GET',
+//         path: '/',
+//         handler: (request, h) => {
+
+//             return 'Hello World!';
+//         }
+// }
 
 const listarUsuarios = {
   method: 'GET',
@@ -10,6 +57,7 @@ const listarUsuarios = {
       return await usuarioService.buscarUsuarios()
     } catch (error) {
       console.log(error)
+      return { message: 'Erro ao listar usuário!' }
     }
   }
 }
@@ -23,6 +71,8 @@ const listarUsuarioPorId = {
       return await usuarioService.buscarUsuarioPorId(id)
     } catch (error) {
       console.log(error)
+      return { message: 'Erro ao procurar usuário!' }
+    
     }
   }
 }
@@ -36,9 +86,10 @@ const criarUsuario = {
 
       await usuarioService.criarUsuario(user)
 
-      return { message: 'usuario criado com sucesso!' }
+      return { message: 'Usuário criado com sucesso!' }
     } catch (error) {
-      if (error) throw new Error(error)
+      return { message: 'Erro ao criar usuário!' }
+      
     }
   }
 }
@@ -50,9 +101,9 @@ const deletarUsuario = {
     try {
       const { id } = request.params
       await usuarioService.deletarUsuarioPorId(id)
-      return { message: 'Usuario Deletado!' }
+      return { message: 'Usuário Deletado!' }
     } catch (error) {
-      console.log(error)
+      return { message: 'Erro ao deletar usuário!' }
     }
   }
 }
@@ -66,9 +117,9 @@ const atualizarUsuario = {
       const { senha } = request.payload
 
       await usuarioService.alterarUsuarioPorId(id, senha)
-      return { message: 'Usuario alterado!' }
+      return { message: 'Usuário atualizado!' }
     } catch (error) {
-      console.log(error)
+      return { message: 'Erro ao atualizar usuário!' }
     }
   }
 }

@@ -5,8 +5,8 @@
   "main": "./src/app.js",
   "scripts": {
     "start": "node .",
-    "start:dev": "cross-env NODE_ENV=development nodemon .",
-    "test": "cross-env NODE_ENV=test mocha --recursive -w"
+    "start:dev": "cross-env NODE_ENV=development nodemon app.js",
+    "test": "mocha --recursive -w"
   },
   "repository": {
     "type": "git",
@@ -28,6 +28,7 @@
     "hapi-swagger": "^14.1.0",
     "http-status-codes": "^2.1.4",
     "joi": "^17.4.0",
+    "jsonview": "^1.2.0",
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
     "node-fetch": "^2.6.1"
