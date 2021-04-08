@@ -9,4 +9,3 @@ server.then(hapi => {
 database.connect(() => {
 	console.log('database conectado')
 })
-

@@ -3,10 +3,10 @@ const usuarioService = require('../api/service/usuarioService.js')
 const listarUsuarios = {
   method: 'GET',
   path: '/usuarios',
-  handler: async () => {
-    usuarioService.buscarUsuarios()
-      .then(console.log(rows))
-      .catch(console.log(err))
+  handler: async (request, h) => {
+    const rows = await usuarioService.buscarUsuarios()
+
+    h.response(rows).code(200)
   }
 }
 

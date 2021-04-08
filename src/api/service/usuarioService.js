@@ -2,8 +2,7 @@ const usuariosData = require('../data/usuariosData')
 const crypto = require('../../helpers/encryptPassword')
 
 exports.buscarUsuarios = async () => {
-  console.log(await usuariosData.buscarUsuarios())
-  return usuariosData.buscarUsuarios()
+  return await usuariosData.buscarUsuarios()
 }
 
 exports.buscarUsuarioPorId = async (id) => {

@@ -7,7 +7,7 @@ const passwordValidator = (password) => {
     const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g
     return regex.test(email)
   }
-  
+
   class CPFValidator {
     constructor(cpf) {
         if(typeof cpf === 'number') return false
@@ -22,7 +22,7 @@ const passwordValidator = (password) => {
     sequency() {
       return this.cleanCPF.charAt(0).repeat(11) === this.cleanCPF;
     }
-  
+
     genereteNewCPF() {
       const withoutDigits = this.cleanCPF.slice(0, -2);
       const digit1 = ValidaCPF.generateDigit(withoutDigits);
