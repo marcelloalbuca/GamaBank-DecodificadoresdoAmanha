@@ -3,9 +3,10 @@ const usuarioService = require('../api/service/usuarioService.js')
 const listarUsuarios = {
   method: 'GET',
   path: '/usuarios',
-  handler: async (request, h) => {
-    const data = await usuarioService.buscarUsuarios()
-    return data
+  handler: async () => {
+    usuarioService.buscarUsuarios()
+      .then(console.log(rows))
+      .catch(console.log(err))
   }
 }
 
@@ -19,7 +20,6 @@ const listarUsuarioPorId = {
     } catch (error) {
       console.log(error)
       return { message: 'Erro ao procurar usuário!' }
-
     }
   }
 }
@@ -28,18 +28,14 @@ const criarUsuario = {
   method: 'POST',
   path: '/usuarios',
   handler: async (request, h) => {
-    try {
-      const user = request.payload
+    const user = request.payload
 
-      const userCreated = await usuarioService.criarUsuario(user)
+    const userCreated = await usuarioService.criarUsuario(user)
 
-      console.log(user)
-      console.log(userCreated)
+    console.log(user)
+    console.log(userCreated)
 
-      h.response(userCreated).code(200)
-    } catch (error) {
-
-    }
+    return userCreated
   }
 }
 

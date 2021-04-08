@@ -9,8 +9,4 @@ const database = mysql.createConnection({
 
 database.connect()
 
-database.end(err => {
-	console.log(err)
-})
-
 module.exports = database

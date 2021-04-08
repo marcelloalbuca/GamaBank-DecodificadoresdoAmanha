@@ -28,40 +28,28 @@ exports.buscarUsuarios = () => {
 }
 
 exports.buscarUsuarioPorId = (sqlStatement) => {
-  try {
-    return new Promise((resolve, reject) => {
-      database.query(`select * from usuarios WHERE id = ${sqlStatement};`, (err, rows) => {
-        reject(err)
-        resolve(rows)
-      })
+  return new Promise((resolve, reject) => {
+    database.query(`select * from usuarios WHERE id = ${sqlStatement};`, (err, rows) => {
+      reject(err)
+      resolve(rows)
     })
-  } catch (error) {
-    console.log(error)
-  }
+  })
 }
 
 exports.deletarUsuarioPorId = (sqlStatement) => {
-  try {
-    return new Promise((resolve, reject) => {
-      database.query(`delete from usuarios where id = "${sqlStatement}";`, (err, rows) => {
-        reject(err)
-        resolve(rows)
-      })
+  return new Promise((resolve, reject) => {
+    database.query(`delete from usuarios where id = "${sqlStatement}";`, (err, rows) => {
+      reject(err)
+      resolve(rows)
     })
-  } catch (error) {
-    console.log(error)
-  }
+  })
 }
 
 exports.alterarUsuarioPorId = (id, sqlStatement) => {
-  try {
-    return new Promise((resolve, reject) => {
-      database.query(`update usuarios set senha="${sqlStatement}" where id = "${id}";`, (err, rows) => {
-        reject(err)
-        resolve(rows)
-      })
+  return new Promise((resolve, reject) => {
+    database.query(`update usuarios set senha="${sqlStatement}" where id = "${id}";`, (err, rows) => {
+      reject(err)
+      resolve(rows)
     })
-  } catch (error) {
-    console.log(error)
-  }
+  })
 }
