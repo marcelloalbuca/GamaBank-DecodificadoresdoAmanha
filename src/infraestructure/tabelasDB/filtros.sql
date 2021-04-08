@@ -24,7 +24,6 @@ inner join contas c ON u.id = c.idUsuario
 inner join movimentacoesInterna m on m.idConta = c.idUsuario AND m.idTransacao = 3
 inner join transacoes t where t.nome = "DEPOSITO" 
 
-<<<<<<< HEAD
 -- SET SQL_SAFE_UPDATES = 0;
 
 -- HISTÓRICO DE SAQUES DO USUÁRIO - Movimentação Interna --
@@ -65,11 +64,6 @@ inner join transacoes t on me.idTransacao = t.id
 WHERE u.id = 2 AND me.idTransacao=2;
 
 
-=======
--- HISTÓRICO DE SAQUES DO USUÁRIO  --
--- HISTÓRICO DE DEPOSITOS DO USUÁRIO --
--- HISTÓRICO DE TRANSFERÊNCIAS DO USUÁRIO--
->>>>>>> 3fbb560c080c5bdfab923eecb5ad3220a976fd4c
 -- TRANSAÇÕES POR DATA ORDEM DESC (TRANSAÇÕES: COMPRAS(DÉBITO, CRÉDITO), SAQUES, TRANFERÊNCIAS, DEPOSITOS)--
 -- FILTRO DE PESQUISA DE TRANSAÇÕES POR DATA(INICIO E FIM) --
 -- O USUARIO QUER VERIFICAR SUAS FATURAS EM ABERTO DATA INICIO E DATA FIM
