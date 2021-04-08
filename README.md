@@ -1,4 +1,4 @@
-# gamabank-grupo2
+# API Gamabank
 
 # INFORMAÇÕES E DOCUMENTAÇÃO DO PROJETO - Decodificadores do Amanhã
 
