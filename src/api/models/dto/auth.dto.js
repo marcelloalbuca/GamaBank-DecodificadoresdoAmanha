@@ -5,7 +5,6 @@ const LoginRequestDTO = Joi.object({
     password: Joi.string().required()
 }).label('LoginRequestDTO')
 
-
 const LoginResponseDTO = Joi.object({
     token: Joi.string().required(),
     auth: Joi.bool().required()
@@ -16,3 +15,4 @@ module.exports = {
     LoginRequestDTO,
     LoginResponseDTO
 }
+

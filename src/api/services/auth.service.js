@@ -31,3 +31,4 @@ const verify = async (token) => {
 }
 
 module.exports = { sign, verify }
+

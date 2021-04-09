@@ -18,6 +18,7 @@ const root = {
   }
 };
 
+
 const listarUsuarios = {
   method: 'GET',
   path: '/usuarios',
@@ -49,6 +50,7 @@ const criarUsuario = {
     tags: ['api','usuarios'],
     description: 'Cadastrar novos usuários',
     notes: 'Cadastrar novos usuários na Gamabank'
+
   }
 }
 

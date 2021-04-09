@@ -1,3 +1,4 @@
+
 const service = require('../services/auth.service')
 
 const login = async (request, h) => {
@@ -19,7 +20,6 @@ const login = async (request, h) => {
 
 }
 
-
 // const validate = async (request, h) => {
 //     const token = request.headers['x-access-token']
 
@@ -30,7 +30,6 @@ const login = async (request, h) => {
 //         return error
 //     }
 // }
-
 
 
 module.exports = {

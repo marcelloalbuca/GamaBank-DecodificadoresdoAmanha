@@ -15,3 +15,4 @@ const swagger = {
   }
 
 module.exports = [inert, vision, swagger]
+

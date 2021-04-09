@@ -9,3 +9,4 @@ const status = (request, h) => {
 module.exports = {
     status
 }
+
