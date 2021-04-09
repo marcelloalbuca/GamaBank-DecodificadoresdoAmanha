@@ -67,5 +67,7 @@ https://gamabank-grupo2.herokuapp.com/documentation
 # LINK PARA ACESSO :
 
 
+https://gamabank-grupo2.herokuapp.com/
+
 
 
