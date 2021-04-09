@@ -7,8 +7,7 @@ const createAccount = async (newUser) => {
 }
 
 const buscarUsuarios = async () => {
-    const result = await repository.buscarUsuario()
-    return result
+    return await repository.buscarUsuarios()
 }
 
 const buscarUsuarioPorId = async (id) => {
