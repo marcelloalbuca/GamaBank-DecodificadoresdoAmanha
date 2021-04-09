@@ -2,7 +2,7 @@ const Joi = require("joi");
 
 const LoginSchema = Joi.object({
     username: Joi.string().email(),
-    password:  Joi.string().required().min(6).max(30).required(),
+    password: Joi.string().required().min(8).max(30).required(),
 })
 
 class Login{
@@ -14,7 +14,7 @@ class Login{
     }
 }
 
-// const user = new Login({})
+const user = new Login({username:'rafael@hotmai.com', password: '121'})
 // // const senha = new Login({username: 'usuarioSenha'})
 
 
