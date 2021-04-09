@@ -1,12 +1,11 @@
-const server = require('./server')
-const db = require('./infraestructure/database')
+const server = require('./server.js')
+const database = require('./infraestructure/database')
 
 server.then(hapi => {
 	hapi.start()
 	console.log('servidor foi iniciado..')
 })
 
-db.connect(() => {
+database.connect(() => {
 	console.log('database conectado')
 })
-

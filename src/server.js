@@ -4,9 +4,6 @@ require('dotenv/config')
 
 // const env = require('./configs/env.js')
 
-console.log(process.env.SERVER_PORT)
-console.log(process.env.SERVER_HOST)
-
 const server = async () => {
     const hapiServer = Hapi.Server({
         port: process.env.SERVER_PORT || 3000,
