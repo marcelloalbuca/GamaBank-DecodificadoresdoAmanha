@@ -23,7 +23,7 @@ const save = async (user) => {
     }
 }
 
-const buscarUsuario = async () => {
+const buscarUsuarios = async () => {
 
         try {
         const sqlStatement = `select * from usuarios;`
@@ -100,7 +100,7 @@ const alterarUsuarioPorId = async (id, senha) => {
 module.exports = {
     save, 
     findByUsername,
-    buscarUsuario,
+    buscarUsuarios,
     buscarUsuarioPorId,
     criarUsuario,
     deletarUsuarioPorId,
