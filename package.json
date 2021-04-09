@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./src/app.js",
     "start:dev": "cross-env NODE_ENV=development nodemon app.js",
-    "test": "mocha --recursive -w"
+    "test": "cross-env NODE_ENV=testing mocha --recursive -w"
   },
   "keywords": [],
   "author": "",
