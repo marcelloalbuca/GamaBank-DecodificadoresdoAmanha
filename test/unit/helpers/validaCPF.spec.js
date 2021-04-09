@@ -1,6 +1,6 @@
 const { expect } = require('chai')
 
-const validaCPF = require('../../src/helpers/validaCPF')
+const validaCPF = require('../../../src/helpers/validaCPF')
 
 describe("Função de validação de CPF", () => {
   it('cpf digitado sem os pontos deve ser TRUE', () => {
