@@ -6,7 +6,7 @@ const routes = require('./routes/index.js')
 
 const server = async () => {
     const hapiServer = Hapi.Server({
-        port: process.env.SERVER_PORT || 5000,
+        port: process.env.SERVER_PORT || 3000,
         host: process.env.SERVER_HOST || 'localhost'
     })
 
