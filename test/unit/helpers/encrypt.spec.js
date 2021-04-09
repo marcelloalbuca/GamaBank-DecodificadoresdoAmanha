@@ -1,7 +1,7 @@
 const { expect } = require('chai')
 const faker = require('faker')
 
-const mycrypto = require('../../src/helpers/encryptPassword')
+const mycrypto = require('../../../src/helpers/encryptPassword')
 
 describe('Funcionalidade de encriptação de senha', async () => {
     it('Deve retornar uma senha encriptada', async () => {
