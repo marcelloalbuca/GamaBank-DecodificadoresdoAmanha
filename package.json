@@ -4,7 +4,7 @@
   "description": "",
   "main": "./src/app.js",
   "scripts": {
-    "start": "node .",
+    "start": "nodemon .",
     "start:dev": "cross-env NODE_ENV=development nodemon app.js",
     "test": "mocha --recursive -w"
   },

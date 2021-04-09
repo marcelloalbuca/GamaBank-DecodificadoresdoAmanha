@@ -37,6 +37,9 @@
  
 // module.exports = [ root, login ]
 // =======
+
+// const { listarExtratosPorId } = require('./extrato_bancario')
+
 const usuarioService = require('../api/service/usuarioService.js')
 const User = require('../api/models/user')
 
