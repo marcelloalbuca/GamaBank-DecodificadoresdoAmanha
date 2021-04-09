@@ -1,80 +1,77 @@
-const usuarioService = require('../api/service/usuarioService.js')
+const { status } = require('../api/controllers/app.controller')
+//const authController = require('../api/controllers/auth.controller')
+const userController = require('../api/controllers/user.controller')
+//const { LoginRequestDTO, LoginResponseDTO } = require('../api/models/dto/auth.dto')
+const Joi = require('joi')
 
-const User = require('../api/models/user')
+//const usuarioService = require('../api/services/usuarioService.js')
+//const User = require('../api/models/user')
+
+const root = {
+  method: "GET",
+  path: "/",
+  handler: status,
+  options: {
+      tags: ['api'],
+      description: 'API Gamabank',
+      notes: 'API desenvolvida pelo Grupo Desenvolvedores do Amanhã'
+  }
+};
 
 const listarUsuarios = {
   method: 'GET',
   path: '/usuarios',
-  handler: async () => {
-    try {
-      return await usuarioService.buscarUsuarios()
-    } catch (error) {
-      console.log(error)
-      return { message: 'Erro ao listar usuário!' }
-    }
+  handler: userController.buscarUsuarios,
+  options: {
+    tags: ['api','usuarios'],
+    description: 'Listar todos os usuários',
+    notes: 'Listar todos os usuários cadastrados na Gamabank'
   }
 }
 
 const listarUsuarioPorId = {
   method: 'GET',
   path: '/usuarios/{id}',
-  handler: async (request, h) => {
-    try {
-      const { id } = request.params
-      return await usuarioService.buscarUsuarioPorId(id)
-    } catch (error) {
-      console.log(error)
-      return { message: 'Erro ao procurar usuário!' }
-    
-    }
+  handler: userController.buscarUsuarioPorId,
+  options: {
+    tags: ['api','usuarios'],
+    description: 'Listar usuário por ID',
+    notes: 'Listar usuário por ID cadastrado na Gamabank'
   }
+  
 }
 
 const criarUsuario = {
   method: 'POST',
   path: '/usuarios',
-  handler: async (request, h) => {
-    try {
-      const user = new User(request.payload)
-
-      await usuarioService.criarUsuario(user)
-
-      return { message: 'Usuário criado com sucesso!' }
-    } catch (error) {
-      return { message: 'Erro ao criar usuário!' }
-      
-    }
+  handler: userController.criarUsuario,
+  options: {
+    tags: ['api','usuarios'],
+    description: 'Cadastrar novos usuários',
+    notes: 'Cadastrar novos usuários na Gamabank'
   }
 }
 
 const deletarUsuario = {
   method: 'DELETE',
   path: '/usuarios/{id}',
-  handler: async (request, h) => {
-    try {
-      const { id } = request.params
-      await usuarioService.deletarUsuarioPorId(id)
-      return { message: 'Usuário Deletado!' }
-    } catch (error) {
-      return { message: 'Erro ao deletar usuário!' }
-    }
+  handler: userController.deletarUsuarioPorId,
+  options: {
+    tags: ['api','usuarios'],
+    description: 'Deletar usuário cadastrado na Gamabank',
+    notes: 'Deletar usuário cadastrado na Gamabank por ID'
   }
 }
 
 const atualizarUsuario = {
   method: 'PUT',
   path: '/usuarios/{id}',
-  handler: async (request, h) => {
-    try {
-      const { id } = request.params
-      const { senha } = request.payload
-
-      await usuarioService.alterarUsuarioPorId(id, senha)
-      return { message: 'Usuário atualizado!' }
-    } catch (error) {
-      return { message: 'Erro ao atualizar usuário!' }
-    }
+  handler: userController.alterarUsuarioPorId,
+  options: {
+    tags: ['api','usuarios'],
+    description: 'Atualizar dados do usuário cadastrado na Gamabank',
+    notes: 'Atualizar nome, e-mail e senha do usuário cadastrado na Gamabank por ID'
   }
 }
 
-module.exports = [listarUsuarioPorId, listarUsuarios, criarUsuario, deletarUsuario, atualizarUsuario]
+module.exports = [listarUsuarioPorId, listarUsuarios, criarUsuario, deletarUsuario, atualizarUsuario, root]

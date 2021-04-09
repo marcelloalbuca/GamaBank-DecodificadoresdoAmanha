@@ -1,8 +1,8 @@
 const Hapi = require("@hapi/hapi")
-
+const swagger = require('./configs/swagger')
 const routes = require('./routes/index.js')
 
-const env = require('./configs/env.js')
+//const env = require('./configs/env.js')
 
 const server = async () => {
     const hapiServer = Hapi.Server({
@@ -10,6 +10,7 @@ const server = async () => {
         host: process.env.HOST || 'localhost'
     })
 
+    await hapiServer.register(swagger)
     hapiServer.route(routes)
 
     return hapiServer
