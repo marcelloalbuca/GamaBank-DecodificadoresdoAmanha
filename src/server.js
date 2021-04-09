@@ -1,18 +1,18 @@
 const Hapi = require("@hapi/hapi")
-const routes = require('./routes/index');
-const extratos = require('./routes/extrato_bancario')
 const swagger = require('./configs/swagger')
-require('dotenv/config')
+const routes = require('./routes/index.js')
 
-// const env = require('./configs/env.js')
+//const env = require('./configs/env.js')
 
 const server = async () => {
     const hapiServer = Hapi.Server({
         port: process.env.SERVER_PORT || 3000,
         host: process.env.SERVER_HOST || 'localhost'
     })
+
     await hapiServer.register(swagger)
-    hapiServer.routes(routes, extratos)
+    hapiServer.route(routes)
+
     return hapiServer
 }
 
