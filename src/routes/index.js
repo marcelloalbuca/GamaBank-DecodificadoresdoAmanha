@@ -15,6 +15,7 @@
 //     }
 // })
 
+<<<<<<< HEAD
 // const login  = ({
 //     method: 'POST', 
 //    path: "/", 
@@ -52,16 +53,15 @@ const User = require('../api/models/user')
 //         }
 // }
 
+=======
+>>>>>>> dde2e25d1b907e7705d2246d697eb45c340460b6
 const listarUsuarios = {
   method: 'GET',
   path: '/usuarios',
-  handler: async () => {
-    try {
-      return await usuarioService.buscarUsuarios()
-    } catch (error) {
-      console.log(error)
-      return { message: 'Erro ao listar usuário!' }
-    }
+  handler: async (request, h) => {
+    const rows = await usuarioService.buscarUsuarios()
+
+    h.response(rows).code(200)
   }
 }
 
@@ -75,7 +75,6 @@ const listarUsuarioPorId = {
     } catch (error) {
       console.log(error)
       return { message: 'Erro ao procurar usuário!' }
-    
     }
   }
 }
@@ -84,16 +83,14 @@ const criarUsuario = {
   method: 'POST',
   path: '/usuarios',
   handler: async (request, h) => {
-    try {
-      const user = new User(request.payload)
+    const user = request.payload
 
-      await usuarioService.criarUsuario(user)
+    const userCreated = await usuarioService.criarUsuario(user)
 
-      return { message: 'Usuário criado com sucesso!' }
-    } catch (error) {
-      return { message: 'Erro ao criar usuário!' }
-      
-    }
+    console.log(user)
+    console.log(userCreated)
+
+    return userCreated
   }
 }
 
