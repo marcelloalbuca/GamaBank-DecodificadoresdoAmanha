@@ -61,8 +61,7 @@ https://trello.com/b/Wcz6srr1/projeto-gamabank
 # DOCUMENTAÇÃO : 
 
 
-https://swagger.io/
-
+https://gamabank-grupo2.herokuapp.com/documentation
 
 
 # LINK PARA ACESSO :
