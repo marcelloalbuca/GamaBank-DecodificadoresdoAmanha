@@ -14,7 +14,7 @@ const execute = (sqlStatement) => {
             if(err) reject(err)
             else resolve(result)
 
-            //connection.end()
+            connection.end()
         })
     })
 }
