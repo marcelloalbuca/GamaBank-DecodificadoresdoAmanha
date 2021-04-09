@@ -4,8 +4,13 @@
   "description": "",
   "main": "./src/app.js",
   "scripts": {
+<<<<<<< HEAD
+    "start": "nodemon .",
+    "start:dev": "cross-env NODE_ENV=development nodemon app.js",
+=======
     "start": "node .",
     "start:dev": "cross-env NODE_ENV=development nodemon .",
+>>>>>>> dde2e25d1b907e7705d2246d697eb45c340460b6
     "test": "mocha --recursive -w"
   },
   "repository": {

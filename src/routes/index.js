@@ -15,6 +15,46 @@
 //     }
 // })
 
+<<<<<<< HEAD
+// const login  = ({
+//     method: 'POST', 
+//    path: "/", 
+//    handler: authController.login,
+//    options:{
+//     tags: ['api', 'login'],
+//     description: 'Rota para autenticação', 
+//     notes: 'Anotações da rota...',
+//     validate:{
+//         payload: LoginRequestDTO
+//     }, 
+//     response:{
+//         status:{
+//             200:LoginResponseDTO,
+//             400:Joi.any() //retorna qualquer coisa 
+//         }
+//     }  
+//    }
+// })
+ 
+// module.exports = [ root, login ]
+// =======
+
+// const { listarExtratosPorId } = require('./extrato_bancario')
+
+const usuarioService = require('../api/service/usuarioService.js')
+const User = require('../api/models/user')
+
+// const root = {
+//   method: 'GET',
+//         path: '/',
+//         handler: (request, h) => {
+
+//             return 'Hello World!';
+//         }
+// }
+
+=======
+>>>>>>> dde2e25d1b907e7705d2246d697eb45c340460b6
 const listarUsuarios = {
   method: 'GET',
   path: '/usuarios',

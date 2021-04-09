@@ -38,3 +38,13 @@ exports.alterarUsuarioPorId = async (id, sqlStatement) => {
     console.log(err)
   }
 }
+
+//LISTAGEM EXTRATO
+exports.listarExtratosPorId = async (id) => {
+  try{
+    const rows = await usuariosData.listarExtratosPorId(id)
+    return rows
+  }catch (err){
+    throw err
+  }
+}
