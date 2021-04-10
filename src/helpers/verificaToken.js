@@ -4,11 +4,7 @@ const { secret } = require('../configs/secret.json')
 
 const verifyJWT = async (token, request) => {
   verify(token, process.env.JWT_SECRET || secret, (err, decoded) => {
-    const errorMessage = { message: 'token inválido' }
-
-    JSON.stringify(errorMessage)
-
-    if (err) return errorMessage
+    if (err) return console.log(err)
 
     request.userId = decoded.userId
   })
