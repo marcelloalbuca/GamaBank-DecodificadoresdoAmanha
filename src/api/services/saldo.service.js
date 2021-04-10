@@ -1,12 +1,19 @@
 const repository = require('../repositories/saldo.repository')
-const {saldoNotFound} = require('../../helpers/saldoConstants')
 
 const listarExtradoPorId = async (id) => {
-    const saldo = await repository.listarExtradoPorId(id)
-    if(saldo.length > 0) return saldo
-    return saldoNotFound
+    try {
+        const saldo = await repository.listarExtradoPorId(id)
+
+        console.log(saldo)
+
+        if (!saldo) return { messageError: 'não tem nada na base de dados' }
+
+        return saldo
+    } catch (err) {
+        console.log(err)
+    }
 }
 
-module.exports = { 
+module.exports = {
     listarExtradoPorId
 }
