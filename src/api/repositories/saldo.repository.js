@@ -1,6 +1,6 @@
 const { execute } = require('../../helpers/database')
 
-const listarExtradoPorId = async (id) => {
+const listarExtratoPorId = async (id) => {
 
 
     try {
@@ -32,5 +32,5 @@ const listarExtradoPorId = async (id) => {
 }
 
 module.exports = {
-    listarExtradoPorId
+    listarExtratoPorId
 }
