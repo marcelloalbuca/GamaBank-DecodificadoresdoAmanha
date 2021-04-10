@@ -1,8 +1,8 @@
 const userServices = require('../services/user.service')
 
-const buscarUsuarios = async () => {
+const buscarUsuarios = async (userId) => {
     try {
-        return await userServices.buscarUsuarios()
+        return await userServices.buscarUsuarios(userId)
     } catch (error) {
         console.error(error)
     }

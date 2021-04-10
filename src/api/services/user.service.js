@@ -13,8 +13,7 @@ const buscarUsuarios = async () => {
 }
 
 const buscarUsuarioPorId = async (id) => {
-    const result = await repository.buscarUsuarioPorId(id)
-    return result
+    return await repository.buscarUsuarioPorId(id)
 }
 
 const criarUsuario = async (dadosCriacao, h) => {

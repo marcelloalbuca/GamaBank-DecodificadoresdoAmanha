@@ -35,9 +35,11 @@ const testeAcessoToken = {
 
       verifyJWT(token, request)
 
-      return { usuario: request.userId }
+      return { userId: request.userId }
     } catch (err) {
-      console.log(err)
+      return h
+        .response({ message: ReasonPhrases.BAD_REQUEST, err: err })
+        .code(StatusCodes.BAD_REQUEST)
     }
   },
   options: {
@@ -47,28 +49,47 @@ const testeAcessoToken = {
   }
 }
 
-const listarUsuarios = {
-  method: 'GET',
-  path: '/usuarios',
-  handler: async () => {
-    try {
-      const response = await userController.buscarUsuarios()
-      return response
-    } catch (err) {
-      console.log(err)
-    }
-  },
-  options: {
-    tags: ['api', 'usuarios'],
-    description: 'Listar todos os usuários',
-    notes: 'Listar todos os usuários cadastrados na Gamabank',
-  }
-}
+// const listarUsuarios = {
+//   method: 'GET',
+//   path: '/usuarios',
+//   handler: async () => {
+//     try {
+//       const response = await userController.buscarUsuarios()
+//       return response
+//     } catch (err) {
+//       console.log(err)
+//     }
+//   },
+//   options: {
+//     tags: ['api', 'usuarios'],
+//     description: 'Listar todos os usuários',
+//     notes: 'Listar todos os usuários cadastrados na Gamabank',
+//   }
+// }
 
 const listarUsuarioPorId = {
   method: 'GET',
-  path: '/usuarios/{id}',
-  handler: userController.buscarUsuarioPorId,
+  path: '/usuarios',
+  handler: async (request, h) => {
+    try {
+      const token = request.headers.authorization
+
+      if (!token) return h
+        .response({ message: 'token não providenciado' })
+        .code(401)
+
+      verifyJWT(token, request)
+
+      const id = request.userId
+
+      return await userController.buscarUsuarioPorId(id)
+    } catch (err) {
+      return h
+        .response({ message: ReasonPhrases.BAD_REQUEST, err: err })
+        .code(StatusCodes.BAD_REQUEST)
+    }
+
+  },
   options: {
     tags: ['api', 'usuarios'],
     description: 'Listar usuário por ID',
@@ -85,9 +106,9 @@ const criarUsuario = {
       const response = await userController.criarUsuario(dadosCriacao, h)
 
       return response
-    } catch (error) {
+    } catch (err) {
       return h
-        .response({ message: ReasonPhrases.BAD_REQUEST })
+        .response({ message: ReasonPhrases.BAD_REQUEST, err: err })
         .code(StatusCodes.BAD_REQUEST)
     }
   },
@@ -109,7 +130,7 @@ const logarUsuario = {
       return response
     } catch (err) {
       return h
-        .response({ message: err }, console.log(err))
+        .response({ message: ReasonPhrases.BAD_REQUEST, err: err })
         .code(StatusCodes.BAD_REQUEST)
     }
   },
@@ -151,13 +172,13 @@ const listarSaldoPorId = ({
     tags: ['api', 'saldo'],
     description: 'Lista o saldo',
     notes: 'Lista saldo atual do usuário',
-    /* validate: {
-         params: Joi.object({
-             id : Joi.number()
-                     .required()
-                     .description('id do usuário'),
-         })
-     }*/
+    validate: {
+      params: Joi.object({
+        id: Joi.number()
+          .required()
+          .description('id do usuário'),
+      })
+    }
   }
 })
 
@@ -176,7 +197,7 @@ const depositoUsuario = {
 
 module.exports = [
   listarUsuarioPorId,
-  listarUsuarios,
+  // listarUsuarios,
   criarUsuario,
   deletarUsuario,
   atualizarUsuario,
