@@ -50,6 +50,8 @@ const criarUsuario = async (nome, email, cpf, encryptedPassword, h) => {
         VALUES ("${nome}","${email}", "${cpf}", "${encryptedPassword}");`
 
         await execute(sqlStatement)
+
+        return h.response({ message: 'criado com sucesso!' }).code(200)
     } catch (err) {
         console.log(err)
     }
