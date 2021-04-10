@@ -88,6 +88,18 @@ const alterarUsuarioPorId = async (id, senha) => {
     }
 }
 
+const depositoUsuario = async (id, valor) => {
+
+    try {
+        const sqlStatement = `update contas set saldo = saldo + "${valor}" where id = "${id}";`
+        const result = await execute(sqlStatement)
+        return result  
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+
 
 module.exports = {
     buscarUsuarios,
@@ -96,5 +108,6 @@ module.exports = {
     logarUsuario,
     deletarUsuarioPorId,
     alterarUsuarioPorId,
-    buscarUsuarioPorEmail
+    buscarUsuarioPorEmail,
+    depositoUsuario
 }
