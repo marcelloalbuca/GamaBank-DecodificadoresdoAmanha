@@ -2,11 +2,13 @@ const { status } = require('../api/controllers/app.controller')
 const userController = require('../api/controllers/user.controller')
 const { buscarSaldoPorId } = require('../api/controllers/saldo.controller')
 const { StatusCodes, ReasonPhrases } = require("http-status-codes")
-const { TransactionResponseDTO } = require('../api/models/dto/trasactions.dto')
+// const { TransactionResponseDTO } = require('../api/models/dto/trasactions.dto')
 const Joi = require('joi')
 // const { TransactionResponseDTO } = require('../api/models/dto/trasactions.dto')
 //const authController = require('../api/controllers/auth.controller')
 //const { LoginRequestDTO, LoginResponseDTO } = require('../api/models/dto/auth.dto')
+
+const saldoController = require('../api/controllers/saldo.controller')
 
 const authController = require('../api/controllers/auth.controller')
 
@@ -166,39 +168,42 @@ const atualizarUsuario = {
 
 //ROTAS DE SALDO
 const { listarExtradoPorId } = require('../api/controllers/saldo.controller')
-const { TransactionResponseDTO } = require('../api/models/dto/trasactions.dto')
+// const { TransactionResponseDTO } = require('../api/models/dto/trasactions.dto')
 
 const listarExtrado = {
+  method: 'GET',
+  path: '/extratos',
+  handler: async (request, h) => {
+    const token = request.headers.authorization
 
-    method: 'GET',
-    path: '/extratos/{id}',
-    handler: listarExtradoPorId,
-    options:{
-            tags: ['api', 'saldo'],
-            description: 'Lista o extrato', 
-            notes: 'Lista o extrado completo do usuário',
-            validate: {
-                params: Joi.object({
-                    id : Joi.number()
-                            .required()
-                            .description('id do usuário'),
-                })
-            }
+    if (!token) return h
+      .response({ message: 'token não providenciado' })
+      .code(401)
 
-    }
+    verifyJWT(token, request)
+
+    const id = request.userId
+
+    await saldoController.listarExtradoPorId(id)
+  },
+  options: {
+    tags: ['api', 'saldo'],
+    description: 'Lista o extrato',
+    notes: 'Lista o extrado completo do usuário',
   }
+}
 
 
 const depositoUsuario = {
-    method: 'PUT',
-    path: '/deposito', //informar ID E VALOR
-    handler: userController.depositoUsuario,
-    options: {
-      tags: ['api', 'usuarios'],
-      description: 'O usuário poderá realizar deposito em sua conta.',
-      notes: 'O usuário poderá realizar deposito em sua conta cadastrada na Gamabank.'
-    }
+  method: 'PUT',
+  path: '/deposito', //informar ID E VALOR
+  handler: userController.depositoUsuario,
+  options: {
+    tags: ['api', 'usuarios'],
+    description: 'O usuário poderá realizar deposito em sua conta.',
+    notes: 'O usuário poderá realizar deposito em sua conta cadastrada na Gamabank.'
   }
+}
 
 module.exports = [
 
@@ -208,7 +213,7 @@ module.exports = [
   deletarUsuario,
   atualizarUsuario,
   root,
-  listarSaldoPorId,
+  // listarSaldoPorId,
   logarUsuario,
   depositoUsuario,
   testeAcessoToken,
