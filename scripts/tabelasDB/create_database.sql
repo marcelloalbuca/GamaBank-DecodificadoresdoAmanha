@@ -13,8 +13,8 @@ PRIMARY KEY (id)
 
 CREATE TABLE IF NOT EXISTS contas (
 id INT NOT NULL  AUTO_INCREMENT,
-saldo double not null,
-credito double not null,
+saldo double not null DEFAULT 0,
+credito double not null DEFAULT 200.00,
 idUsuario INT,
 data_criacao TIMESTAMP NOT NULL DEFAULT current_timestamp,
 PRIMARY KEY (id),
