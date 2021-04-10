@@ -11,7 +11,6 @@ const newAccount = async (request, h) =>{
 }
 
 const buscarUsuarios = async () => {
-
     return await service.buscarUsuarios()
   }
 
