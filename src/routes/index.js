@@ -4,8 +4,13 @@ const { buscarSaldoPorId } = require('../api/controllers/saldo.controller')
 const { StatusCodes, ReasonPhrases } = require("http-status-codes")
 const { TransactionResponseDTO } = require('../api/models/dto/trasactions.dto')
 const Joi = require('joi')
+// const { TransactionResponseDTO } = require('../api/models/dto/trasactions.dto')
 //const authController = require('../api/controllers/auth.controller')
 //const { LoginRequestDTO, LoginResponseDTO } = require('../api/models/dto/auth.dto')
+
+const authController = require('../api/controllers/auth.controller')
+
+const { verifyJWT } = require('../helpers/verificaToken')
 
 const root = {
   method: "GET",
@@ -18,34 +23,95 @@ const root = {
   }
 };
 
-const listarUsuarios = {
+const testeAcessoToken = {
   method: 'GET',
-  path: '/usuarios',
-  handler: userController.buscarUsuarios,
+  path: '/teste_token',
+  handler: async (request, h) => {
+    try {
+      const token = request.headers.authorization
+
+      if (!token) return h
+        .response({ message: 'token não providenciado' })
+        .code(401)
+
+      verifyJWT(token, request)
+
+      return { userId: request.userId }
+    } catch (err) {
+      return h
+        .response({ message: ReasonPhrases.BAD_REQUEST, err: err })
+        .code(StatusCodes.BAD_REQUEST)
+    }
+  },
   options: {
     tags: ['api', 'usuarios'],
     description: 'Listar todos os usuários',
-    notes: 'Listar todos os usuários cadastrados na Gamabank'
+    notes: 'Listar todos os usuários cadastrados na Gamabank',
   }
 }
 
+// const listarUsuarios = {
+//   method: 'GET',
+//   path: '/usuarios',
+//   handler: async () => {
+//     try {
+//       const response = await userController.buscarUsuarios()
+//       return response
+//     } catch (err) {
+//       console.log(err)
+//     }
+//   },
+//   options: {
+//     tags: ['api', 'usuarios'],
+//     description: 'Listar todos os usuários',
+//     notes: 'Listar todos os usuários cadastrados na Gamabank',
+//   }
+// }
+
 const listarUsuarioPorId = {
   method: 'GET',
-  path: '/usuarios/{id}',
-  handler: userController.buscarUsuarioPorId,
+  path: '/usuarios',
+  handler: async (request, h) => {
+    try {
+      const token = request.headers.authorization
+
+      if (!token) return h
+        .response({ message: 'token não providenciado' })
+        .code(401)
+
+      verifyJWT(token, request)
+
+      const id = request.userId
+
+      return await userController.buscarUsuarioPorId(id)
+    } catch (err) {
+      return h
+        .response({ message: ReasonPhrases.BAD_REQUEST, err: err })
+        .code(StatusCodes.BAD_REQUEST)
+    }
+
+  },
   options: {
     tags: ['api', 'usuarios'],
     description: 'Listar usuário por ID',
     notes: 'Listar usuário por ID cadastrado na Gamabank'
   }
-
 }
 
 const criarUsuario = {
   method: 'POST',
   path: '/cadastrar',
   handler: async (request, h) => {
-    userController.criarUsuario
+    try {
+      const dadosCriacao = request.payload
+      const response = await userController.criarUsuario(dadosCriacao, h)
+
+      return response
+    } catch (err) {
+      return h
+        .response({ message: ReasonPhrases.BAD_REQUEST, err: err })
+        .code(StatusCodes.BAD_REQUEST)
+    }
   },
   options: {
     tags: ['api', 'usuarios'],
@@ -57,7 +123,18 @@ const criarUsuario = {
 const logarUsuario = {
   method: 'POST',
   path: '/login',
-  handler: userController.logarUsuario,
+  handler: async (request, h) => {
+    try {
+      const dadosLogin = request.payload
+      const response = await authController.login(dadosLogin, h)
+
+      return response
+    } catch (err) {
+      return h
+        .response({ message: ReasonPhrases.BAD_REQUEST, err: err })
+        .code(StatusCodes.BAD_REQUEST)
+    }
+  },
   options: {
     tags: ['api', 'usuarios'],
     description: 'Logar usuario',
@@ -88,7 +165,7 @@ const atualizarUsuario = {
 }
 
 //ROTAS DE SALDO
-const listarSaldoPorId = ({
+const listarSaldoPorId = {
     method: 'GET',
     path: '/saldo/{id}',
     handler: buscarSaldoPorId,
@@ -103,8 +180,10 @@ const listarSaldoPorId = ({
                             .description('id do usuário'),
                 })
             }
+
     }
-  })
+  }
+
 
 const depositoUsuario = {
     method: 'PUT',
@@ -115,19 +194,23 @@ const depositoUsuario = {
       description: 'O usuário poderá realizar deposito em sua conta.',
       notes: 'O usuário poderá realizar deposito em sua conta cadastrada na Gamabank.'
     }
+
   }
 
 
 
+
 module.exports = [
-  listarUsuarioPorId, 
-  listarUsuarios, 
-  criarUsuario, 
-  deletarUsuario, 
-  atualizarUsuario, 
-  root, 
-  listarSaldoPorId, 
+
+  listarUsuarioPorId,
+  // listarUsuarios,
+  criarUsuario,
+  deletarUsuario,
+  atualizarUsuario,
+  root,
+  listarSaldoPorId,
   logarUsuario,
-  depositoUsuario
+  depositoUsuario,
+  testeAcessoToken
 
 ]

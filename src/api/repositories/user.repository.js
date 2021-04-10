@@ -1,5 +1,6 @@
 const { execute } = require('../../helpers/database')
 
+const { StatusCodes } = require("http-status-codes");
 const { errorsRepositories } = require('../../helpers/userConstants')
 
 const buscarUsuarios = async () => {
@@ -33,13 +34,15 @@ const buscarUsuarioPorEmail = async (email) => {
     }
 }
 
-const criarUsuario = async (nome, email, cpf, encryptedPassword) => {
+const criarUsuario = async (nome, email, cpf, encryptedPassword, h) => {
     try {
         const buscarDados = await buscarUsuarios()
 
         for (const item of buscarDados) {
-            if (item.cpf == cpf) return { messageError: errorsRepositories.cpfRepetido }
-            if (item.email == email) return { messageError: errorsRepositories.emailRepetido }
+            if (item.cpf == cpf) return h
+                .response({ message: errorsRepositories.cpfRepetido }).code(StatusCodes.BAD_REQUEST)
+            if (item.email == email) return h
+                .response({ message: errorsRepositories.emailRepetido }).code(StatusCodes.BAD_REQUEST)
         }
 
         const sqlStatement = `
@@ -48,15 +51,7 @@ const criarUsuario = async (nome, email, cpf, encryptedPassword) => {
 
         await execute(sqlStatement)
 
-        return { messageSucess: 'usuário cadastrado com sucesso' }
-    } catch (err) {
-        console.log(err)
-    }
-}
-
-const logarUsuario = async (email, senha) => {
-    try {
-
+        return h.response({ message: 'criado com sucesso!' }).code(200)
     } catch (err) {
         console.log(err)
     }
@@ -105,7 +100,6 @@ module.exports = {
     buscarUsuarios,
     buscarUsuarioPorId,
     criarUsuario,
-    logarUsuario,
     deletarUsuarioPorId,
     alterarUsuarioPorId,
     buscarUsuarioPorEmail,
