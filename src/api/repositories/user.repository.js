@@ -48,7 +48,14 @@ const criarUsuario = async (nome, email, cpf, encryptedPassword, h) => {
         INSERT INTO usuarios (nome, email, cpf, senha)
         VALUES ("${nome}","${email}", "${cpf}", "${encryptedPassword}");`
 
-        await execute(sqlStatement)
+        const result = await execute(sqlStatement)
+
+        const criacaoContaIdGerado = result.insertId
+
+        const queryParaCriacaoDaConta =
+            `INSERT INTO contas (idUsuario) values (${criacaoContaIdGerado});`
+
+        await execute(queryParaCriacaoDaConta)
 
         return h.response({ message: 'criado com sucesso!' }).code(200)
     } catch (err) {

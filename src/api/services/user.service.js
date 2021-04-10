@@ -34,8 +34,10 @@ const criarUsuario = async (dadosCriacao, h) => {
         let { encryptedPassword } = await crypto.encryptPassword(senhaValidada, null)
 
         return await repository.criarUsuario(nome, email, cpfFormatado, encryptedPassword, h)
-    } catch (error) {
-        console.error(error)
+    } catch (err) {
+        return h
+            .response({ message: ReasonPhrases.BAD_REQUEST, err: err })
+            .code(StatusCodes.BAD_REQUEST)
     }
 }
 
