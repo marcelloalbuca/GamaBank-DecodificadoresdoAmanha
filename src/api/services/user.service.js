@@ -4,6 +4,7 @@ const repository = require('../repositories/user.repository')
 const crypto = require('../../helpers/encryptPassword')
 
 const { mensagensUsuario } = require('../../helpers/userConstants')
+const { mensagensDeposito } = require('../../helpers/depositoConstants')
 
 const validaSenha = require('../../helpers/validaSenha')
 const validaCPF = require('../../helpers/validaCPF')
@@ -84,11 +85,31 @@ const alterarUsuarioPorId = async (id) => {
     return result
 }
 
+const depositoUsuario = async (id, valor) => {
+    
+    try{
+
+        //id = 5
+        valor = 1
+        if (valor <= 0)
+        return { message: mensagensDeposito.depositoValorNegativo }
+        else
+        console.log( {message: mensagensDeposito.depositoError } )
+
+        const result = await repository.depositoUsuario(id, valor)
+        return result
+
+        }catch{
+        console.error(error)
+        }
+}
+
 module.exports = {
     buscarUsuarios,
     buscarUsuarioPorId,
     criarUsuario,
     logarUsuario,
     deletarUsuarioPorId,
-    alterarUsuarioPorId
+    alterarUsuarioPorId,
+    depositoUsuario
 }
