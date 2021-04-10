@@ -1,10 +1,10 @@
 const mysql = require('mysql')
 
 const connection = mysql.createConnection({
-    host: process.env.DB_HOST || 'localhost',
+    host: process.env.DB_HOST || '192.168.1.147',
     user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || 'root',
-    database: process.env.DB_NAME || 'db_gamabank',
+    password: process.env.DB_PASSWORD || 'senha',
+    database: process.env.DB_NAME || 'banco',
     port: 3306
 })
 
@@ -13,7 +13,6 @@ const execute = (sqlStatement) => {
         connection.query(sqlStatement, (err, result) => {
             if(err) reject(err)
             else resolve(result)
-
             //connection.end()
         })
     })

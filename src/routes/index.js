@@ -76,4 +76,28 @@ const atualizarUsuario = {
   }
 }
 
-module.exports = [listarUsuarioPorId, listarUsuarios, criarUsuario, deletarUsuario, atualizarUsuario, root]
+
+//ROTAS DE SALDO
+
+const { buscarSaldoPorId } = require('../api/controllers/saldo.controller')
+const { TransactionResponseDTO } = require('../api/models/dto/trasactions.dto')
+
+const listarSaldoPorId = ({
+    method: 'GET',
+    path: '/saldo/{id}',
+    handler: buscarSaldoPorId,
+    options:{
+            tags: ['api', 'saldo'],
+            description: 'Lista o saldo', 
+            notes: 'Lista saldo atual do usuário',
+            validate: {
+                params: Joi.object({
+                    id : Joi.number()
+                            .required()
+                            .description('id do usuário'),
+                })
+            }
+    }
+  })
+
+module.exports = [listarSaldoPorId, listarUsuarioPorId, listarUsuarios, criarUsuario, deletarUsuario, atualizarUsuario, root]
