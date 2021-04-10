@@ -35,16 +35,21 @@ https://nodejs.org/en/download/
 # FUNCIONALIDADES :
 
 
-1 - Cadastrou usúarios com as respectivas contas.
+1 - Cadastro de usúario. Rota - /cadastro
 
-2 - Realizou transferencia entre conta existes e/ou inexistentes.
+2 - Login. Rota. - /login
 
-3 - Realizou lançamentos de compras feitas com crédito e débito.
+3 - Visualizar extrato. Rota. - /extrato
 
-4 - Realizou envio de email confirmando o lançamento de crédito ou débito para o email do usuario.
+4 - Deposito em conta. Rota. - /deposito
 
-5 - Exibiu o extrato bancário e fatura de crédito.
+5 - Lançamento de Despesa de Débito. Rota - /debito
 
+6 - Realizar Transferência entre conta existes na Gamabank. Rota - /transferência
+
+7 - Realizar lançamentos de compras feitas com crédito e débito. Rota -  /compras
+
+8 - Exibir o extrato bancário e fatura de crédito. Rota - /fatura
 
 
 
