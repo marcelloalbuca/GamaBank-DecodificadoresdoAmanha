@@ -1,9 +1,11 @@
 const { status } = require('../api/controllers/app.controller')
-//const authController = require('../api/controllers/auth.controller')
 const userController = require('../api/controllers/user.controller')
+const { buscarSaldoPorId } = require('../api/controllers/saldo.controller')
+const { StatusCodes, ReasonPhrases } = require("http-status-codes")
+const { TransactionResponseDTO } = require('../api/models/dto/trasactions.dto')
+const { Joi } = require('joi')
+//const authController = require('../api/controllers/auth.controller')
 //const { LoginRequestDTO, LoginResponseDTO } = require('../api/models/dto/auth.dto')
-
-const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 
 const root = {
   method: "GET",
@@ -86,10 +88,6 @@ const atualizarUsuario = {
 }
 
 //ROTAS DE SALDO
-
-const { buscarSaldoPorId } = require('../api/controllers/saldo.controller')
-const { TransactionResponseDTO } = require('../api/models/dto/trasactions.dto')
-
 const listarSaldoPorId = ({
     method: 'GET',
     path: '/saldo/{id}',
@@ -98,15 +96,28 @@ const listarSaldoPorId = ({
             tags: ['api', 'saldo'],
             description: 'Lista o saldo', 
             notes: 'Lista saldo atual do usuário',
-            validate: {
+           /* validate: {
                 params: Joi.object({
                     id : Joi.number()
                             .required()
                             .description('id do usuário'),
                 })
-            }
+            }*/
     }
   })
+
+const depositoUsuario = {
+    method: 'PUT',
+    path: '/deposito',
+   // handler: userController.alterarUsuarioPorId,
+    options: {
+      tags: ['api', 'usuarios'],
+      description: 'Atualizar dados do usuário cadastrado na Gamabank',
+      notes: 'Atualizar nome, e-mail e senha do usuário cadastrado na Gamabank por ID'
+    }
+  }
+
+
 
 module.exports = [
   listarUsuarioPorId, 
