@@ -78,19 +78,20 @@ const atualizarUsuario = {
 
 
 //ROTAS DE SALDO
+
 const { listarExtradoPorId } = require('../api/controllers/saldo.controller')
 const { TransactionResponseDTO } = require('../api/models/dto/trasactions.dto')
 
 const listarExtrado = ({
     method: 'GET',
-    path: '/extratos',
+    path: '/extratos/{id}',
     handler: listarExtradoPorId,
     options:{
             tags: ['api', 'saldo'],
             description: 'Lista o extrato', 
-            notes: 'Lista saldo atual do usuário',
+            notes: 'Lista o extrado completo do usuário',
             validate: {
-                payload: Joi.object({
+                params: Joi.object({
                     id : Joi.number()
                             .required()
                             .description('id do usuário'),
