@@ -10,8 +10,8 @@ FOREIGN KEY (idUsuario) REFERENCES usuarios(id)
 
 select * from contas;
 
-INSERT INTO contas (saldo, credito, idUsuario) values (0.00, 1);
-INSERT INTO contas (saldo, credito, idUsuario) values (50.00, 2);
-INSERT INTO contas (saldo, credito, idUsuario) values (30.00, 3);
-INSERT INTO contas (saldo, credito, idUsuario) values (20.00, 4);
-INSERT INTO contas (saldo, idUsuario) values (10.00, 5);
+INSERT INTO contas (idUsuario) values (1);
+INSERT INTO contas (idUsuario) values (2);
+INSERT INTO contas (idUsuario) values (3);
+INSERT INTO contas (idUsuario) values (4);
+INSERT INTO contas (idUsuario) values (5);
