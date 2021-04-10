@@ -58,7 +58,7 @@ const depositoUsuario = async (id, valor) => {
         if (valor <= 0)
         return { message: mensagensDeposito.depositoValorNegativo }
         else
-        console.log( {message: mensagensDeposito.depositoError } )
+        console.log( {message: mensagensDeposito.depositoSuccess } )
 
         const result = await repository.depositoUsuario(id, valor)
         return result
