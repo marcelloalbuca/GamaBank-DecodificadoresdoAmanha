@@ -8,6 +8,7 @@ const buscarUsuarios = async () => {
     }
 }
 
+
 const buscarUsuarioPorId = async (id) => {
     try {
         return await services.buscarUsuarioPorId(id)
