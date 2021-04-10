@@ -1,10 +1,10 @@
 const repository = require('../repositories/user.repository')
+const crypto = require('../../helpers/encryptPassword')
 
-const createAccount = async (newUser) => {
-    // Opcional : verificar no banco de dados se usuario ja existe
-    const result = await repository.save(newUser)
-    return result
-}
+const { mensagensUsuario } = require('../../helpers/userConstants')
+
+const validaSenha = require('../../helpers/validaSenha')
+const validaCPF = require('../../helpers/validaCPF')
 
 const buscarUsuarios = async () => {
     return await repository.buscarUsuarios()
@@ -15,14 +15,36 @@ const buscarUsuarioPorId = async (id) => {
     return result
 }
 
-const criarUsuario = async () => {
-    const result = await repository.criarUsuario()
-    return result
+const criarUsuario = async (dadosUsuario) => {
+    try {
+        const { nome, email, cpf, senha } = dadosUsuario
+
+        const cpfFormatado = validaCPF(cpf)
+        const senhaValidada = validaSenha(senha)
+
+        if (!cpfFormatado)
+            return { message: mensagensUsuario.cpfInvalido }
+        if (!senhaValidada)
+            return { message: mensagensUsuario.senhaInvalida }
+
+        let { encryptedPassword } = await crypto.encryptPassword(senhaValidada, null)
+
+        return await repository.criarUsuario(nome, email, cpfFormatado, encryptedPassword)
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+const logarUsuario = async (dadosParaLogin) => {
+    try {
+        const { email, senha } = dadosParaLogin
+    } catch (error) {
+        console.error(error)
+    }
 }
 
 const deletarUsuarioPorId = async (id) => {
-    const result = await repository.deletarUsuarioPorId(id)
-    return result
+    return await repository.deletarUsuarioPorId(id)
 }
 
 const alterarUsuarioPorId = async (id) => {
@@ -30,11 +52,11 @@ const alterarUsuarioPorId = async (id) => {
     return result
 }
 
-module.exports = { 
-    createAccount, 
+module.exports = {
     buscarUsuarios,
     buscarUsuarioPorId,
     criarUsuario,
+    logarUsuario,
     deletarUsuarioPorId,
     alterarUsuarioPorId
 }
