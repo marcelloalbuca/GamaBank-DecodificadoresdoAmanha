@@ -32,9 +32,9 @@ const logarUsuario = async (request, h) => {
     }
 }
 
-const deletarUsuarioPorId = async (id) => {
+const deletarUsuarioPorId = async (request, h) => {
     try {
-        return await services.deletarUsuarioPorId(id)
+        return await services.deletarUsuarioPorId(request.params)
     } catch (error) {
         console.error(error)
     }
