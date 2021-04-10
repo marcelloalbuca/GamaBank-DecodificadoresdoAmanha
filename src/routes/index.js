@@ -2,29 +2,26 @@ const { status } = require('../api/controllers/app.controller')
 //const authController = require('../api/controllers/auth.controller')
 const userController = require('../api/controllers/user.controller')
 //const { LoginRequestDTO, LoginResponseDTO } = require('../api/models/dto/auth.dto')
-const Joi = require('joi')
 
-//const usuarioService = require('../api/services/usuarioService.js')
-//const User = require('../api/models/user')
+const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 
 const root = {
   method: "GET",
   path: "/",
   handler: status,
   options: {
-      tags: ['api'],
-      description: 'API Gamabank',
-      notes: 'API desenvolvida pelo Grupo Desenvolvedores do Amanhã'
+    tags: ['api'],
+    description: 'API Gamabank',
+    notes: 'API desenvolvida pelo Grupo Desenvolvedores do Amanhã'
   }
 };
-
 
 const listarUsuarios = {
   method: 'GET',
   path: '/usuarios',
   handler: userController.buscarUsuarios,
   options: {
-    tags: ['api','usuarios'],
+    tags: ['api', 'usuarios'],
     description: 'Listar todos os usuários',
     notes: 'Listar todos os usuários cadastrados na Gamabank'
   }
@@ -35,22 +32,34 @@ const listarUsuarioPorId = {
   path: '/usuarios/{id}',
   handler: userController.buscarUsuarioPorId,
   options: {
-    tags: ['api','usuarios'],
+    tags: ['api', 'usuarios'],
     description: 'Listar usuário por ID',
     notes: 'Listar usuário por ID cadastrado na Gamabank'
   }
-  
+
 }
 
 const criarUsuario = {
   method: 'POST',
-  path: '/usuarios',
-  handler: userController.criarUsuario,
+  path: '/cadastrar',
+  handler: async (request, h) => {
+    userController.criarUsuario
+  },
   options: {
-    tags: ['api','usuarios'],
+    tags: ['api', 'usuarios'],
     description: 'Cadastrar novos usuários',
-    notes: 'Cadastrar novos usuários na Gamabank'
+    notes: 'Cadastrar novos usuários na Gamabank',
+  }
+}
 
+const logarUsuario = {
+  method: 'POST',
+  path: '/login',
+  handler: userController.logarUsuario,
+  options: {
+    tags: ['api', 'usuarios'],
+    description: 'Logar usuario',
+    notes: 'logar usuário na Gamabank',
   }
 }
 
@@ -59,7 +68,7 @@ const deletarUsuario = {
   path: '/usuarios/{id}',
   handler: userController.deletarUsuarioPorId,
   options: {
-    tags: ['api','usuarios'],
+    tags: ['api', 'usuarios'],
     description: 'Deletar usuário cadastrado na Gamabank',
     notes: 'Deletar usuário cadastrado na Gamabank por ID'
   }
@@ -70,12 +79,11 @@ const atualizarUsuario = {
   path: '/usuarios/{id}',
   handler: userController.alterarUsuarioPorId,
   options: {
-    tags: ['api','usuarios'],
+    tags: ['api', 'usuarios'],
     description: 'Atualizar dados do usuário cadastrado na Gamabank',
     notes: 'Atualizar nome, e-mail e senha do usuário cadastrado na Gamabank por ID'
   }
 }
-
 
 //ROTAS DE SALDO
 
@@ -100,4 +108,14 @@ const listarSaldoPorId = ({
     }
   })
 
-module.exports = [listarSaldoPorId, listarUsuarioPorId, listarUsuarios, criarUsuario, deletarUsuario, atualizarUsuario, root]
+module.exports = [
+  listarUsuarioPorId, 
+  listarUsuarios, 
+  criarUsuario, 
+  deletarUsuario, 
+  atualizarUsuario, 
+  root, 
+  listarSaldoPorId, 
+  logarUsuario
+
+]

@@ -3,7 +3,7 @@ const validaSenha = (senha) => {
   if (!regex.test(senha))
     return false
 
-  return true
+  return senha
 }
 
 module.exports = validaSenha

@@ -33,7 +33,7 @@ const validaCPF = (cpf) => {
 
   if (Resto != parseInt(cpf.substring(10, 11))) return false
 
-  return true
+  return cpf
 }
 
 module.exports = validaCPF

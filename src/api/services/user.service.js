@@ -1,10 +1,12 @@
-const repository = require('../repositories/user.repository')
+const jwt = require('jsonwebtoken')
 
-const createAccount = async (newUser) => {
-    // Opcional : verificar no banco de dados se usuario ja existe
-    const result = await repository.save(newUser)
-    return result
-}
+const repository = require('../repositories/user.repository')
+const crypto = require('../../helpers/encryptPassword')
+
+const { mensagensUsuario } = require('../../helpers/userConstants')
+
+const validaSenha = require('../../helpers/validaSenha')
+const validaCPF = require('../../helpers/validaCPF')
 
 const buscarUsuarios = async () => {
     return await repository.buscarUsuarios()
@@ -15,14 +17,66 @@ const buscarUsuarioPorId = async (id) => {
     return result
 }
 
-const criarUsuario = async () => {
-    const result = await repository.criarUsuario()
-    return result
+const buscarUsuarioPorEmail = async (email) => {
+    return await repository.buscarUsuarioPorEmail(email)
 }
 
-const deletarUsuarioPorId = async (id) => {
-    const result = await repository.deletarUsuarioPorId(id)
-    return result
+const criarUsuario = async (dadosUsuario) => {
+    try {
+        const { nome, email, cpf, senha } = dadosUsuario
+
+        const cpfFormatado = validaCPF(cpf)
+        const senhaValidada = validaSenha(senha)
+
+        if (!cpfFormatado)
+            return { message: mensagensUsuario.cpfInvalido }
+        if (!senhaValidada)
+            return { message: mensagensUsuario.senhaInvalida }
+
+        let { encryptedPassword } = await crypto.encryptPassword(senhaValidada, null)
+
+        return await repository.criarUsuario(nome, email, cpfFormatado, encryptedPassword)
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+const logarUsuario = async (dadosParaLogin) => {
+    try {
+        const dadosUsuarios = await buscarUsuarios()
+
+        // verificando se na base de dados possui o email cadastrado
+        const buscaPorEmail = dadosUsuarios.find(({ email }) => email === dadosParaLogin.email)
+        if (!buscaPorEmail) return { messageError: 'email não possui cadastro' }
+
+        // tentando buscar a senha do email digitado
+        let senhaEncriptada
+        const buscarSenha = await buscarUsuarioPorEmail(dadosParaLogin.email)
+
+        // armazenando senha em uma variavel
+        for (const usuario of buscarSenha) {
+            senhaEncriptada = usuario.senha
+        }
+
+        // comparar senhas, se retornar true gerar token para usuario conseguir usar outras rotas
+        if (buscaPorEmail) {
+            const compararSenha = await crypto.comparePassword(dadosParaLogin.senha, senhaEncriptada)
+            if (compararSenha) {
+                // GERAR E RETORNAR UM TOKEN PARA ACESSAR AS ROTAS
+                return { messageSucess: 'logado' }
+            } else {
+                return { messageError: 'email ou senha errado' }
+            }
+        }
+
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+const deletarUsuarioPorId = async (idUsuario) => {
+    const { id } = idUsuario
+    return await repository.deletarUsuarioPorId(id)
 }
 
 const alterarUsuarioPorId = async (id) => {
@@ -30,11 +84,11 @@ const alterarUsuarioPorId = async (id) => {
     return result
 }
 
-module.exports = { 
-    createAccount, 
+module.exports = {
     buscarUsuarios,
     buscarUsuarioPorId,
     criarUsuario,
+    logarUsuario,
     deletarUsuarioPorId,
     alterarUsuarioPorId
 }

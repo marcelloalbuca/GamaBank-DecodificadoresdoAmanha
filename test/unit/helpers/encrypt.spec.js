@@ -13,12 +13,13 @@ describe('Funcionalidade de encriptação de senha', async () => {
         expect(encryptedPassword).to.be.a('string')
     })
 
-    it('Deve retornar true ao comparar as senhas', async () => {
+    it('Deve retornar TRUE se as senhas forem iguais', async () => {
         const senhaGerada = faker.internet.password(32)
-        const { encryptedPassword, salt } = await mycrypto.encryptPassword(senhaGerada, null)
 
-        const resultadoDaComparacao = await mycrypto.comparePassword(senhaGerada, salt, encryptedPassword)
+        const { encryptedPassword } = await mycrypto.encryptPassword(senhaGerada, null)
 
-        expect(resultadoDaComparacao, true).be.equal(true)
+        const resultadoDaComparacao = await mycrypto.comparePassword(senhaGerada, encryptedPassword)
+
+        expect(resultadoDaComparacao).to.be.equal(true)
     })
 })
