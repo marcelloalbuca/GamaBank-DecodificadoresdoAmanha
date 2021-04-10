@@ -35,7 +35,7 @@ https://nodejs.org/en/download/
 # FUNCIONALIDADES :
 
 
-1 - Cadastro de usúario. Rota - /cadastro
+1 - Cadastro de usúario. Rota - /cadastrar
 
 2 - Login. Rota. - /login
 
