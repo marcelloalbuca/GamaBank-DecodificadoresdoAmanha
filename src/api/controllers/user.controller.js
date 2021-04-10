@@ -16,11 +16,11 @@ const buscarUsuarioPorId = async (id) => {
     }
 }
 
-const criarUsuario = async (request, h) => {
+const criarUsuario = async (dadosCriacao, h) => {
     try {
-        return await services.criarUsuario(request.payload)
+        return await services.criarUsuario(dadosCriacao, h)
     } catch (error) {
-        console.error(error)
+        console.lor(error)
     }
 }
 
