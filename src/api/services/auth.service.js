@@ -38,16 +38,12 @@ exports.login = async (dadosLogin, h) => {
 
                 // GERAR E RETORNAR UM TOKEN PARA ACESSAR AS ROTAS
                 const token = jwt.sign(
-                    { userId: userId },
+                    { userId },
                     process.env.JWT_SECRET || secret,
-                    { expiresIn: 300, algorithm: 'HS256' }
+                    { expiresIn: 86000, algorithm: 'HS256' }
                 )
 
-                const result = { auth: true, userId: token }
-
-                JSON.stringify(result)
-
-                return result
+                return { auth: true, token }
             } else {
                 return h
                     .response({ messageError: 'email ou senha errado' })
