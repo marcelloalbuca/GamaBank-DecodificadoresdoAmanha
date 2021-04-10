@@ -184,7 +184,11 @@ const listarExtrado = {
 
     const id = request.userId
 
-    await saldoController.listarExtradoPorId(id)
+    const resultado = await saldoController.listarExtradoPorId(id)
+
+    if (!resultado) return h.response({ message: 'não há transções para esse usuario!' }).code(400)
+
+    return { extratos: resultado }
   },
   options: {
     tags: ['api', 'saldo'],

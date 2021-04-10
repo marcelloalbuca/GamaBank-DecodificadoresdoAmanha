@@ -2,13 +2,7 @@ const repository = require('../repositories/saldo.repository')
 
 const listarExtradoPorId = async (id) => {
     try {
-        const saldo = await repository.listarExtradoPorId(id)
-
-        console.log(saldo)
-
-        if (!saldo) return { messageError: 'não tem nada na base de dados' }
-
-        return saldo
+        return await repository.listarExtradoPorId(id)
     } catch (err) {
         console.log(err)
     }

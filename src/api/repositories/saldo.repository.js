@@ -21,11 +21,7 @@ const listarExtradoPorId = async (id) => {
         WHERE u.id = ${id}
         order by data DESC;`
 
-        const resultado = await execute(sqlStatement)
-
-        console.log(resultado)
-
-        return resultado
+        return await execute(sqlStatement)
     }
     catch (err) {
         console.log(err)
