@@ -165,14 +165,18 @@ const atualizarUsuario = {
 }
 
 //ROTAS DE SALDO
-const listarSaldoPorId = {
+const { listarExtradoPorId } = require('../api/controllers/saldo.controller')
+const { TransactionResponseDTO } = require('../api/models/dto/trasactions.dto')
+
+const listarExtrado = {
+
     method: 'GET',
-    path: '/saldo/{id}',
-    handler: buscarSaldoPorId,
+    path: '/extratos/{id}',
+    handler: listarExtradoPorId,
     options:{
             tags: ['api', 'saldo'],
-            description: 'Lista o saldo', 
-            notes: 'Lista saldo atual do usuário',
+            description: 'Lista o extrato', 
+            notes: 'Lista o extrado completo do usuário',
             validate: {
                 params: Joi.object({
                     id : Joi.number()
@@ -194,11 +198,7 @@ const depositoUsuario = {
       description: 'O usuário poderá realizar deposito em sua conta.',
       notes: 'O usuário poderá realizar deposito em sua conta cadastrada na Gamabank.'
     }
-
   }
-
-
-
 
 module.exports = [
 
@@ -211,6 +211,8 @@ module.exports = [
   listarSaldoPorId,
   logarUsuario,
   depositoUsuario,
-  testeAcessoToken
+  testeAcessoToken,
+  listarExtrado
 
 ]
+
