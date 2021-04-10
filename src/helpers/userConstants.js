@@ -6,7 +6,7 @@ module.exports = {
 
   errorsRepositories: {
     cpfRepetido: 'CPF já cadastrado!',
-    emailRepetido: 'email já cadastrado!'
+    emailRepetido: 'email já cadastrado!',
   },
 
   usuarioExceptions: {
