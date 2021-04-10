@@ -1,108 +1,114 @@
-const crypto = require('../../helpers/mycrypto')
 const { execute } = require('../../helpers/database')
 
-const { string } = require('joi')
+const { StatusCodes } = require("http-status-codes");
+const { errorsRepositories } = require('../../helpers/userConstants')
 
-
-const findByUsername = async () => {
-
-}
-
-const save = async (user) => {
-
-    if(user instanceof User){
-       
-        const encrypt = await crypto.encryptPassword(user.password, null)
-
-        const sqlStatement = `
-            INSERT INTO users (email, password, salt)
-            VALUES ("${email}", "${encrypt.encryptedPassword}", "${encrypt.salt}");`
-    
+const buscarUsuarios = async () => {
+    try {
+        const sqlStatement = `select * from usuarios;`
         const result = await execute(sqlStatement)
         return result
     }
-}
-
-const buscarUsuarios = async () => {
-
-        try {
-        const sqlStatement = `select * from usuarios;`
-        const result = await execute(sqlStatement)
-        return result  
-        } 
-        catch (error) {
-            console.log(error)
-            throw error
-        }
-}
-  
-const buscarUsuarioPorId = async (id) => {
-
-    try {
-
-    const sqlStatement = `select * from usuarios WHERE id = 1;`   
-    //const sqlStatement = `select * from usuarios WHERE id = ${id};`
-    const result = await execute(sqlStatement)
-    return result  
-    } 
-    catch (error) {
-        console.log(error)
-        throw error
+    catch (err) {
+        console.log(err)
     }
 }
 
-const criarUsuario = async (user) => {
-    
+const buscarUsuarioPorId = async (id) => {
     try {
-        const encrypt = await crypto.encryptPassword(user.password, null)
+        const sqlStatement = `select * from usuarios WHERE id = ${id};`
+        return await execute(sqlStatement)
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+
+const buscarUsuarioPorEmail = async (email) => {
+    try {
+        const sqlStatement = `select * from usuarios WHERE email = "${email}";`
+        return await execute(sqlStatement)
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+
+const criarUsuario = async (nome, email, cpf, encryptedPassword, h) => {
+    try {
+        const buscarDados = await buscarUsuarios()
+
+        for (const item of buscarDados) {
+            if (item.cpf == cpf) return h
+                .response({ message: errorsRepositories.cpfRepetido }).code(StatusCodes.BAD_REQUEST)
+            if (item.email == email) return h
+                .response({ message: errorsRepositories.emailRepetido }).code(StatusCodes.BAD_REQUEST)
+        }
 
         const sqlStatement = `
-            INSERT INTO users (email, password, salt)
-            VALUES ("${email}", "${encrypt.encryptedPassword}", "${encrypt.salt}");`
-    
+        INSERT INTO usuarios (nome, email, cpf, senha)
+        VALUES ("${nome}","${email}", "${cpf}", "${encryptedPassword}");`
+
         const result = await execute(sqlStatement)
-        return result  
-        } 
-        catch (error) {
-            console.log(error)
-            throw error
-        }
+
+        const criacaoContaIdGerado = result.insertId
+
+        const queryParaCriacaoDaConta =
+            `INSERT INTO contas (idUsuario) values (${criacaoContaIdGerado});`
+
+        await execute(queryParaCriacaoDaConta)
+
+        return h.response({ message: 'criado com sucesso!' }).code(200)
+    } catch (err) {
+        console.log(err)
+    }
 }
 
 const deletarUsuarioPorId = async (id) => {
-    
     try {
         const sqlStatement = `delete from usuarios where id = "${id}";`
-    
+
         const result = await execute(sqlStatement)
-        return result  
-        } 
-        catch (error) {
-            console.log(error)
-            throw error
+
+        if (result) {
+            return { messageSucess: 'usuario deletado' }
+        } else {
+            return { messageError: 'usuario não encontrado' }
         }
+    } catch (err) {
+        console.log(err)
+    }
 }
 
 const alterarUsuarioPorId = async (id, senha) => {
-    
     try {
         const sqlStatement = `update usuarios set senha="${senha}" where id = "${id}";`
         const result = await execute(sqlStatement)
-        return result  
-        } 
-        catch (error) {
-            console.log(error)
-            throw error
-        }
+        return result
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+const depositoUsuario = async (id, valor) => {
+
+    try {
+        const sqlStatement = `update contas set saldo = saldo + "${valor}" where id = "${id}";`
+        const result = await execute(sqlStatement)
+        return result
+    } catch (err) {
+        console.log(err)
+    }
 }
 
 
+
 module.exports = {
-    save, 
-    findByUsername,
     buscarUsuarios,
     buscarUsuarioPorId,
     criarUsuario,
     deletarUsuarioPorId,
-    alterarUsuarioPorId
+    alterarUsuarioPorId,
+    buscarUsuarioPorEmail,
+    depositoUsuario
 }

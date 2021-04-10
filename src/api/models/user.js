@@ -1,10 +1,10 @@
 const Joi = require("joi");
 
 const userSchema = Joi.object({
-  nome: Joi.string().alphanum().min(3).max(30).required(),
-  email:Joi.string().email(),
-  cpf: Joi.string().min(11).max(11) ,
-  senha: Joi.string().regex(/^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8}$/)
+    nome: Joi.string().min(3).max(30).required(),
+    email: Joi.string().email().required(),
+    cpf: Joi.string().min(11).max(11).required(),
+    senha: Joi.string().min(8).required()
 })
 
 // ^                         Start anchor
@@ -15,23 +15,16 @@ const userSchema = Joi.object({
 // .{8}                      Ensure string is of length 8.
 // $                         End anchor.
 
-class User{
-    constructor({nome, email, cpf,senha }){
-        const result = userSchema.validate({nome, email, cpf,senha})
-        if(result.error){
-            throw new Error(result.error)
+class User {
+    constructor({ nome, email, cpf, senha }) {
+        const result = userSchema.validate({ nome, email, cpf, senha })
+
+        if (!result) {
+            throw new Error('erro aqui')
         }
     }
 }
 
-const user = new User({nome:'rafael', email: 'email@rafael.com', cpf:'12345678111', senha:'senhadsss'})
+exports.User = User
 
-// //testando instancia
-// const pass = user instanceof  User
-// console.log(pass)
-// // // const senha = new Login({username: 'usuarioSenha'})
-
-
-
-
-module.exports = User
+module.exports = { userSchema }

@@ -1,45 +1,61 @@
-const service = require('../services/user.service')
-//const User = require('../models/user')
+const userServices = require('../services/user.service')
 
-
-const newAccount = async (request, h) =>{
-
-    const user = new User(request.payload)
-    const result = await service.createAccount(user)
-
-    return result
+const buscarUsuarios = async (userId) => {
+    try {
+        return await userServices.buscarUsuarios(userId)
+    } catch (error) {
+        console.error(error)
+    }
 }
 
-const buscarUsuarios = async () => {
-    return await service.buscarUsuarios()
-  }
 
 const buscarUsuarioPorId = async (id) => {
-    
-    const result = await service.buscarUsuarioPorId(id)
-    return result
-  }
-
-const criarUsuario = async () => {
-    const result = await service.buscarUsuarios()
-    return result
+    try {
+        return await userServices.buscarUsuarioPorId(id)
+    } catch (error) {
+        console.error(error)
+    }
 }
 
-const deletarUsuarioPorId = async () => {
-    const result = await service.buscarUsuarios()
-    return result
+const criarUsuario = async (dadosCriacao, h) => {
+    try {
+        return await userServices.criarUsuario(dadosCriacao, h)
+    } catch (error) {
+        console.lor(error)
+    }
 }
 
-const alterarUsuarioPorId = async () => {
-    const result = await service.buscarUsuarios()
-    return result
+const deletarUsuarioPorId = async (request, h) => {
+    try {
+        return await userServices.deletarUsuarioPorId(request.params)
+    } catch (error) {
+        console.error(error)
+    }
+
 }
+
+const alterarUsuarioPorId = async (id) => {
+    try {
+        return await userServices.alterarUsuarioPorId(id)
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+const depositoUsuario = async (id, valor) => {
+    try {
+        return await services.depositoUsuario(id, valor)
+    } catch (error) {
+        console.error(error)
+    }
+}
+
 
 module.exports = {
-    newAccount,
     buscarUsuarios,
     buscarUsuarioPorId,
     criarUsuario,
     deletarUsuarioPorId,
-    alterarUsuarioPorId
+    alterarUsuarioPorId,
+    depositoUsuario
 }
