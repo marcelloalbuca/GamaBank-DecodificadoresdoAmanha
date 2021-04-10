@@ -19,6 +19,13 @@ const criarUsuario = async (dadosUsuario) => {
     try {
         const { nome, email, cpf, senha } = dadosUsuario
 
+        const buscarDados = await buscarUsuarios()
+
+        for (const item of buscarDados) {
+            if (item.cpf == cpf) return { messageError: errorsRepositories.cpfRepetido }
+            if (item.email == email) return { messageError: errorsRepositories.emailRepetido }
+        }
+
         const cpfFormatado = validaCPF(cpf)
         const senhaValidada = validaSenha(senha)
 
