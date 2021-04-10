@@ -42,10 +42,20 @@ const alterarUsuarioPorId = async (id) => {
     }
 }
 
+const depositoUsuario = async (id, valor) => {
+    try {
+        return await services.depositoUsuario(id, valor)
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+
 module.exports = {
     buscarUsuarios,
     buscarUsuarioPorId,
     criarUsuario,
     deletarUsuarioPorId,
-    alterarUsuarioPorId
+    alterarUsuarioPorId,
+    depositoUsuario
 }
