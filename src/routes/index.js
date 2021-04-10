@@ -3,7 +3,7 @@ const userController = require('../api/controllers/user.controller')
 const { buscarSaldoPorId } = require('../api/controllers/saldo.controller')
 const { StatusCodes, ReasonPhrases } = require("http-status-codes")
 const { TransactionResponseDTO } = require('../api/models/dto/trasactions.dto')
-const { Joi } = require('joi')
+const Joi = require('joi')
 //const authController = require('../api/controllers/auth.controller')
 //const { LoginRequestDTO, LoginResponseDTO } = require('../api/models/dto/auth.dto')
 
@@ -96,24 +96,24 @@ const listarSaldoPorId = ({
             tags: ['api', 'saldo'],
             description: 'Lista o saldo', 
             notes: 'Lista saldo atual do usuário',
-           /* validate: {
+            validate: {
                 params: Joi.object({
                     id : Joi.number()
                             .required()
                             .description('id do usuário'),
                 })
-            }*/
+            }
     }
   })
 
 const depositoUsuario = {
     method: 'PUT',
-    path: '/deposito',
-   // handler: userController.alterarUsuarioPorId,
+    path: '/deposito', //informar ID E VALOR
+    handler: userController.depositoUsuario,
     options: {
       tags: ['api', 'usuarios'],
-      description: 'Atualizar dados do usuário cadastrado na Gamabank',
-      notes: 'Atualizar nome, e-mail e senha do usuário cadastrado na Gamabank por ID'
+      description: 'O usuário poderá realizar deposito em sua conta.',
+      notes: 'O usuário poderá realizar deposito em sua conta cadastrada na Gamabank.'
     }
   }
 
@@ -127,6 +127,7 @@ module.exports = [
   atualizarUsuario, 
   root, 
   listarSaldoPorId, 
-  logarUsuario
+  logarUsuario,
+  depositoUsuario
 
 ]
