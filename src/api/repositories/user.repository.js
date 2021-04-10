@@ -49,7 +49,14 @@ const criarUsuario = async (nome, email, cpf, encryptedPassword, h) => {
         INSERT INTO usuarios (nome, email, cpf, senha)
         VALUES ("${nome}","${email}", "${cpf}", "${encryptedPassword}");`
 
-        await execute(sqlStatement)
+        const result = await execute(sqlStatement)
+
+        const criacaoContaIdGerado = result.insertId
+
+        const sqlStatementParaCriacaoDaConta =
+            `INSERT INTO contas (saldo, credito, idUsuario) values (0 , 200.00, ${criacaoContaIdGerado});`
+
+        await execute(sqlStatementParaCriacaoDaConta)
 
         return h.response({ message: 'criado com sucesso!' }).code(200)
     } catch (err) {
@@ -88,7 +95,7 @@ const depositoUsuario = async (id, valor) => {
     try {
         const sqlStatement = `update contas set saldo = saldo + "${valor}" where id = "${id}";`
         const result = await execute(sqlStatement)
-        return result  
+        return result
     } catch (err) {
         console.log(err)
     }
