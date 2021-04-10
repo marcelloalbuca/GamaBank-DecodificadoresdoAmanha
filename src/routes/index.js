@@ -3,6 +3,8 @@ const { status } = require('../api/controllers/app.controller')
 const userController = require('../api/controllers/user.controller')
 //const { LoginRequestDTO, LoginResponseDTO } = require('../api/models/dto/auth.dto')
 
+const { StatusCodes, ReasonPhrases } = require("http-status-codes");
+
 const root = {
   method: "GET",
   path: "/",
@@ -39,8 +41,10 @@ const listarUsuarioPorId = {
 
 const criarUsuario = {
   method: 'POST',
-  path: '/usuarios',
-  handler: userController.criarUsuario,
+  path: '/cadastrar',
+  handler: async (request, h) => {
+    userController.criarUsuario
+  },
   options: {
     tags: ['api', 'usuarios'],
     description: 'Cadastrar novos usuários',
@@ -50,7 +54,7 @@ const criarUsuario = {
 
 const logarUsuario = {
   method: 'POST',
-  path: '/autenticar',
+  path: '/login',
   handler: userController.logarUsuario,
   options: {
     tags: ['api', 'usuarios'],
