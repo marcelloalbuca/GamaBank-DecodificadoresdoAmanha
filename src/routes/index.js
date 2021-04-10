@@ -43,7 +43,16 @@ const criarUsuario = {
   method: 'POST',
   path: '/cadastrar',
   handler: async (request, h) => {
-    userController.criarUsuario
+    try {
+      const dadosCriacao = request.payload
+      const response = await userController.criarUsuario(dadosCriacao, h)
+
+      return response
+    } catch (error) {
+      return h
+        .response({ message: ReasonPhrases.BAD_REQUEST })
+        .code(StatusCodes.BAD_REQUEST)
+    }
   },
   options: {
     tags: ['api', 'usuarios'],
