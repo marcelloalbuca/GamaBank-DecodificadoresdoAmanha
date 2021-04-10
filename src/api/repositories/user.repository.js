@@ -1,5 +1,4 @@
 const { execute } = require('../../helpers/database')
-
 const { StatusCodes } = require("http-status-codes");
 const { errorsRepositories } = require('../../helpers/userConstants')
 
@@ -94,8 +93,10 @@ const depositoUsuario = async (id, valor) => {
 
     try {
         const sqlStatement = `update contas set saldo = saldo + "${valor}" where id = "${id}";`
+        const sqlStatement2 = `INSERT INTO movimentacoesInterna (valor, idConta, idTransacao) values ("${valor}", "${id}", 3);`
         const result = await execute(sqlStatement)
-        return result
+        const result2 = await execute(sqlStatement2)
+        return result + result2
     } catch (err) {
         console.log(err)
     }

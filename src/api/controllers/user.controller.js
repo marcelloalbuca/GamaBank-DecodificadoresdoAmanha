@@ -44,7 +44,7 @@ const alterarUsuarioPorId = async (id) => {
 
 const depositoUsuario = async (id, valor) => {
     try {
-        return await services.depositoUsuario(id, valor)
+        return await userServices.depositoUsuario(id, valor)
     } catch (error) {
         console.error(error)
     }
