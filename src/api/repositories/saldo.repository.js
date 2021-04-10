@@ -1,6 +1,6 @@
 const { execute } = require('../../helpers/database')
 
-const buscarSaldoPorId = async (id) => {
+const listarExtradoPorId = async (id) => {
     try {
         const sqlStatement = `select u.id, u.nome, c.saldo, c.credito from usuarios u inner join contas c ON u.id = c.id WHERE u.id =  "${id}";`
         return await execute(sqlStatement)
@@ -12,5 +12,5 @@ const buscarSaldoPorId = async (id) => {
 }
 
 module.exports = {
-    buscarSaldoPorId
+    listarExtradoPorId
 }

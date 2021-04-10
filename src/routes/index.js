@@ -78,20 +78,19 @@ const atualizarUsuario = {
 
 
 //ROTAS DE SALDO
-
-const { buscarSaldoPorId } = require('../api/controllers/saldo.controller')
+const { listarExtradoPorId } = require('../api/controllers/saldo.controller')
 const { TransactionResponseDTO } = require('../api/models/dto/trasactions.dto')
 
-const listarSaldoPorId = ({
+const listarExtrado = ({
     method: 'GET',
-    path: '/saldo/{id}',
-    handler: buscarSaldoPorId,
+    path: '/extratos',
+    handler: listarExtradoPorId,
     options:{
             tags: ['api', 'saldo'],
-            description: 'Lista o saldo', 
+            description: 'Lista o extrato', 
             notes: 'Lista saldo atual do usuário',
             validate: {
-                params: Joi.object({
+                payload: Joi.object({
                     id : Joi.number()
                             .required()
                             .description('id do usuário'),
@@ -100,4 +99,4 @@ const listarSaldoPorId = ({
     }
   })
 
-module.exports = [listarSaldoPorId, listarUsuarioPorId, listarUsuarios, criarUsuario, deletarUsuario, atualizarUsuario, root]
+module.exports = [listarExtrado, listarUsuarioPorId, listarUsuarios, criarUsuario, deletarUsuario, atualizarUsuario, root]
