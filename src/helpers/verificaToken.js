@@ -1,13 +1,17 @@
 const { verify } = require('jsonwebtoken')
+
 const { secret } = require('../configs/secret.json')
 
-exports.verifyJWT = async (request, h, next) => {
-  const token = request.headers['x-access-token']
-
+const verifyJWT = async (token, request) => {
   verify(token, process.env.JWT_SECRET || secret, (err, decoded) => {
-    if (err) h.response({ errorMessage: 'Token Inválido' }).code(401)
+    const errorMessage = { message: 'token inválido' }
+
+    JSON.stringify(errorMessage)
+
+    if (err) return errorMessage
 
     request.userId = decoded.userId
-    next()
   })
 }
+
+module.exports = { verifyJWT }
