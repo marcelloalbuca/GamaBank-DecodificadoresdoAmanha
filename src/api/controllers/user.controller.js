@@ -1,46 +1,59 @@
-const service = require('../services/user.service')
-//const User = require('../models/user')
-
-
-const newAccount = async (request, h) =>{
-
-    const user = new User(request.payload)
-    const result = await service.createAccount(user)
-
-    return result
-}
+const services = require('../services/user.service')
 
 const buscarUsuarios = async () => {
-
-    return await service.buscarUsuarios()
-  }
+    try {
+        return await services.buscarUsuarios()
+    } catch (error) {
+        console.error(error)
+    }
+}
 
 const buscarUsuarioPorId = async (id) => {
-    
-    const result = await service.buscarUsuarioPorId(id)
-    return result
-  }
-
-const criarUsuario = async () => {
-    const result = await service.buscarUsuarios()
-    return result
+    try {
+        return await services.buscarUsuarioPorId(id)
+    } catch (error) {
+        console.error(error)
+    }
 }
 
-const deletarUsuarioPorId = async () => {
-    const result = await service.buscarUsuarios()
-    return result
+const criarUsuario = async (request, h) => {
+    try {
+        return await services.criarUsuario(request.payload)
+    } catch (error) {
+        console.error(error)
+    }
 }
 
-const alterarUsuarioPorId = async () => {
-    const result = await service.buscarUsuarios()
-    return result
+const logarUsuario = async (request, h) => {
+    try {
+        return await services.logarUsuario(request.payload)
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+const deletarUsuarioPorId = async (id) => {
+    try {
+        return await services.deletarUsuarioPorId(id)
+    } catch (error) {
+        console.error(error)
+    }
+
+}
+
+const alterarUsuarioPorId = async (id) => {
+    try {
+        return await services.alterarUsuarioPorId(id)
+    } catch (error) {
+        console.error(error)
+    }
 }
 
 module.exports = {
-    newAccount,
     buscarUsuarios,
     buscarUsuarioPorId,
     criarUsuario,
+    logarUsuario,
     deletarUsuarioPorId,
     alterarUsuarioPorId
 }
