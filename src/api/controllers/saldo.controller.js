@@ -1,11 +1,13 @@
 const service = require('../services/saldo.service')
 
-const listarExtradoPorId = async (request, h) => {
-    const {id} = request.params
-    console.log(id)
+const listarExtradoPorId = async (id) => {
+  try {
     return await service.listarExtradoPorId(id)
+  } catch (err) {
+    console.log(err)
   }
+}
 
-  module.exports = {
-    listarExtradoPorId
+module.exports = {
+  listarExtradoPorId
 }
