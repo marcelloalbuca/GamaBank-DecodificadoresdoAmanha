@@ -2,7 +2,8 @@ const { status } = require('../api/controllers/app.controller')
 const userController = require('../api/controllers/user.controller')
 const { buscarSaldoPorId } = require('../api/controllers/saldo.controller')
 const { StatusCodes, ReasonPhrases } = require("http-status-codes")
-const { TransactionResponseDTO } = require('../api/models/dto/trasactions.dto')
+const saldoController = require('../api/controllers/saldo.controller')
+// const { TransactionResponseDTO } = require('../api/models/dto/trasactions.dto')
 const Joi = require('joi')
 // const { TransactionResponseDTO } = require('../api/models/dto/trasactions.dto')
 //const authController = require('../api/controllers/auth.controller')
@@ -11,6 +12,8 @@ const Joi = require('joi')
 const authController = require('../api/controllers/auth.controller')
 
 const { verifyJWT } = require('../helpers/verificaToken')
+
+const {saldoError} = require('../helpers/saldoConstants')
 
 const root = {
   method: "GET",
@@ -74,6 +77,7 @@ const listarUsuarioPorId = {
   handler: async (request, h) => {
     try {
       const token = request.headers.authorization
+      console.log(token)
 
       if (!token) return h
         .response({ message: 'token não providenciado' })
@@ -82,6 +86,7 @@ const listarUsuarioPorId = {
       verifyJWT(token, request)
 
       const id = request.userId
+      console.log(id)
 
       return await userController.buscarUsuarioPorId(id)
     } catch (err) {
@@ -165,28 +170,43 @@ const atualizarUsuario = {
 }
 
 //ROTAS DE SALDO
-const { listarExtradoPorId } = require('../api/controllers/saldo.controller')
+const { listarExtratoPorId } = require('../api/controllers/saldo.controller')
 const { TransactionResponseDTO } = require('../api/models/dto/trasactions.dto')
 
-const listarExtrado = {
+const listarExtrato = {
+  method: 'GET',
+  path: '/extratos',
+  handler: async (request, h) => {
+    const token = request.headers.authorization
 
-    method: 'GET',
-    path: '/extratos/{id}',
-    handler: listarExtradoPorId,
-    options:{
-            tags: ['api', 'saldo'],
-            description: 'Lista o extrato', 
-            notes: 'Lista o extrado completo do usuário',
-            validate: {
-                params: Joi.object({
-                    id : Joi.number()
-                            .required()
-                            .description('id do usuário'),
-                })
-            }
+    console.log("AQUI ESTOU NA ROTA", token)
 
-    }
+    if (!token) return h
+      .response({ message: 'token não providenciado' })
+      .code(401)
+
+    verifyJWT(token, request)
+
+    const id = request.userId
+
+    console.log("AQUI ESTOU NA ROTA", id)
+
+   const result = await listarExtratoPorId(id)
+   if(result.length>0){
+    return result
+   }else{
+     
+   return saldoError
+
+   }
+
+  },
+  options: {
+    tags: ['api', 'saldo'],
+    description: 'Lista o extrato',
+    notes: 'Lista o extrado completo do usuário',
   }
+}
 
 
 const depositoUsuario = {
@@ -208,11 +228,10 @@ module.exports = [
   deletarUsuario,
   atualizarUsuario,
   root,
-  listarSaldoPorId,
+  // listarSaldoPorId,
   logarUsuario,
   depositoUsuario,
   testeAcessoToken,
-  listarExtrado
-
+  listarExtrato
 ]
 
