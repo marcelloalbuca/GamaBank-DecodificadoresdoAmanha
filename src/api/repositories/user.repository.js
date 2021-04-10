@@ -23,8 +23,25 @@ const buscarUsuarioPorId = async (id) => {
     }
 }
 
+const buscarUsuarioPorEmail = async (email) => {
+    try {
+        const sqlStatement = `select * from usuarios WHERE email = "${email}";`
+        return await execute(sqlStatement)
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+
 const criarUsuario = async (nome, email, cpf, encryptedPassword) => {
     try {
+        const buscarDados = await buscarUsuarios()
+
+        for (const item of buscarDados) {
+            if (item.cpf == cpf) return { messageError: errorsRepositories.cpfRepetido }
+            if (item.email == email) return { messageError: errorsRepositories.emailRepetido }
+        }
+
         const sqlStatement = `
         INSERT INTO usuarios (nome, email, cpf, senha)
         VALUES ("${nome}","${email}", "${cpf}", "${encryptedPassword}");`
@@ -78,5 +95,6 @@ module.exports = {
     criarUsuario,
     logarUsuario,
     deletarUsuarioPorId,
-    alterarUsuarioPorId
+    alterarUsuarioPorId,
+    buscarUsuarioPorEmail
 }
