@@ -1,38 +1,13 @@
+const authService = require('../services/auth.service')
 
-const service = require('../services/auth.service')
+const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 
-const login = async (request, h) => {
-
-    const { username, password } = request.payload
-
-    // requisicao ao banco de dados
-    const retornoDoBanco = {
-        id: 1,
-        saldo: 5000
+exports.login = async (dadosLogin, h) => {
+    try {
+        return await authService.login(dadosLogin, h)
+    } catch (error) {
+        h
+            .response({ message: ReasonPhrases.BAD_REQUEST }, console.log(error))
+            .code(StatusCodes.BAD_REQUEST)
     }
-
-    return await service.sign(
-        {
-            username, 
-            password,
-            sub: retornoDoBanco.id,
-        })
-
-}
-
-// const validate = async (request, h) => {
-//     const token = request.headers['x-access-token']
-
-//     try {
-//         const validated = await service.verify(token)
-//         return validated
-//     } catch (error) {
-//         return error
-//     }
-// }
-
-
-module.exports = {
-    login,
-    //validate
 }

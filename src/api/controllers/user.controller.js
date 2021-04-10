@@ -1,8 +1,8 @@
-const services = require('../services/user.service')
+const userServices = require('../services/user.service')
 
 const buscarUsuarios = async () => {
     try {
-        return await services.buscarUsuarios()
+        return await userServices.buscarUsuarios()
     } catch (error) {
         console.error(error)
     }
@@ -10,7 +10,7 @@ const buscarUsuarios = async () => {
 
 const buscarUsuarioPorId = async (id) => {
     try {
-        return await services.buscarUsuarioPorId(id)
+        return await userServices.buscarUsuarioPorId(id)
     } catch (error) {
         console.error(error)
     }
@@ -18,23 +18,15 @@ const buscarUsuarioPorId = async (id) => {
 
 const criarUsuario = async (dadosCriacao, h) => {
     try {
-        return await services.criarUsuario(dadosCriacao, h)
+        return await userServices.criarUsuario(dadosCriacao, h)
     } catch (error) {
         console.lor(error)
     }
 }
 
-const logarUsuario = async (request, h) => {
-    try {
-        return await services.logarUsuario(request.payload)
-    } catch (error) {
-        console.error(error)
-    }
-}
-
 const deletarUsuarioPorId = async (request, h) => {
     try {
-        return await services.deletarUsuarioPorId(request.params)
+        return await userServices.deletarUsuarioPorId(request.params)
     } catch (error) {
         console.error(error)
     }
@@ -43,7 +35,7 @@ const deletarUsuarioPorId = async (request, h) => {
 
 const alterarUsuarioPorId = async (id) => {
     try {
-        return await services.alterarUsuarioPorId(id)
+        return await userServices.alterarUsuarioPorId(id)
     } catch (error) {
         console.error(error)
     }
@@ -53,7 +45,6 @@ module.exports = {
     buscarUsuarios,
     buscarUsuarioPorId,
     criarUsuario,
-    logarUsuario,
     deletarUsuarioPorId,
     alterarUsuarioPorId
 }

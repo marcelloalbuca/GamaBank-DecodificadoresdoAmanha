@@ -1,6 +1,6 @@
 const { execute } = require('../../helpers/database')
 
-const { StatusCodes, ReasonPhrases } = require("http-status-codes");
+const { StatusCodes } = require("http-status-codes");
 const { errorsRepositories } = require('../../helpers/userConstants')
 
 const buscarUsuarios = async () => {
@@ -55,14 +55,6 @@ const criarUsuario = async (nome, email, cpf, encryptedPassword, h) => {
     }
 }
 
-const logarUsuario = async (email, senha) => {
-    try {
-
-    } catch (err) {
-        console.log(err)
-    }
-}
-
 const deletarUsuarioPorId = async (id) => {
     try {
         const sqlStatement = `delete from usuarios where id = "${id}";`
@@ -94,7 +86,6 @@ module.exports = {
     buscarUsuarios,
     buscarUsuarioPorId,
     criarUsuario,
-    logarUsuario,
     deletarUsuarioPorId,
     alterarUsuarioPorId,
     buscarUsuarioPorEmail

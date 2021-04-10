@@ -3,7 +3,11 @@ const { status } = require('../api/controllers/app.controller')
 const userController = require('../api/controllers/user.controller')
 //const { LoginRequestDTO, LoginResponseDTO } = require('../api/models/dto/auth.dto')
 
-const { StatusCodes, ReasonPhrases } = require("http-status-codes");
+const authController = require('../api/controllers/auth.controller')
+
+const { StatusCodes, ReasonPhrases } = require("http-status-codes")
+
+const verifyJWT = require('../helpers/verificaToken')
 
 const root = {
   method: "GET",
@@ -19,7 +23,15 @@ const root = {
 const listarUsuarios = {
   method: 'GET',
   path: '/usuarios',
-  handler: userController.buscarUsuarios,
+  handler: async () => {
+    try {
+      const response = await userController.buscarUsuarios()
+
+      return response
+    } catch (err) {
+      console.log(err)
+    }
+  },
   options: {
     tags: ['api', 'usuarios'],
     description: 'Listar todos os usuários',
@@ -36,7 +48,6 @@ const listarUsuarioPorId = {
     description: 'Listar usuário por ID',
     notes: 'Listar usuário por ID cadastrado na Gamabank'
   }
-
 }
 
 const criarUsuario = {
@@ -64,7 +75,18 @@ const criarUsuario = {
 const logarUsuario = {
   method: 'POST',
   path: '/login',
-  handler: userController.logarUsuario,
+  handler: async (request, h) => {
+    try {
+      const dadosLogin = request.payload
+      const response = await authController.login(dadosLogin, h)
+
+      return response
+    } catch (err) {
+      return h
+        .response({ message: err }, console.log(err))
+        .code(StatusCodes.BAD_REQUEST)
+    }
+  },
   options: {
     tags: ['api', 'usuarios'],
     description: 'Logar usuario',
