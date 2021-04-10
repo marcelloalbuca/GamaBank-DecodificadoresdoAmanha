@@ -1,25 +1,34 @@
 # API Gamabank
 
-# INFORMAÇÕES E DOCUMENTAÇÃO DO PROJETO - Decodificadores do Amanhã
-
-
-Critérios de aceite
-
-Entregou a API Backend devidade documentada
-
-Cadastrou usúarios com as respectivas contas
-
-Realizou transferencia entre conta existes e/ou inexistentes
-
-Realizou lançamentos de compras feitas com crédito e débito
-
-Realizou envio de email confirmando o lançamento de crédito ou débito para o email do usuario
-
-Exibiu o extrato bancário e fatura de crédito
-
-
+# INFORMAÇÕES E DOCUMENTAÇÃO DO PROJETO - Decodificadores do Amanhã.
 
 # INSTRUÇÕES DE INSTALAÇÃO :
+
+INSTALAÇÃO LINUX :
+
+Recarregue seu índice de pacotes local digitando :
+
+$ sudo apt update
+
+Em seguida, instale o Node.js :
+
+$ sudo apt install nodejs
+
+Obs: v14.16.0
+
+Verifique se a instalação foi bem-sucedida consultando o node pelo número de versão dele :
+
+$ node -v
+
+O gerenciador de pacotes Node.js.
+
+$ sudo apt install npm
+
+INSTALAÇÃO WINDOWS :
+
+Acesse e baixe a última versão LTS : 
+
+https://nodejs.org/en/download/
 
 
 
@@ -51,7 +60,7 @@ Marcello Cavalcanti de Albuquerque : Github https://github.com/marcelloalbuca
 
 Rafael Azevedo : Github https://github.com/Rafaelraas
 
-# BOARD DO PROJETO gamabank-grupo2: 
+# BOARD DO PROJETO Gamabank - Decodificadores do Amanhã : 
 
 
 https://trello.com/b/Wcz6srr1/projeto-gamabank
