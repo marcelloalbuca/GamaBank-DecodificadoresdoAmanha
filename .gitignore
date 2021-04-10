@@ -2,4 +2,4 @@ node_modules
 .env
 .env.testing
 yarn.lock
-src/infrastructure/database.js
+src/helpers/database.js
