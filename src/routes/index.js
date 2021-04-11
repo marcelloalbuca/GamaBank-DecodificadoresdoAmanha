@@ -7,13 +7,27 @@ const saldoController = require('../api/controllers/extrato.controller')
 const Joi = require('joi')
 // const { TransactionResponseDTO } = require('../api/models/dto/trasactions.dto')
 //const authController = require('../api/controllers/auth.controller')
-//const { LoginRequestDTO, LoginResponseDTO } = require('../api/models/dto/auth.dto')
+const { LoginRequestDTO, LoginResponseDTO } = require('../api/models/dto/auth.dto')
 
 const authController = require('../api/controllers/auth.controller')
 
 const { verifyJWT } = require('../helpers/verificaToken')
 
 const {saldoError} = require('../helpers/saldoConstants')
+
+const { CadastroRequestDTO,
+  CadastroResponseDTO} = require('../api/models/dto/cadastro.dto')
+
+  const {
+    ExtratoRequestDTO,
+    ExtratoResponseDTO
+} = require('../api/models/dto/cadastro.dto')
+
+// const corsHeaders = require('hapi-cors-headers')
+
+
+const {DepositoRequestDTO, DepositoResponseDTO} = require('../api/models/dto/deposito.dto')
+
 
 const root = {
   method: "GET",
@@ -110,7 +124,6 @@ const criarUsuario = {
     try {
       const dadosCriacao = request.payload
       const response = await userController.criarUsuario(dadosCriacao, h)
-
       return response
     } catch (err) {
       return h
@@ -122,6 +135,15 @@ const criarUsuario = {
     tags: ['api', 'usuarios'],
     description: 'Cadastrar novos usuários',
     notes: 'Cadastrar novos usuários na Gamabank',
+    validate: {
+      payload: CadastroRequestDTO,
+    },
+    response: {
+      status: {
+        200: CadastroResponseDTO,
+        400: Joi.any()
+      }
+  }
   }
 }
 
@@ -144,6 +166,15 @@ const logarUsuario = {
     tags: ['api', 'usuarios'],
     description: 'Logar usuario',
     notes: 'logar usuário na Gamabank',
+    validate: {
+      payload: LoginRequestDTO,
+    },
+    response: {
+      status: {
+        200: LoginResponseDTO,
+        400: Joi.any()
+      }
+  }
   }
 }
 
@@ -174,6 +205,7 @@ const { listarExtratoPorId } = require('../api/controllers/extrato.controller')
 const { TransactionResponseDTO } = require('../api/models/dto/trasactions.dto')
 
 const listarExtrato = {
+  
   method: 'GET',
   path: '/extratos',
   handler: async (request, h) => {
@@ -205,15 +237,10 @@ const listarExtrato = {
     tags: ['api', 'saldo'],
     description: 'Lista o extrato',
     notes: 'Lista o extrado completo do usuário',
-    response:{
-      status:{
-        200: Joi.object({
-          equals: Joi.array()
-        }).label('Extratos')
-      }
-    }
   }
 }
+
+
 
 
 const depositoUsuario = {
@@ -223,7 +250,16 @@ const depositoUsuario = {
     options: {
       tags: ['api', 'usuarios'],
       description: 'O usuário poderá realizar deposito em sua conta.',
-      notes: 'O usuário poderá realizar deposito em sua conta cadastrada na Gamabank.'
+      notes: 'O usuário poderá realizar deposito em sua conta cadastrada na Gamabank.',
+      validate:{
+        payload: DepositoRequestDTO
+      },
+      response:{
+        status:{
+          200: DepositoResponseDTO,
+          400: Joi.any()
+        }
+      }
     }
   }
 
