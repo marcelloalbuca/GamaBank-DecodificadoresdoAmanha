@@ -236,7 +236,7 @@ const listarExtrato = {
   options: {
     tags: ['api', 'saldo'],
     description: 'Lista o extrato',
-    notes: 'Lista o extrado completo do usuário',
+    notes: 'Lista o extrato completo do usuário',
   }
 }
 
