@@ -1,4 +1,7 @@
-const service = require('../services/saldo.service')
+
+const service = require('../services/extrato.service')
+const {ReasonPhrases, StatusCodes} = require('http-status-codes')
+
 
 const listarExtratoPorId = async (id, h) => {
   try {
