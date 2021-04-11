@@ -1,6 +1,7 @@
+const { StatusCodes } = require('http-status-codes')
 const { execute } = require('../../helpers/database')
 
-const listarExtratoPorId = async (id) => {
+const listarExtratoPorId = async (id, h) => {
     try {
         const sqlStatement = `select u.id, u.nome as usario_nome, t.nome as transacao_nome, c.valor, c.data_criacao as data, c.idConta, cn.saldo from  usuarios u
         inner join compras c on c.idUsuario = u.id 
@@ -21,7 +22,12 @@ const listarExtratoPorId = async (id) => {
         WHERE u.id = ${id}
         order by data DESC;`
 
-        return await execute(sqlStatement)
+        const resultado = await execute(sqlStatement)
+
+        if (!resultado) h
+            .response({ messageError: 'erro nos dados do usuario' }).code(StatusCodes.BAD_REQUEST)
+
+        return h.response(resultado).code(200)
     }
     catch (err) {
         console.log(err)

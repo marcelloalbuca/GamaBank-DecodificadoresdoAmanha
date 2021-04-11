@@ -1,5 +1,7 @@
 const userServices = require('../services/user.service')
 
+const { ReasonPhrases, StatusCodes } = require('http-status-codes')
+
 const buscarUsuarios = async (userId) => {
     try {
         return await userServices.buscarUsuarios(userId)
@@ -8,19 +10,22 @@ const buscarUsuarios = async (userId) => {
     }
 }
 
-const buscarUsuarioPorId = async (id) => {
+const buscarUsuarioPorId = async (id, h) => {
     try {
-        return await userServices.buscarUsuarioPorId(id)
-    } catch (error) {
-        console.error(error)
+        if (!id) return h
+            .response(ReasonPhrases.BAD_REQUEST).code(StatusCodes.BAD_REQUEST)
+
+        return await userServices.buscarUsuarioPorId(id, h)
+    } catch (err) {
+        console.log(err)
     }
 }
 
 const criarUsuario = async (dadosCriacao, h) => {
     try {
         return await userServices.criarUsuario(dadosCriacao, h)
-    } catch (error) {
-        console.lor(error)
+    } catch (err) {
+        console.lor(err)
     }
 }
 

@@ -3,7 +3,7 @@ const { verifyJWT } = require('../helpers/verificaToken')
 const { status } = require('../api/controllers/app.controller')
 const userController = require('../api/controllers/user.controller')
 const authController = require('../api/controllers/auth.controller')
-const { listarExtratoPorId } = require('../api/controllers/saldo.controller')
+const saldoController = require('../api/controllers/saldo.controller')
 
 const { StatusCodes, ReasonPhrases } = require("http-status-codes")
 
@@ -51,7 +51,6 @@ const listarUsuarioPorId = {
   handler: async (request, h) => {
     try {
       const token = request.headers.authorization
-      console.log(token)
 
       if (!token) return h
         .response({ message: 'token não providenciado' })
@@ -60,15 +59,13 @@ const listarUsuarioPorId = {
       verifyJWT(token, request)
 
       const id = request.userId
-      console.log(id)
 
-      return await userController.buscarUsuarioPorId(id)
+      const data = await userController.buscarUsuarioPorId(id, h)
+
+      return data
     } catch (err) {
-      return h
-        .response({ message: ReasonPhrases.BAD_REQUEST, err: err })
-        .code(StatusCodes.BAD_REQUEST)
+      console.log(err)
     }
-
   },
   options: {
     tags: ['api', 'usuarios'],
@@ -87,9 +84,7 @@ const criarUsuario = {
 
       return response
     } catch (err) {
-      return h
-        .response({ message: ReasonPhrases.BAD_REQUEST, err: err })
-        .code(StatusCodes.BAD_REQUEST)
+      console.log(err)
     }
   },
   options: {
@@ -105,13 +100,15 @@ const logarUsuario = {
   handler: async (request, h) => {
     try {
       const dadosLogin = request.payload
+
+      if (!dadosLogin) return h
+        .response({ message: 'preencha os campos' }).code(StatusCodes.BAD_REQUEST)
+
       const response = await authController.login(dadosLogin, h)
 
-      return response
+      return h.response(response).code(200)
     } catch (err) {
-      return h
-        .response({ message: ReasonPhrases.BAD_REQUEST, err: err })
-        .code(StatusCodes.BAD_REQUEST)
+      console.log(err)
     }
   },
   options: {
@@ -149,8 +146,6 @@ const listarExtrato = {
   handler: async (request, h) => {
     const token = request.headers.authorization
 
-    console.log("AQUI ESTOU NA ROTA", token)
-
     if (!token) return h
       .response({ message: 'token não providenciado' })
       .code(401)
@@ -159,17 +154,15 @@ const listarExtrato = {
 
     const id = request.userId
 
-    console.log("AQUI ESTOU NA ROTA", id)
+    if (!id) h
+      .response({ message: 'digite um ID válido' }).code(StatusCodes.BAD_REQUEST)
 
-    const result = await listarExtratoPorId(id)
-    if (result.length > 0) {
-      return result
-    } else {
+    const result = await saldoController.listarExtratoPorId(id, h)
 
-      return saldoError
+    if (!result) return h
+      .response(ReasonPhrases.BAD_REQUEST).code(StatusCodes.BAD_REQUEST)
 
-    }
-
+    return h.response(result).code(200)
   },
   options: {
     tags: ['api', 'saldo'],

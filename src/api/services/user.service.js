@@ -4,7 +4,7 @@ const crypto = require('../../helpers/encryptPassword')
 const { mensagensUsuario } = require('../../helpers/userConstants')
 const { mensagensDeposito } = require('../../helpers/depositoConstants')
 
-const { StatusCodes } = require('http-status-codes')
+const { StatusCodes, ReasonPhrases } = require('http-status-codes')
 
 const validaSenha = require('../../helpers/validaSenha')
 const validaCPF = require('../../helpers/validaCPF')
@@ -14,8 +14,16 @@ const buscarUsuarios = async () => {
     return await repository.buscarUsuarios()
 }
 
-const buscarUsuarioPorId = async (id) => {
-    return await repository.buscarUsuarioPorId(id)
+const buscarUsuarioPorId = async (id, h) => {
+    try {
+        const response = await repository.buscarUsuarioPorId(id, h)
+
+        if (!response) return { message: ReasonPhrases.BAD_REQUEST }
+
+        return response
+    } catch (err) {
+        console.log(err)
+    }
 }
 
 const criarUsuario = async (dadosCriacao, h) => {
@@ -27,19 +35,19 @@ const criarUsuario = async (dadosCriacao, h) => {
         const senhaValidada = validaSenha(senha)
 
         if (!cpfFormatado) {
-            return h.response({ message: mensagensUsuario.cpfInvalido }).code(StatusCodes.BAD_REQUEST)
+            return { message: mensagensUsuario.cpfInvalido }
         }
         if (!senhaValidada) {
-            return h.response({ message: mensagensUsuario.senhaInvalida }).code(StatusCodes.BAD_REQUEST)
+            return { message: mensagensUsuario.senhaInvalida }
         }
 
         let { encryptedPassword } = await crypto.encryptPassword(senhaValidada, null)
 
-        return await repository.criarUsuario(nome, email, cpfFormatado, encryptedPassword, h)
+        const resultado = await repository.criarUsuario(nome, email, cpfFormatado, encryptedPassword)
+
+        return resultado
     } catch (err) {
-        return h
-            .response({ message: ReasonPhrases.BAD_REQUEST, err: err })
-            .code(StatusCodes.BAD_REQUEST)
+        console.log(err)
     }
 }
 

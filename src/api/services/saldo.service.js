@@ -1,13 +1,13 @@
 const repository = require('../repositories/saldo.repository')
 
-const listarExtradoPorId = async (id) => {
+const listarExtratoPorId = async (id, h) => {
     try {
-        return await repository.listarExtradoPorId(id)
+        return await repository.listarExtratoPorId(id, h)
     } catch (err) {
         console.log(err)
     }
 }
 
 module.exports = {
-    listarExtradoPorId
+    listarExtratoPorId
 }
