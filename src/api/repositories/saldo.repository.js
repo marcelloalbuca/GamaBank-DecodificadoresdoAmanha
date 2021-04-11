@@ -1,6 +1,6 @@
 const { execute } = require('../../helpers/database')
 
-const listarExtradoPorId = async (id) => {
+const listarExtratoPorId = async (id) => {
     try {
         const sqlStatement = `select u.id, u.nome as usario_nome, t.nome as transacao_nome, c.valor, c.data_criacao as data, c.idConta, cn.saldo from  usuarios u
         inner join compras c on c.idUsuario = u.id 
@@ -29,5 +29,5 @@ const listarExtradoPorId = async (id) => {
 }
 
 module.exports = {
-    listarExtradoPorId
+    listarExtratoPorId
 }

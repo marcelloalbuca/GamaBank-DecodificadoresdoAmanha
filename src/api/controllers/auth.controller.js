@@ -6,7 +6,7 @@ exports.login = async (dadosLogin, h) => {
     try {
         return await authService.login(dadosLogin, h)
     } catch (error) {
-        h
+        return h
             .response({ message: ReasonPhrases.BAD_REQUEST }, console.log(error))
             .code(StatusCodes.BAD_REQUEST)
     }

@@ -1,18 +1,11 @@
+const { verifyJWT } = require('../helpers/verificaToken')
+
 const { status } = require('../api/controllers/app.controller')
 const userController = require('../api/controllers/user.controller')
-const { buscarSaldoPorId } = require('../api/controllers/saldo.controller')
-const { StatusCodes, ReasonPhrases } = require("http-status-codes")
-// const { TransactionResponseDTO } = require('../api/models/dto/trasactions.dto')
-const Joi = require('joi')
-// const { TransactionResponseDTO } = require('../api/models/dto/trasactions.dto')
-//const authController = require('../api/controllers/auth.controller')
-//const { LoginRequestDTO, LoginResponseDTO } = require('../api/models/dto/auth.dto')
-
-const saldoController = require('../api/controllers/saldo.controller')
-
 const authController = require('../api/controllers/auth.controller')
+const { listarExtratoPorId } = require('../api/controllers/saldo.controller')
 
-const { verifyJWT } = require('../helpers/verificaToken')
+const { StatusCodes, ReasonPhrases } = require("http-status-codes")
 
 const root = {
   method: "GET",
@@ -23,7 +16,7 @@ const root = {
     description: 'API Gamabank',
     notes: 'API desenvolvida pelo Grupo Desenvolvedores do Amanhã'
   }
-};
+}
 
 const testeAcessoToken = {
   method: 'GET',
@@ -52,30 +45,13 @@ const testeAcessoToken = {
   }
 }
 
-// const listarUsuarios = {
-//   method: 'GET',
-//   path: '/usuarios',
-//   handler: async () => {
-//     try {
-//       const response = await userController.buscarUsuarios()
-//       return response
-//     } catch (err) {
-//       console.log(err)
-//     }
-//   },
-//   options: {
-//     tags: ['api', 'usuarios'],
-//     description: 'Listar todos os usuários',
-//     notes: 'Listar todos os usuários cadastrados na Gamabank',
-//   }
-// }
-
 const listarUsuarioPorId = {
   method: 'GET',
   path: '/usuarios',
   handler: async (request, h) => {
     try {
       const token = request.headers.authorization
+      console.log(token)
 
       if (!token) return h
         .response({ message: 'token não providenciado' })
@@ -84,6 +60,7 @@ const listarUsuarioPorId = {
       verifyJWT(token, request)
 
       const id = request.userId
+      console.log(id)
 
       return await userController.buscarUsuarioPorId(id)
     } catch (err) {
@@ -166,15 +143,13 @@ const atualizarUsuario = {
   }
 }
 
-//ROTAS DE SALDO
-const { listarExtradoPorId } = require('../api/controllers/saldo.controller')
-// const { TransactionResponseDTO } = require('../api/models/dto/trasactions.dto')
-
-const listarExtrado = {
+const listarExtrato = {
   method: 'GET',
   path: '/extratos',
   handler: async (request, h) => {
     const token = request.headers.authorization
+
+    console.log("AQUI ESTOU NA ROTA", token)
 
     if (!token) return h
       .response({ message: 'token não providenciado' })
@@ -184,11 +159,17 @@ const listarExtrado = {
 
     const id = request.userId
 
-    const resultado = await saldoController.listarExtradoPorId(id)
+    console.log("AQUI ESTOU NA ROTA", id)
 
-    if (!resultado) return h.response({ message: 'não há transções para esse usuario!' }).code(400)
+    const result = await listarExtratoPorId(id)
+    if (result.length > 0) {
+      return result
+    } else {
 
-    return { extratos: resultado }
+      return saldoError
+
+    }
+
   },
   options: {
     tags: ['api', 'saldo'],
@@ -196,7 +177,6 @@ const listarExtrado = {
     notes: 'Lista o extrado completo do usuário',
   }
 }
-
 
 const depositoUsuario = {
   method: 'PUT',
@@ -210,18 +190,14 @@ const depositoUsuario = {
 }
 
 module.exports = [
-
   listarUsuarioPorId,
-  // listarUsuarios,
   criarUsuario,
   deletarUsuario,
   atualizarUsuario,
   root,
-  // listarSaldoPorId,
   logarUsuario,
   depositoUsuario,
   testeAcessoToken,
-  listarExtrado
-
+  listarExtrato
 ]
 
