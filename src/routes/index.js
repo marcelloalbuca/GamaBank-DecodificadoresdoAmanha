@@ -1,19 +1,11 @@
-const { status } = require('../api/controllers/app.controller')
-const userController = require('../api/controllers/user.controller')
-const { buscarSaldoPorId } = require('../api/controllers/saldo.controller')
-const { StatusCodes, ReasonPhrases } = require("http-status-codes")
-const saldoController = require('../api/controllers/saldo.controller')
-// const { TransactionResponseDTO } = require('../api/models/dto/trasactions.dto')
-const Joi = require('joi')
-// const { TransactionResponseDTO } = require('../api/models/dto/trasactions.dto')
-//const authController = require('../api/controllers/auth.controller')
-//const { LoginRequestDTO, LoginResponseDTO } = require('../api/models/dto/auth.dto')
-
-const authController = require('../api/controllers/auth.controller')
-
 const { verifyJWT } = require('../helpers/verificaToken')
 
-const {saldoError} = require('../helpers/saldoConstants')
+const { status } = require('../api/controllers/app.controller')
+const userController = require('../api/controllers/user.controller')
+const authController = require('../api/controllers/auth.controller')
+const saldoController = require('../api/controllers/saldo.controller')
+
+const { StatusCodes, ReasonPhrases } = require("http-status-codes")
 
 const root = {
   method: "GET",
@@ -24,7 +16,7 @@ const root = {
     description: 'API Gamabank',
     notes: 'API desenvolvida pelo Grupo Desenvolvedores do Amanhã'
   }
-};
+}
 
 const testeAcessoToken = {
   method: 'GET',
@@ -53,31 +45,12 @@ const testeAcessoToken = {
   }
 }
 
-// const listarUsuarios = {
-//   method: 'GET',
-//   path: '/usuarios',
-//   handler: async () => {
-//     try {
-//       const response = await userController.buscarUsuarios()
-//       return response
-//     } catch (err) {
-//       console.log(err)
-//     }
-//   },
-//   options: {
-//     tags: ['api', 'usuarios'],
-//     description: 'Listar todos os usuários',
-//     notes: 'Listar todos os usuários cadastrados na Gamabank',
-//   }
-// }
-
 const listarUsuarioPorId = {
   method: 'GET',
   path: '/usuarios',
   handler: async (request, h) => {
     try {
       const token = request.headers.authorization
-      console.log(token)
 
       if (!token) return h
         .response({ message: 'token não providenciado' })
@@ -86,15 +59,13 @@ const listarUsuarioPorId = {
       verifyJWT(token, request)
 
       const id = request.userId
-      console.log(id)
 
-      return await userController.buscarUsuarioPorId(id)
+      const data = await userController.buscarUsuarioPorId(id, h)
+
+      return data
     } catch (err) {
-      return h
-        .response({ message: ReasonPhrases.BAD_REQUEST, err: err })
-        .code(StatusCodes.BAD_REQUEST)
+      console.log(err)
     }
-
   },
   options: {
     tags: ['api', 'usuarios'],
@@ -113,9 +84,7 @@ const criarUsuario = {
 
       return response
     } catch (err) {
-      return h
-        .response({ message: ReasonPhrases.BAD_REQUEST, err: err })
-        .code(StatusCodes.BAD_REQUEST)
+      console.log(err)
     }
   },
   options: {
@@ -131,13 +100,15 @@ const logarUsuario = {
   handler: async (request, h) => {
     try {
       const dadosLogin = request.payload
+
+      if (!dadosLogin) return h
+        .response({ message: 'preencha os campos' }).code(StatusCodes.BAD_REQUEST)
+
       const response = await authController.login(dadosLogin, h)
 
-      return response
+      return h.response(response).code(200)
     } catch (err) {
-      return h
-        .response({ message: ReasonPhrases.BAD_REQUEST, err: err })
-        .code(StatusCodes.BAD_REQUEST)
+      console.log(err)
     }
   },
   options: {
@@ -169,17 +140,11 @@ const atualizarUsuario = {
   }
 }
 
-//ROTAS DE SALDO
-const { listarExtratoPorId } = require('../api/controllers/saldo.controller')
-const { TransactionResponseDTO } = require('../api/models/dto/trasactions.dto')
-
 const listarExtrato = {
   method: 'GET',
   path: '/extratos',
   handler: async (request, h) => {
     const token = request.headers.authorization
-
-    console.log("AQUI ESTOU NA ROTA", token)
 
     if (!token) return h
       .response({ message: 'token não providenciado' })
@@ -189,17 +154,15 @@ const listarExtrato = {
 
     const id = request.userId
 
-    console.log("AQUI ESTOU NA ROTA", id)
+    if (!id) h
+      .response({ message: 'digite um ID válido' }).code(StatusCodes.BAD_REQUEST)
 
-   const result = await listarExtratoPorId(id)
-   if(result.length>0){
-    return result
-   }else{
-     
-   return saldoError
+    const result = await saldoController.listarExtratoPorId(id, h)
 
-   }
+    if (!result) return h
+      .response(ReasonPhrases.BAD_REQUEST).code(StatusCodes.BAD_REQUEST)
 
+    return h.response(result).code(200)
   },
   options: {
     tags: ['api', 'saldo'],
@@ -208,27 +171,23 @@ const listarExtrato = {
   }
 }
 
-
 const depositoUsuario = {
-    method: 'PUT',
-    path: '/deposito', //informar ID E VALOR
-    handler: userController.depositoUsuario,
-    options: {
-      tags: ['api', 'usuarios'],
-      description: 'O usuário poderá realizar deposito em sua conta.',
-      notes: 'O usuário poderá realizar deposito em sua conta cadastrada na Gamabank.'
-    }
+  method: 'PUT',
+  path: '/deposito', //informar ID E VALOR
+  handler: userController.depositoUsuario,
+  options: {
+    tags: ['api', 'usuarios'],
+    description: 'O usuário poderá realizar deposito em sua conta.',
+    notes: 'O usuário poderá realizar deposito em sua conta cadastrada na Gamabank.'
   }
+}
 
 module.exports = [
-
   listarUsuarioPorId,
-  // listarUsuarios,
   criarUsuario,
   deletarUsuario,
   atualizarUsuario,
   root,
-  // listarSaldoPorId,
   logarUsuario,
   depositoUsuario,
   testeAcessoToken,

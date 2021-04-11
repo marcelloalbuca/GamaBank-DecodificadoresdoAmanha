@@ -1,15 +1,13 @@
 const service = require('../services/saldo.service')
-const {ReasonPhrases, StatusCodes} = require('http-status-codes')
 
-const listarExtratoPorId = async (id) => {
+const listarExtratoPorId = async (id, h) => {
   try {
-    console.log("AQUI ESTOU NO CONTROLLER", id)
-    return await service.listarExtratoPorId(id)
+    return await service.listarExtratoPorId(id, h)
   } catch (err) {
     console.log(err)
   }
 }
 
-  module.exports = {
-    listarExtratoPorId
+module.exports = {
+  listarExtratoPorId
 }

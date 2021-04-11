@@ -13,7 +13,6 @@ const execute = (sqlStatement) => {
         connection.query(sqlStatement, (err, result) => {
             if (err) reject(err)
             else resolve(result)
-            //connection.end()
         })
     })
 }

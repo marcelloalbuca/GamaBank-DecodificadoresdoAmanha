@@ -1,6 +1,8 @@
 const { execute } = require('../../helpers/database')
-const { StatusCodes } = require("http-status-codes");
-const { errorsRepositories } = require('../../helpers/userConstants')
+
+const { ReasonPhrases } = require("http-status-codes")
+
+const errorsRepositories = require('../../helpers/userConstants')
 
 const buscarUsuarios = async () => {
     try {
@@ -13,10 +15,15 @@ const buscarUsuarios = async () => {
     }
 }
 
-const buscarUsuarioPorId = async (id) => {
+const buscarUsuarioPorId = async (id, h) => {
     try {
         const sqlStatement = `select * from usuarios WHERE id = ${id};`
-        return await execute(sqlStatement)
+
+        const queryExecutada = await execute(sqlStatement)
+
+        if (!queryExecutada) return { message: ReasonPhrases.BAD_REQUEST }
+
+        return queryExecutada
     }
     catch (err) {
         console.log(err)
@@ -33,31 +40,29 @@ const buscarUsuarioPorEmail = async (email) => {
     }
 }
 
-const criarUsuario = async (nome, email, cpf, encryptedPassword, h) => {
+const criarUsuario = async (nome, email, cpf, encryptedPassword) => {
     try {
         const buscarDados = await buscarUsuarios()
 
         for (const item of buscarDados) {
-            if (item.cpf == cpf) return h
-                .response({ message: errorsRepositories.cpfRepetido }).code(StatusCodes.BAD_REQUEST)
-            if (item.email == email) return h
-                .response({ message: errorsRepositories.emailRepetido }).code(StatusCodes.BAD_REQUEST)
+            if (item.cpf == cpf) return { message: errorsRepositories.cpfRepetido }
+            if (item.email == email) return { message: errorsRepositories.emailRepetido }
         }
 
         const sqlStatement = `
         INSERT INTO usuarios (nome, email, cpf, senha)
         VALUES ("${nome}","${email}", "${cpf}", "${encryptedPassword}");`
 
-        const result = await execute(sqlStatement)
+        const resultado = await execute(sqlStatement)
 
-        const criacaoContaIdGerado = result.insertId
+        const criacaoContaIdGerado = resultado.insertId
 
         const queryParaCriacaoDaConta =
             `INSERT INTO contas (idUsuario) values (${criacaoContaIdGerado});`
 
         await execute(queryParaCriacaoDaConta)
 
-        return h.response({ message: 'criado com sucesso!' }).code(200)
+        return { messageSucess: 'usuário cadastrado' }
     } catch (err) {
         console.log(err)
     }
@@ -101,8 +106,6 @@ const depositoUsuario = async (id, valor) => {
         console.log(err)
     }
 }
-
-
 
 module.exports = {
     buscarUsuarios,

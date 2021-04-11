@@ -50,7 +50,7 @@ exports.login = async (dadosLogin, h) => {
                     .code(StatusCodes.BAD_REQUEST)
             }
         }
-    } catch (error) {
-        console.error(error)
+    } catch (err) {
+        console.log(err)
     }
 }
