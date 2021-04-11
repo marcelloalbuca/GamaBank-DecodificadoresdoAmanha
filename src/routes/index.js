@@ -2,10 +2,35 @@ const { verifyJWT } = require('../helpers/verificaToken')
 
 const { status } = require('../api/controllers/app.controller')
 const userController = require('../api/controllers/user.controller')
+
+const { buscarSaldoPorId } = require('../api/controllers/extrato.controller')
+const { StatusCodes, ReasonPhrases } = require("http-status-codes")
+const saldoController = require('../api/controllers/extrato.controller')
+// const { TransactionResponseDTO } = require('../api/models/dto/trasactions.dto')
+const Joi = require('joi')
+// const { TransactionResponseDTO } = require('../api/models/dto/trasactions.dto')
+//const authController = require('../api/controllers/auth.controller')
+const { LoginRequestDTO, LoginResponseDTO } = require('../api/models/dto/auth.dto')
+
+
 const authController = require('../api/controllers/auth.controller')
 const saldoController = require('../api/controllers/saldo.controller')
 
 const { StatusCodes, ReasonPhrases } = require("http-status-codes")
+
+const { CadastroRequestDTO,
+  CadastroResponseDTO} = require('../api/models/dto/cadastro.dto')
+
+  const {
+    ExtratoRequestDTO,
+    ExtratoResponseDTO
+} = require('../api/models/dto/cadastro.dto')
+
+// const corsHeaders = require('hapi-cors-headers')
+
+
+const {DepositoRequestDTO, DepositoResponseDTO} = require('../api/models/dto/deposito.dto')
+
 
 const root = {
   method: "GET",
@@ -81,7 +106,6 @@ const criarUsuario = {
     try {
       const dadosCriacao = request.payload
       const response = await userController.criarUsuario(dadosCriacao, h)
-
       return response
     } catch (err) {
       console.log(err)
@@ -91,6 +115,15 @@ const criarUsuario = {
     tags: ['api', 'usuarios'],
     description: 'Cadastrar novos usuários',
     notes: 'Cadastrar novos usuários na Gamabank',
+    validate: {
+      payload: CadastroRequestDTO,
+    },
+    response: {
+      status: {
+        200: CadastroResponseDTO,
+        400: Joi.any()
+      }
+  }
   }
 }
 
@@ -115,6 +148,15 @@ const logarUsuario = {
     tags: ['api', 'usuarios'],
     description: 'Logar usuario',
     notes: 'logar usuário na Gamabank',
+    validate: {
+      payload: LoginRequestDTO,
+    },
+    response: {
+      status: {
+        200: LoginResponseDTO,
+        400: Joi.any()
+      }
+  }
   }
 }
 
@@ -140,7 +182,15 @@ const atualizarUsuario = {
   }
 }
 
+
+
+//ROTAS DE SALDO
+const { listarExtratoPorId } = require('../api/controllers/extrato.controller')
+const { TransactionResponseDTO } = require('../api/models/dto/trasactions.dto')
+
+
 const listarExtrato = {
+  
   method: 'GET',
   path: '/extratos',
   handler: async (request, h) => {
@@ -167,20 +217,31 @@ const listarExtrato = {
   options: {
     tags: ['api', 'saldo'],
     description: 'Lista o extrato',
-    notes: 'Lista o extrado completo do usuário',
+    notes: 'Lista o extrato completo do usuário',
   }
 }
 
 const depositoUsuario = {
-  method: 'PUT',
-  path: '/deposito', //informar ID E VALOR
-  handler: userController.depositoUsuario,
-  options: {
-    tags: ['api', 'usuarios'],
-    description: 'O usuário poderá realizar deposito em sua conta.',
-    notes: 'O usuário poderá realizar deposito em sua conta cadastrada na Gamabank.'
+    method: 'PUT',
+    path: '/deposito', //informar ID E VALOR
+    handler: userController.depositoUsuario,
+    options: {
+      tags: ['api', 'usuarios'],
+      description: 'O usuário poderá realizar deposito em sua conta.',
+      notes: 'O usuário poderá realizar deposito em sua conta cadastrada na Gamabank.',
+      validate:{
+        payload: DepositoRequestDTO
+      },
+      response:{
+        status:{
+          200: DepositoResponseDTO,
+          400: Joi.any()
+        }
+      }
+    }
+
   }
-}
+
 
 module.exports = [
   listarUsuarioPorId,
