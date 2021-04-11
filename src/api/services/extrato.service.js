@@ -1,4 +1,4 @@
-const repository = require('../repositories/saldo.repository')
+const repository = require('../repositories/extrato.repository')
 const {saldoNotFound} = require('../../helpers/saldoConstants')
 
 const listarExtratoPorId = async (id) => {

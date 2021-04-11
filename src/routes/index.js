@@ -1,8 +1,8 @@
 const { status } = require('../api/controllers/app.controller')
 const userController = require('../api/controllers/user.controller')
-const { buscarSaldoPorId } = require('../api/controllers/saldo.controller')
+const { buscarSaldoPorId } = require('../api/controllers/extrato.controller')
 const { StatusCodes, ReasonPhrases } = require("http-status-codes")
-const saldoController = require('../api/controllers/saldo.controller')
+const saldoController = require('../api/controllers/extrato.controller')
 // const { TransactionResponseDTO } = require('../api/models/dto/trasactions.dto')
 const Joi = require('joi')
 // const { TransactionResponseDTO } = require('../api/models/dto/trasactions.dto')
@@ -170,7 +170,7 @@ const atualizarUsuario = {
 }
 
 //ROTAS DE SALDO
-const { listarExtratoPorId } = require('../api/controllers/saldo.controller')
+const { listarExtratoPorId } = require('../api/controllers/extrato.controller')
 const { TransactionResponseDTO } = require('../api/models/dto/trasactions.dto')
 
 const listarExtrato = {
@@ -205,6 +205,13 @@ const listarExtrato = {
     tags: ['api', 'saldo'],
     description: 'Lista o extrato',
     notes: 'Lista o extrado completo do usuário',
+    response:{
+      status:{
+        200: Joi.object({
+          equals: Joi.array()
+        }).label('Extratos')
+      }
+    }
   }
 }
 
