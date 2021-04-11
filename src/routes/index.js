@@ -22,7 +22,7 @@ const root = {
     notes: 'API desenvolvida pelo Grupo Desenvolvedores do Amanhã'
   }
 }
-
+/*
 const testeAcessoToken = {
   method: 'GET',
   path: '/teste_token',
@@ -78,7 +78,7 @@ const listarUsuarioPorId = {
     notes: 'Listar usuário por ID cadastrado na Gamabank'
   }
 }
-
+*/
 const criarUsuario = {
   method: 'POST',
   path: '/cadastrar',
@@ -139,7 +139,7 @@ const logarUsuario = {
   }
   }
 }
-
+/*
 const deletarUsuario = {
   method: 'DELETE',
   path: '/usuarios/{id}',
@@ -161,7 +161,7 @@ const atualizarUsuario = {
     notes: 'Atualizar nome, e-mail e senha do usuário cadastrado na Gamabank por ID'
   }
 }
-
+*/
 const listarExtrato = {
   
   method: 'GET',
@@ -217,14 +217,15 @@ const depositoUsuario = {
 
 
 module.exports = [
-  listarUsuarioPorId,
-  criarUsuario,
-  deletarUsuario,
-  atualizarUsuario,
   root,
+  criarUsuario,
   logarUsuario,
-  depositoUsuario,
-  testeAcessoToken,
-  listarExtrato
+  listarExtrato,
+  depositoUsuario
+  //  testeAcessoToken,
+  //  listarUsuarioPorId,
+  // deletarUsuario,
+  //  atualizarUsuario,
+
 ]
 
