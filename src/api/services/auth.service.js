@@ -1,11 +1,9 @@
 const jwt = require('jsonwebtoken')
-
 const { secret } = require('../../configs/secret.json')
-
 const repository = require('../repositories/user.repository')
 const crypto = require('../../helpers/encryptPassword')
-
 const { StatusCodes } = require('http-status-codes')
+
 
 const buscarUsuarioPorEmail = async (email) => {
     return await repository.buscarUsuarioPorEmail(email)
