@@ -1,10 +1,5 @@
 const { sendMailFunction } = require("../../helpers/mail");
-const {
-  signUpEmail,
-  paidInstallmentEmail,
-  creditCardEntryEmail,
-  paidDebitEmail,
-} = require("../models/emails");
+const { signUpEmail, paidInstallmentEmail, creditCardEntryEmail, paidDebitEmail } = require("../models/emails");
 
 //ENTRADAS: receiverInfo=> Objeto com as info necessárias. Varia de func pra func.
 

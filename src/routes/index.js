@@ -1,34 +1,14 @@
 const { verifyJWT } = require('../helpers/verificaToken')
-
 const { status } = require('../api/controllers/app.controller')
 const userController = require('../api/controllers/user.controller')
-
 const { buscarSaldoPorId } = require('../api/controllers/extrato.controller')
 const { StatusCodes, ReasonPhrases } = require("http-status-codes")
 const saldoController = require('../api/controllers/extrato.controller')
-// const { TransactionResponseDTO } = require('../api/models/dto/trasactions.dto')
 const Joi = require('joi')
-// const { TransactionResponseDTO } = require('../api/models/dto/trasactions.dto')
-//const authController = require('../api/controllers/auth.controller')
 const { LoginRequestDTO, LoginResponseDTO } = require('../api/models/dto/auth.dto')
-
-
 const authController = require('../api/controllers/auth.controller')
-const saldoController = require('../api/controllers/saldo.controller')
-
-const { StatusCodes, ReasonPhrases } = require("http-status-codes")
-
-const { CadastroRequestDTO,
-  CadastroResponseDTO} = require('../api/models/dto/cadastro.dto')
-
-  const {
-    ExtratoRequestDTO,
-    ExtratoResponseDTO
-} = require('../api/models/dto/cadastro.dto')
-
-// const corsHeaders = require('hapi-cors-headers')
-
-
+const { CadastroRequestDTO, CadastroResponseDTO} = require('../api/models/dto/cadastro.dto')
+const { ExtratoRequestDTO,ExtratoResponseDTO} = require('../api/models/dto/cadastro.dto')
 const {DepositoRequestDTO, DepositoResponseDTO} = require('../api/models/dto/deposito.dto')
 
 
@@ -181,13 +161,6 @@ const atualizarUsuario = {
     notes: 'Atualizar nome, e-mail e senha do usuário cadastrado na Gamabank por ID'
   }
 }
-
-
-
-//ROTAS DE SALDO
-const { listarExtratoPorId } = require('../api/controllers/extrato.controller')
-const { TransactionResponseDTO } = require('../api/models/dto/trasactions.dto')
-
 
 const listarExtrato = {
   
