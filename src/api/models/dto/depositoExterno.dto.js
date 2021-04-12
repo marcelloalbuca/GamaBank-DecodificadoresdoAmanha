@@ -2,7 +2,7 @@ const Joi = require('joi')
 
 
 const DepositoExternoRequestDTO = Joi.object({
-    email: Joi.string().email().required(),
+    email: Joi.string().required(),
     cpfdepositante: Joi.string().required(),
     valor: Joi.number().required(),
 }).label('DepositoExternoRequestDTO')

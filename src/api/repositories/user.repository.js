@@ -110,50 +110,50 @@ const depositoUsuario = async (idUsuario, valor) => {
         console.log(err)
     }
 }
-
 // const depositoUsuarioExterno = async (cpf, valor, email, cpfdepositante) => {
-const depositoUsuarioExterno = async (email, cpfdepositante, valor) => {
+const depositoUsuarioExterno = async (email, cpfFormatado, valor, h) => {
     try {
-        //verifica se email cadastrado existe
-        //busca todos os usuarios 
         const buscarDados = await buscarUsuarios()
-
-        //faz um loop a procura do campo igual valor 
-        for (const item of buscarDados) {
-            if (item.email == email) {
-                const sqlStatement = `select u.id, u.nome, u.email, u.cpf from usuarios u 
-        inner join contas c ON u.id = c.idUsuario where u.email = "${email}";`
-
-
-
-                const result = await execute(sqlStatement)
-
-                var string = JSON.stringify(result);
-
-                console.log(string)
-
-                var id = JSON.parse(string);
-
-
-                const sqlStatement2 = `update contas set saldo = saldo + ${valor} where idUsuario = ${id[0].id};`
-                const sqlStatement3 = `INSERT INTO movimentacoesExterna (cpf_depositante, email_usuario, valor, idUsuario, idTransacao) 
-        values ("${cpfdepositante}", "${email}", ${valor}, ${id[0].id}, 3);`
-
-                await execute(sqlStatement)
-                await execute(sqlStatement2)
-                await execute(sqlStatement3)
-
-                return { message: 'Valor depositado!' }
+        const buscandoEmail = await buscarDados.find(item => {
+            if (item.email === email) {
+                return true
             } else {
-                return { message: errorsRepositories.emailNãoEncontrado }
+                return false
             }
+        })
+
+        if (!buscandoEmail) {
+            return h.response({ messageError: 'Email inexistente.' }).code(400)
+
+        } else {
+            const sqlStatement = `select u.id, u.nome, u.email, u.cpf from usuarios u 
+            inner join contas c ON u.id = c.idUsuario where u.email = "${email}";`
+
+            const result = await execute(sqlStatement)
+            var string = JSON.stringify(result);
+
+            var id = JSON.parse(string);
+
+            const sqlStatement2 = `update contas set saldo = saldo + ${valor} where idUsuario = ${id[0].id};`
+            const sqlStatement3 = `INSERT INTO movimentacoesExterna (cpf_depositante, email_usuario, valor, idUsuario, idTransacao) 
+            values ("${cpfFormatado}", "${email}", ${valor}, ${id[0].id}, 3);`
+
+            await execute(sqlStatement)
+            await execute(sqlStatement2)
+            await execute(sqlStatement3)
+
+            return { message: 'Valor depositado!' }
         }
+    } catch (err) {
+        console.log(err)
+    }
+}
 
+const transferenciaEntreContas = async (email, valor) => {
+    try {
+        const sqlStatement = `update contas set saldo = saldo + ${valor} where idUsuario = ${id[0].id};`
 
-        // const sqlStatement = `select u.id, u.nome, u.email, u.cpf from usuarios u 
-        // inner join contas c ON u.id = c.idUsuario where u.email = "${email}" and u.cpf = "${cpf}";`
-
-
+        await execute(sqlStatement)
     } catch (err) {
         console.log(err)
     }
@@ -168,5 +168,6 @@ module.exports = {
     alterarUsuarioPorId,
     buscarUsuarioPorEmail,
     depositoUsuario,
-    depositoUsuarioExterno
+    depositoUsuarioExterno,
+    transferenciaEntreContas
 }

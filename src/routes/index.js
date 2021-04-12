@@ -11,7 +11,7 @@ const { DepositoRequestDTO, DepositoResponseDTO } = require('../api/models/dto/d
 const { ExtratoRequestDTO, ExtratoResponseDTO } = require('../api/models/dto/cadastro.dto')
 const { buscarSaldoPorId } = require('../api/controllers/extrato.controller')
 
-const {DepositoExternoRequestDTO, DepositoExternoResponseDTO} = require('../api/models/dto/depositoExterno.dto')
+const { DepositoExternoRequestDTO, DepositoExternoResponseDTO } = require('../api/models/dto/depositoExterno.dto')
 
 
 const root = {
@@ -44,11 +44,11 @@ const criarUsuario = {
     validate: {
       payload: CadastroRequestDTO,
     },
-       response: {
-        status: {
-          // 200: CadastroResponseDTO,
-          400: Joi.any()
-        }
+    response: {
+      status: {
+        // 200: CadastroResponseDTO,
+        400: Joi.any()
+      }
     }
   }
 }
@@ -124,7 +124,7 @@ const listarExtrato = {
 
 const depositoUsuario = {
   method: 'PUT',
-  path: '/deposito', 
+  path: '/deposito',
   handler: async (request, h) => {
     try {
       const { valor } = request.payload
@@ -165,14 +165,12 @@ const depositoUsuario = {
 
 const depositoUsuarioExterno = {
   method: 'PUT',
-  path: '/deposito/externo', 
-  handler: async (request, h, err) => {
+  path: '/deposito/externo',
+  handler: async (request, h) => {
     try {
-     const {email, cpfdepositante, valor} = request.payload
+      const { email, cpfdepositante, valor } = request.payload
 
-     console.log(email)
-
-      return await userController.depositoUsuarioExterno(email, cpfdepositante, valor)
+      return await userController.depositoUsuarioExterno(email, cpfdepositante, valor, h)
     } catch (err) {
       console.log(err)
     }
@@ -181,12 +179,40 @@ const depositoUsuarioExterno = {
     tags: ['api', 'deposito'],
     description: 'Deposito de usuários não cadastrados.',
     notes: 'O usuário poderá receber deposito em sua conta de terceiros.',
-   validate: {
+    validate: {
       payload: DepositoExternoRequestDTO,
     },
     response: {
       status: {
         200: DepositoResponseDTO,
+        400: Joi.any()
+      }
+    }
+  }
+}
+
+transferenciaEntreContas = {
+  method: 'PUT',
+  path: '/transferencia',
+  handler: async (request, h) => {
+    try {
+      const { } = request.payload
+
+      return await userController.transferenciaEntreContas()
+    } catch (err) {
+      console.log(err)
+    }
+  },
+  options: {
+    tags: ['api', 'transferencia entre contas'],
+    description: 'trasnferencias entre contas cadastradas no sistema.',
+    notes: 'Um assinante poderá trasnferir algum valor para outras contas',
+    // validate: {
+    //   payload: DepositoExternoRequestDTO,
+    // },
+    response: {
+      status: {
+        // 200: DepositoResponseDTO,
         400: Joi.any()
       }
     }
@@ -282,7 +308,8 @@ module.exports = [
   logarUsuario,
   listarExtrato,
   depositoUsuario,
-  depositoUsuarioExterno
+  depositoUsuarioExterno,
+  transferenciaEntreContas
   //  testeAcessoToken,
   //  listarUsuarioPorId,
   // deletarUsuario,
