@@ -197,7 +197,25 @@ const listarExtrato = {
 const depositoUsuario = {
   method: 'PUT',
   path: '/deposito', //informar ID E VALOR
-  handler: userController.depositoUsuario,
+  handler: async (request, h) => {
+    try {
+      const { valor } = request.payload
+
+      const token = request.headers.authorization
+
+      if (!token) return h
+        .response({ message: 'token não providenciado' })
+        .code(401)
+
+      verifyJWT(token, request)
+
+      const idUsuario = request.userId
+
+      return await userController.depositoUsuario(idUsuario, valor)
+    } catch (err) {
+      console.log(err)
+    }
+  },
   options: {
     tags: ['api', 'usuarios'],
     description: 'O usuário poderá realizar deposito em sua conta.',
@@ -207,12 +225,11 @@ const depositoUsuario = {
     },
     response: {
       status: {
-        200: DepositoResponseDTO,
+        // 200: DepositoResponseDTO,
         400: Joi.any()
       }
     }
   }
-
 }
 
 

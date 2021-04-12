@@ -47,6 +47,7 @@ const criarUsuario = async (nome, email, cpf, encryptedPassword) => {
         for (const item of buscarDados) {
             if (item.cpf == cpf) return { message: errorsRepositories.cpfRepetido }
             if (item.email == email) return { message: errorsRepositories.emailRepetido }
+            if (item.email == email && item.cpf == cpf) return { warning: "email e cpf ja cadastrados no sistema" }
         }
 
         const sqlStatement = `
@@ -54,9 +55,9 @@ const criarUsuario = async (nome, email, cpf, encryptedPassword) => {
         VALUES ("${nome}","${email}", "${cpf}", "${encryptedPassword}");`
 
         const resultado = await execute(sqlStatement)
-        for (const item of buscarDados) {
-            if (item.email == email && item.cpf == cpf) return { warning: "usuario cadastrado com sucesso!" }
-        }
+        // for (const item of buscarDados) {
+        //     if (item.email == email && item.cpf == cpf) return { warning: "usuario cadastrado com sucesso!" }
+        // }
         const criacaoContaIdGerado = resultado.insertId
 
         const queryParaCriacaoDaConta =
@@ -96,14 +97,15 @@ const alterarUsuarioPorId = async (id, senha) => {
     }
 }
 
-const depositoUsuario = async (id, valor) => {
-
+const depositoUsuario = async (idUsuario, valor) => {
     try {
-        const sqlStatement = `update contas set saldo = saldo + "${valor}" where id = "${id}";`
-        const sqlStatement2 = `INSERT INTO movimentacoesInterna (valor, idConta, idTransacao) values ("${valor}", "${id}", 3);`
-        const result = await execute(sqlStatement)
-        const result2 = await execute(sqlStatement2)
-        return result + result2
+        const sqlStatement = `update contas set saldo = saldo + ${valor} where idUsuario = ${idUsuario};`
+        const sqlStatement2 = `INSERT INTO movimentacoesInterna (valor, idUsuario, idTransacao) values (${valor}, ${idUsuario}, 3);`
+
+        await execute(sqlStatement)
+        await execute(sqlStatement2)
+
+        return { message: 'Valor depositado' }
     } catch (err) {
         console.log(err)
     }
