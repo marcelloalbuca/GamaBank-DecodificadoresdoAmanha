@@ -111,6 +111,32 @@ const depositoUsuario = async (idUsuario, valor) => {
     }
 }
 
+const depositoUsuarioExterno = async (cpf, valor, email, cpfdepositante) => {
+    try {
+        
+
+        const sqlStatement = `select u.id, u.nome, u.email, u.cpf from usuarios u 
+        inner join contas c ON u.id = c.idUsuario where u.email = "${email}" and u.cpf = "${cpf}";`
+        const result =  await execute(sqlStatement)
+
+        var string = JSON.stringify(result);
+        var id =  JSON.parse(string);
+    
+        const sqlStatement2 = `update contas set saldo = saldo + ${valor} where idUsuario = ${id[0].id};`
+        const sqlStatement3 = `INSERT INTO movimentacoesExterna (cpf_depositante, email_usuario, valor, idUsuario, idTransacao) 
+        values ("${cpfdepositante}", "MARCELO@TESTE.COM", ${valor}, ${id[0].id}, 3);`
+ 
+        await execute(sqlStatement)
+        await execute(sqlStatement2)
+        await execute(sqlStatement3)
+
+        return { message: 'Valor depositado!' }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+
 module.exports = {
     buscarUsuarios,
     buscarUsuarioPorId,
@@ -118,5 +144,6 @@ module.exports = {
     deletarUsuarioPorId,
     alterarUsuarioPorId,
     buscarUsuarioPorEmail,
-    depositoUsuario
+    depositoUsuario,
+    depositoUsuarioExterno
 }
