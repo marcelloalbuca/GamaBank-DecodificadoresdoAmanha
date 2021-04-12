@@ -69,26 +69,28 @@ const depositoUsuario = async (idUsuario, valor) => {
     }
 }
 
-const depositoUsuarioExterno = async (email, cpfdepositante, valor) => {
+const depositoUsuarioExterno = async (email, cpfdepositante, valor, h) => {
     try {
+        if (valor <= 0) return h.response({ messageError: 'O valor não pode ser menor e/ou igual 0.' }).code(400)
 
         const cpfFormatado = validaCPF(cpfdepositante)
 
-        if (!cpfFormatado) {
-            return { message: mensagensUsuario.cpfInvalido }
-        }
+        if (!cpfFormatado) return h.response({ messageError: 'CPF precisa ser válido.' }).code(400)
 
-        if (valor < 1)
-            return { messageError: mensagensDeposito.depositoValorNegativo }
+        return await repository.depositoUsuarioExterno(email, cpfdepositante, valor, h)
+    } catch (err) {
+        console.log(err)
+    }
+}
 
-        console.log("Estou na rota de servico", email)
+const transferenciaEntreContas = async (email, cpfdepositante, valor) => {
+    try {
 
-        return await repository.depositoUsuarioExterno(email, cpfFormatado, valor)
+        return await repository.transferenciaEntreContas(email, cpfdepositante, valor)
     } catch (err) {
         console.error(err)
     }
 }
-
 
 
 module.exports = {
@@ -98,5 +100,6 @@ module.exports = {
     deletarUsuarioPorId,
     alterarUsuarioPorId,
     depositoUsuario,
-    depositoUsuarioExterno
+    depositoUsuarioExterno,
+    transferenciaEntreContas
 }

@@ -54,9 +54,17 @@ const depositoUsuario = async (idUsuario, valor) => {
     }
 }
 
-const depositoUsuarioExterno = async (email, valor, cpfdepositante) => {
+const depositoUsuarioExterno = async (email, cpfdepositante, valor, h) => {
     try {
-        return await userServices.depositoUsuarioExterno(email, valor, cpfdepositante)
+        return await userServices.depositoUsuarioExterno(email, cpfdepositante, valor, h)
+    } catch (err) {
+        console.error(err)
+    }
+}
+
+const transferenciaEntreContas = async (email, valor, cpfdepositante) => {
+    try {
+        return await userServices.transferenciaEntreContas(email, valor, cpfdepositante)
     } catch (err) {
         console.error(err)
     }
@@ -72,5 +80,6 @@ module.exports = {
     deletarUsuarioPorId,
     alterarUsuarioPorId,
     depositoUsuario,
-    depositoUsuarioExterno
+    depositoUsuarioExterno,
+    transferenciaEntreContas
 }
