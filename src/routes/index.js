@@ -169,9 +169,6 @@ const depositoUsuarioExterno = {
   handler: async (request, h, err) => {
     try {
      const {email, cpfdepositante, valor} = request.payload
-
-     console.log(email)
-
       return await userController.depositoUsuarioExterno(email, cpfdepositante, valor)
     } catch (err) {
       console.log(err)
