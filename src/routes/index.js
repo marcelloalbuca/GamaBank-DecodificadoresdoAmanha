@@ -7,9 +7,9 @@ const saldoController = require('../api/controllers/extrato.controller')
 const Joi = require('joi')
 const { LoginRequestDTO, LoginResponseDTO } = require('../api/models/dto/auth.dto')
 const authController = require('../api/controllers/auth.controller')
-const { CadastroRequestDTO, CadastroResponseDTO} = require('../api/models/dto/cadastro.dto')
-const { ExtratoRequestDTO,ExtratoResponseDTO} = require('../api/models/dto/cadastro.dto')
-const {DepositoRequestDTO, DepositoResponseDTO} = require('../api/models/dto/deposito.dto')
+const { CadastroRequestDTO, CadastroResponseDTO } = require('../api/models/dto/cadastro.dto')
+const { ExtratoRequestDTO, ExtratoResponseDTO } = require('../api/models/dto/cadastro.dto')
+const { DepositoRequestDTO, DepositoResponseDTO } = require('../api/models/dto/deposito.dto')
 
 
 const root = {
@@ -98,12 +98,12 @@ const criarUsuario = {
     validate: {
       payload: CadastroRequestDTO,
     },
-    response: {
-      status: {
-        200: CadastroResponseDTO,
-        400: Joi.any()
-      }
-  }
+    //   response: {
+    //     status: {
+    //       // 200: CadastroResponseDTO,
+    //       400: Joi.any()
+    //     }
+    // }
   }
 }
 
@@ -136,7 +136,7 @@ const logarUsuario = {
         200: LoginResponseDTO,
         400: Joi.any()
       }
-  }
+    }
   }
 }
 /*
@@ -163,7 +163,7 @@ const atualizarUsuario = {
 }
 */
 const listarExtrato = {
-  
+
   method: 'GET',
   path: '/extratos',
   handler: async (request, h) => {
@@ -195,25 +195,25 @@ const listarExtrato = {
 }
 
 const depositoUsuario = {
-    method: 'PUT',
-    path: '/deposito', //informar ID E VALOR
-    handler: userController.depositoUsuario,
-    options: {
-      tags: ['api', 'usuarios'],
-      description: 'O usuário poderá realizar deposito em sua conta.',
-      notes: 'O usuário poderá realizar deposito em sua conta cadastrada na Gamabank.',
-      validate:{
-        payload: DepositoRequestDTO
-      },
-      response:{
-        status:{
-          200: DepositoResponseDTO,
-          400: Joi.any()
-        }
+  method: 'PUT',
+  path: '/deposito', //informar ID E VALOR
+  handler: userController.depositoUsuario,
+  options: {
+    tags: ['api', 'usuarios'],
+    description: 'O usuário poderá realizar deposito em sua conta.',
+    notes: 'O usuário poderá realizar deposito em sua conta cadastrada na Gamabank.',
+    validate: {
+      payload: DepositoRequestDTO
+    },
+    response: {
+      status: {
+        200: DepositoResponseDTO,
+        400: Joi.any()
       }
     }
-
   }
+
+}
 
 
 module.exports = [
