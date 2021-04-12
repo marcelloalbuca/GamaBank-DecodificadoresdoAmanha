@@ -149,11 +149,29 @@ const depositoUsuarioExterno = async (email, cpfFormatado, valor, h) => {
     }
 }
 
-const transferenciaEntreContas = async (email, valor) => {
+const transferenciaEntreContas = async (idUsuario, email, valor) => {
     try {
-        const sqlStatement = `update contas set saldo = saldo + ${valor} where idUsuario = ${id[0].id};`
+        // const sqlStatement = `update contas set saldo = saldo + ${valor} where idUsuario = ${id[0].id};`
+
+        const sqlStatement = `select u.id, u.nome, u.email, u.cpf from usuarios u 
+            inner join contas c ON u.id = c.idUsuario where u.email = "${email}";`
+
+        const result = await execute(sqlStatement)
+
+        var string = JSON.stringify(result)
+
+        var id = JSON.parse(string);
+
+        const sqlStatement2 = `update contas set saldo = saldo - 90000 where idUsuario = ${idUsuario};`
+        const sqlStatement3 = `update contas set saldo = saldo + 1000 where idUsuario = ${id[0].id};`
+        const sqlStatement4 = `INSERT INTO movimentacoesInterna(valor, idConta, idUsuario, idTransacao) values(${valor}, ${idUsuario}, ${id[0].id}, 2);`
 
         await execute(sqlStatement)
+        await execute(sqlStatement2)
+        await execute(sqlStatement3)
+        await execute(sqlStatement4)
+
+        return { message: 'to aqui' }
     } catch (err) {
         console.log(err)
     }
