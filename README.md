@@ -45,7 +45,7 @@ https://nodejs.org/en/download/
 
 5 - Deposito em conta de terceiros não cadastrados. Rota. - /deposito/externo
 
-6 - Realizar Transferência entre conta existes na Gamabank. Rota - /transferencia
+6 - Realizar Transferência entre contas existes na Gamabank. Rota - /transferencia
 
 
 
