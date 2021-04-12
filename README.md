@@ -43,13 +43,15 @@ https://nodejs.org/en/download/
 
 4 - Deposito em conta. Rota. - /deposito
 
-5 - Lançamento de Despesa de Débito. Rota - /debito
+5 - Deposito em conta de terceiros não cadastrados. Rota. - /deposito/externo
 
-6 - Realizar Transferência entre conta existes na Gamabank. Rota - /transferência
+6 - Lançamento de Despesa de Débito. Rota - /debito
 
-7 - Realizar lançamentos de compras feitas com crédito e débito. Rota -  /compras
+7 - Realizar Transferência entre conta existes na Gamabank. Rota - /transferência
 
-8 - Exibir o extrato bancário e fatura de crédito. Rota - /fatura
+8 - Realizar lançamentos de compras feitas com crédito e débito. Rota -  /compras
+
+9 - Exibir o extrato bancário e fatura de crédito. Rota - /fatura
 
 
 
