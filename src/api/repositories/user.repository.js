@@ -47,7 +47,7 @@ const criarUsuario = async (nome, email, cpf, encryptedPassword) => {
         for (const item of buscarDados) {
             if (item.cpf == cpf) return { message: errorsRepositories.cpfRepetido }
             if (item.email == email) return { message: errorsRepositories.emailRepetido }
-            if (item.email == email && item.cpf == cpf) return { warning: "email e cpf ja cadastrados no sistema" }
+            if (item.email == email && item.cpf == cpf) return { warning: "E-mail e CPF já cadastrados na Gamabank!" }
         }
 
         const sqlStatement = `
@@ -65,7 +65,7 @@ const criarUsuario = async (nome, email, cpf, encryptedPassword) => {
 
         await execute(queryParaCriacaoDaConta)
 
-        return { message: 'usuario cadastrado' }
+        return { message: 'Usuário cadastrado!' }
     } catch (err) {
         console.log(err)
     }
@@ -105,7 +105,7 @@ const depositoUsuario = async (idUsuario, valor) => {
         await execute(sqlStatement)
         await execute(sqlStatement2)
 
-        return { message: 'Valor depositado' }
+        return { message: 'Valor depositado!' }
     } catch (err) {
         console.log(err)
     }

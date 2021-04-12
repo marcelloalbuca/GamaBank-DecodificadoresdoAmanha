@@ -16,7 +16,7 @@ exports.login = async (dadosLogin, h) => {
         // verificando se na base de dados possui o email cadastrado
         const buscaPorEmail = dadosUsuarios.find(({ email }) => email === dadosLogin.email)
         if (!buscaPorEmail) return h
-            .response({ messageError: 'email ou senha errado' })
+            .response({ messageError: 'E-mail ou Senha errada!' })
             .code(StatusCodes.BAD_REQUEST)
 
         // tentando buscar a senha do email digitado
@@ -44,7 +44,7 @@ exports.login = async (dadosLogin, h) => {
                 return { auth: true, token }
             } else {
                 return h
-                    .response({ messageError: 'email ou senha errado' })
+                    .response({ messageError: 'E-mail ou Senha errado!' })
                     .code(StatusCodes.BAD_REQUEST)
             }
         }

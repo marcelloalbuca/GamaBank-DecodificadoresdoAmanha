@@ -25,7 +25,7 @@ const listarExtratoPorId = async (id, h) => {
         const resultado = await execute(sqlStatement)
 
         if (!resultado) h
-            .response({ messageError: 'erro nos dados do usuario' }).code(StatusCodes.BAD_REQUEST)
+            .response({ messageError: 'Erro nos dados do usuário!' }).code(StatusCodes.BAD_REQUEST)
 
         return h.response(resultado).code(200)
     }
