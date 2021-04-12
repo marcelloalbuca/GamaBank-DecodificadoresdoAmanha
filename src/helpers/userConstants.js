@@ -7,6 +7,7 @@ module.exports = {
   errorsRepositories: {
     cpfRepetido: 'CPF já cadastrado!',
     emailRepetido: 'E-mail já cadastrado!',
+    emailNãoEncontrado: 'O e-mail informado não consta em nossa base de dados!',
   },
 
   usuarioExceptions: {

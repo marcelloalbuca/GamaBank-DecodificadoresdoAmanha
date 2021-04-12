@@ -69,24 +69,27 @@ const depositoUsuario = async (idUsuario, valor) => {
     }
 }
 
-const depositoUsuarioExterno = async () => {
+const depositoUsuarioExterno = async (email, cpfdepositante, valor) => {
     try {
-        
-        email = "marcelo@teste.com"
-        cpf = "08283595474"
-        cpfdepositante = "44455566677"
-        valor = 11111
-        
-        /*if (valor < 1)
-            return { messageError: mensagensDeposito.depositoValorNegativo }*/
 
-        return await repository.depositoUsuarioExterno(cpf, valor, email, cpfdepositante)
+        const cpfFormatado = validaCPF(cpfdepositante)
+
+        if (!cpfFormatado) {
+            return { message: mensagensUsuario.cpfInvalido }
+        }
+
+        if (valor < 1)
+            return { messageError: mensagensDeposito.depositoValorNegativo }
+
+        console.log("Estou na rota de servico", email)
+
+        return await repository.depositoUsuarioExterno(email, cpfFormatado, valor)
     } catch (err) {
         console.error(err)
     }
 }
 
-depositoUsuarioExterno
+
 
 module.exports = {
     buscarUsuarios,
