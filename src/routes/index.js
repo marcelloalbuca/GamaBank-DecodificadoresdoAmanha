@@ -191,7 +191,9 @@ const listarExtrato = {
     description: 'Lista o extrato',
     notes: 'Lista o extrato completo do usuário',
     validate: {
-      // headers: Joi.object({ 'x-access-token': Joi.string().required() }).unknown()
+      headers: Joi.object({
+        'authorization': Joi.string().required()
+      }).unknown()
     }
   },
 }
@@ -224,7 +226,9 @@ const depositoUsuario = {
     notes: 'O usuário poderá realizar deposito em sua conta cadastrada na Gamabank.',
     validate: {
       payload: DepositoRequestDTO,
-      // headers: Joi.object({ 'Authorization': Joi.string().required() }).unknown()
+      headers: Joi.object({
+        'authorization': Joi.string().required()
+      }).unknown()
     },
     response: {
       status: {
