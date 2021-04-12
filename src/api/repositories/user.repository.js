@@ -2,7 +2,7 @@ const { execute } = require('../../helpers/database')
 
 const { ReasonPhrases } = require("http-status-codes")
 
-const errorsRepositories = require('../../helpers/userConstants')
+const { errorsRepositories } = require('../../helpers/userConstants')
 
 const buscarUsuarios = async () => {
     try {
@@ -54,7 +54,9 @@ const criarUsuario = async (nome, email, cpf, encryptedPassword) => {
         VALUES ("${nome}","${email}", "${cpf}", "${encryptedPassword}");`
 
         const resultado = await execute(sqlStatement)
-
+        for (const item of buscarDados) {
+            if (item.email == email && item.cpf == cpf) return { warning: "usuario cadastrado com sucesso!" }
+        }
         const criacaoContaIdGerado = resultado.insertId
 
         const queryParaCriacaoDaConta =
@@ -62,7 +64,7 @@ const criarUsuario = async (nome, email, cpf, encryptedPassword) => {
 
         await execute(queryParaCriacaoDaConta)
 
-        return { messageSucess: 'usuário cadastrado' }
+        return { message: 'usuario cadastrado' }
     } catch (err) {
         console.log(err)
     }
