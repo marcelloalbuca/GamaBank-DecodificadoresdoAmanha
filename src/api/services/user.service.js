@@ -61,22 +61,16 @@ const alterarUsuarioPorId = async (id) => {
     return result
 }
 
-const depositoUsuario = async (id, valor) => {
-
+const depositoUsuario = async (idUsuario, valor) => {
     try {
-
-        //id = 5
-        valor = 1
         if (valor <= 0)
             return { message: mensagensDeposito.depositoValorNegativo }
         else
             console.log({ message: mensagensDeposito.depositoSuccess })
 
-        const result = await repository.depositoUsuario(id, valor)
-        return result
-
-    } catch {
-        console.error(error)
+        return await repository.depositoUsuario(idUsuario, valor)
+    } catch (err) {
+        console.error(err)
     }
 }
 
