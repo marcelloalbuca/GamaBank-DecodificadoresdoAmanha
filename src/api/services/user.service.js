@@ -69,11 +69,31 @@ const depositoUsuario = async (idUsuario, valor) => {
     }
 }
 
+const depositoUsuarioExterno = async () => {
+    try {
+        
+        email = "marcelo@teste.com"
+        cpf = "08283595474"
+        cpfdepositante = "44455566677"
+        valor = 11111
+        
+        /*if (valor < 1)
+            return { messageError: mensagensDeposito.depositoValorNegativo }*/
+
+        return await repository.depositoUsuarioExterno(cpf, valor, email, cpfdepositante)
+    } catch (err) {
+        console.error(err)
+    }
+}
+
+depositoUsuarioExterno
+
 module.exports = {
     buscarUsuarios,
     buscarUsuarioPorId,
     criarUsuario,
     deletarUsuarioPorId,
     alterarUsuarioPorId,
-    depositoUsuario
+    depositoUsuario,
+    depositoUsuarioExterno
 }
