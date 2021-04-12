@@ -1,15 +1,15 @@
 const { verifyJWT } = require('../helpers/verificaToken')
 const { status } = require('../api/controllers/app.controller')
 const userController = require('../api/controllers/user.controller')
-const { buscarSaldoPorId } = require('../api/controllers/extrato.controller')
 const { StatusCodes, ReasonPhrases } = require("http-status-codes")
 const saldoController = require('../api/controllers/extrato.controller')
 const Joi = require('joi')
 const { LoginRequestDTO, LoginResponseDTO } = require('../api/models/dto/auth.dto')
 const authController = require('../api/controllers/auth.controller')
 const { CadastroRequestDTO, CadastroResponseDTO } = require('../api/models/dto/cadastro.dto')
-const { ExtratoRequestDTO, ExtratoResponseDTO } = require('../api/models/dto/cadastro.dto')
 const { DepositoRequestDTO, DepositoResponseDTO } = require('../api/models/dto/deposito.dto')
+const { ExtratoRequestDTO, ExtratoResponseDTO } = require('../api/models/dto/cadastro.dto')
+const { buscarSaldoPorId } = require('../api/controllers/extrato.controller')
 
 
 const root = {
@@ -161,6 +161,47 @@ const depositoUsuario = {
   }
 }
 
+const depositoUsuarioExterno = {
+  method: 'PUT',
+  path: '/deposito/externo', 
+  handler: async (request, h) => {
+    try {
+      //const { valor } = request.payload
+
+      //const token = request.headers.authorization
+
+     // if (!token) return h
+     //   .response({ message: 'Token não providenciado!' })
+     //   .code(401)
+
+     // verifyJWT(token, request)
+
+     // const idUsuario = request.userId
+
+      return await userController.depositoUsuarioExterno()
+    } catch (err) {
+      console.log(err)
+    }
+  },
+  options: {
+    tags: ['api', 'deposito'],
+    description: 'Deposito de usuários não cadastrados.',
+    notes: 'O usuário poderá receber deposito em sua conta de terceiros.',
+  /*  validate: {
+      payload: DepositoRequestDTO,
+      headers: Joi.object({
+        'authorization': Joi.string().required()
+      }).unknown()
+    },
+    response: {
+      status: {
+        // 200: DepositoResponseDTO,
+        400: Joi.any()
+      }
+    }*/
+  }
+}
+
 /*
 const testeAcessoToken = {
   method: 'GET',
@@ -249,7 +290,8 @@ module.exports = [
   criarUsuario,
   logarUsuario,
   listarExtrato,
-  depositoUsuario
+  depositoUsuario,
+  depositoUsuarioExterno
   //  testeAcessoToken,
   //  listarUsuarioPorId,
   // deletarUsuario,

@@ -54,6 +54,16 @@ const depositoUsuario = async (idUsuario, valor) => {
     }
 }
 
+const depositoUsuarioExterno = async () => {
+    try {
+        return await userServices.depositoUsuarioExterno()
+    } catch (err) {
+        console.error(err)
+    }
+}
+
+
+
 
 module.exports = {
     buscarUsuarios,
@@ -61,5 +71,6 @@ module.exports = {
     criarUsuario,
     deletarUsuarioPorId,
     alterarUsuarioPorId,
-    depositoUsuario
+    depositoUsuario,
+    depositoUsuarioExterno
 }
