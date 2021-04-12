@@ -22,6 +22,145 @@ const root = {
     notes: 'API desenvolvida pelo Grupo Desenvolvedores do Amanhã'
   }
 }
+
+const criarUsuario = {
+  method: 'POST',
+  path: '/cadastrar',
+  handler: async (request, h) => {
+    try {
+      const dadosCriacao = request.payload
+      const response = await userController.criarUsuario(dadosCriacao, h)
+      return response
+    } catch (err) {
+      console.log(err)
+    }
+  },
+  options: {
+    tags: ['api', 'usuarios'],
+    description: 'Cadastrar novos usuários.',
+    notes: 'Cadastrar novos usuários na Gamabank.',
+    validate: {
+      payload: CadastroRequestDTO,
+    },
+       response: {
+        status: {
+          // 200: CadastroResponseDTO,
+          400: Joi.any()
+        }
+    }
+  }
+}
+
+const logarUsuario = {
+  method: 'POST',
+  path: '/login',
+  handler: async (request, h) => {
+    try {
+      const dadosLogin = request.payload
+
+      if (!dadosLogin) return h
+        .response({ message: 'preencha os campos' }).code(StatusCodes.BAD_REQUEST)
+
+      const response = await authController.login(dadosLogin, h)
+
+      return h.response(response).code(200)
+    } catch (err) {
+      console.log(err)
+    }
+  },
+  options: {
+    tags: ['api', 'usuarios'],
+    description: 'Logar usuário.',
+    notes: 'Logar usuário na Gamabank.',
+    validate: {
+      payload: LoginRequestDTO,
+    },
+    response: {
+      status: {
+        200: LoginResponseDTO,
+        400: Joi.any()
+      }
+    }
+  }
+}
+
+const listarExtrato = {
+  method: 'GET',
+  path: '/extratos',
+  handler: async (request, h) => {
+    const token = request.headers.authorization
+
+    if (!token) return h
+      .response({ message: 'token não providenciado' })
+      .code(401)
+
+    verifyJWT(token, request)
+
+    const id = request.userId
+
+    if (!id) h
+      .response({ message: 'digite um ID válido' }).code(StatusCodes.BAD_REQUEST)
+
+    const result = await saldoController.listarExtratoPorId(id, h)
+
+    if (!result) return h
+      .response(ReasonPhrases.BAD_REQUEST).code(StatusCodes.BAD_REQUEST)
+
+    return h.response(result).code(200)
+  },
+  options: {
+    tags: ['api', 'extrato'],
+    description: 'Lista o extrato.',
+    notes: 'Lista o extrato completo do usuário.',
+    validate: {
+      headers: Joi.object({
+        'authorization': Joi.string().required()
+      }).unknown()
+    }
+  },
+}
+
+const depositoUsuario = {
+  method: 'PUT',
+  path: '/deposito', 
+  handler: async (request, h) => {
+    try {
+      const { valor } = request.payload
+
+      const token = request.headers.authorization
+
+      if (!token) return h
+        .response({ message: 'token não providenciado' })
+        .code(401)
+
+      verifyJWT(token, request)
+
+      const idUsuario = request.userId
+
+      return await userController.depositoUsuario(idUsuario, valor)
+    } catch (err) {
+      console.log(err)
+    }
+  },
+  options: {
+    tags: ['api', 'usuarios'],
+    description: 'O usuário poderá realizar deposito em sua conta.',
+    notes: 'O usuário poderá realizar deposito em sua conta cadastrada na Gamabank.',
+    validate: {
+      payload: DepositoRequestDTO,
+      headers: Joi.object({
+        'authorization': Joi.string().required()
+      }).unknown()
+    },
+    response: {
+      status: {
+        // 200: DepositoResponseDTO,
+        400: Joi.any()
+      }
+    }
+  }
+}
+
 /*
 const testeAcessoToken = {
   method: 'GET',
@@ -79,66 +218,7 @@ const listarUsuarioPorId = {
   }
 }
 */
-const criarUsuario = {
-  method: 'POST',
-  path: '/cadastrar',
-  handler: async (request, h) => {
-    try {
-      const dadosCriacao = request.payload
-      const response = await userController.criarUsuario(dadosCriacao, h)
-      return response
-    } catch (err) {
-      console.log(err)
-    }
-  },
-  options: {
-    tags: ['api', 'usuarios'],
-    description: 'Cadastrar novos usuários',
-    notes: 'Cadastrar novos usuários na Gamabank',
-    validate: {
-      payload: CadastroRequestDTO,
-    },
-    //   response: {
-    //     status: {
-    //       // 200: CadastroResponseDTO,
-    //       400: Joi.any()
-    //     }
-    // }
-  }
-}
 
-const logarUsuario = {
-  method: 'POST',
-  path: '/login',
-  handler: async (request, h) => {
-    try {
-      const dadosLogin = request.payload
-
-      if (!dadosLogin) return h
-        .response({ message: 'preencha os campos' }).code(StatusCodes.BAD_REQUEST)
-
-      const response = await authController.login(dadosLogin, h)
-
-      return h.response(response).code(200)
-    } catch (err) {
-      console.log(err)
-    }
-  },
-  options: {
-    tags: ['api', 'usuarios'],
-    description: 'Logar usuario',
-    notes: 'logar usuário na Gamabank',
-    validate: {
-      payload: LoginRequestDTO,
-    },
-    response: {
-      status: {
-        200: LoginResponseDTO,
-        400: Joi.any()
-      }
-    }
-  }
-}
 /*
 const deletarUsuario = {
   method: 'DELETE',
@@ -162,82 +242,6 @@ const atualizarUsuario = {
   }
 }
 */
-const listarExtrato = {
-  method: 'GET',
-  path: '/extratos',
-  handler: async (request, h) => {
-    const token = request.headers.authorization
-
-    if (!token) return h
-      .response({ message: 'token não providenciado' })
-      .code(401)
-
-    verifyJWT(token, request)
-
-    const id = request.userId
-
-    if (!id) h
-      .response({ message: 'digite um ID válido' }).code(StatusCodes.BAD_REQUEST)
-
-    const result = await saldoController.listarExtratoPorId(id, h)
-
-    if (!result) return h
-      .response(ReasonPhrases.BAD_REQUEST).code(StatusCodes.BAD_REQUEST)
-
-    return h.response(result).code(200)
-  },
-  options: {
-    tags: ['api', 'saldo'],
-    description: 'Lista o extrato',
-    notes: 'Lista o extrato completo do usuário',
-    validate: {
-      headers: Joi.object({
-        'authorization': Joi.string().required()
-      }).unknown()
-    }
-  },
-}
-
-const depositoUsuario = {
-  method: 'PUT',
-  path: '/deposito', //informar ID E VALOR
-  handler: async (request, h) => {
-    try {
-      const { valor } = request.payload
-
-      const token = request.headers.authorization
-
-      if (!token) return h
-        .response({ message: 'token não providenciado' })
-        .code(401)
-
-      verifyJWT(token, request)
-
-      const idUsuario = request.userId
-
-      return await userController.depositoUsuario(idUsuario, valor)
-    } catch (err) {
-      console.log(err)
-    }
-  },
-  options: {
-    tags: ['api', 'usuarios'],
-    description: 'O usuário poderá realizar deposito em sua conta.',
-    notes: 'O usuário poderá realizar deposito em sua conta cadastrada na Gamabank.',
-    validate: {
-      payload: DepositoRequestDTO,
-      headers: Joi.object({
-        'authorization': Joi.string().required()
-      }).unknown()
-    },
-    response: {
-      status: {
-        // 200: DepositoResponseDTO,
-        400: Joi.any()
-      }
-    }
-  }
-}
 
 
 module.exports = [
