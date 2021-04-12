@@ -11,6 +11,8 @@ const { DepositoRequestDTO, DepositoResponseDTO } = require('../api/models/dto/d
 const { ExtratoRequestDTO, ExtratoResponseDTO } = require('../api/models/dto/cadastro.dto')
 const { buscarSaldoPorId } = require('../api/controllers/extrato.controller')
 
+const {DepositoExternoRequestDTO, DepositoExternoResponseDTO} = require('../api/models/dto/depositoExterno.dto')
+
 
 const root = {
   method: "GET",
@@ -164,21 +166,13 @@ const depositoUsuario = {
 const depositoUsuarioExterno = {
   method: 'PUT',
   path: '/deposito/externo', 
-  handler: async (request, h) => {
+  handler: async (request, h, err) => {
     try {
-      //const { valor } = request.payload
+     const {email, cpfdepositante, valor} = request.payload
 
-      //const token = request.headers.authorization
+     console.log(email)
 
-     // if (!token) return h
-     //   .response({ message: 'Token não providenciado!' })
-     //   .code(401)
-
-     // verifyJWT(token, request)
-
-     // const idUsuario = request.userId
-
-      return await userController.depositoUsuarioExterno()
+      return await userController.depositoUsuarioExterno(email, cpfdepositante, valor)
     } catch (err) {
       console.log(err)
     }
@@ -187,18 +181,15 @@ const depositoUsuarioExterno = {
     tags: ['api', 'deposito'],
     description: 'Deposito de usuários não cadastrados.',
     notes: 'O usuário poderá receber deposito em sua conta de terceiros.',
-  /*  validate: {
-      payload: DepositoRequestDTO,
-      headers: Joi.object({
-        'authorization': Joi.string().required()
-      }).unknown()
+   validate: {
+      payload: DepositoExternoRequestDTO,
     },
     response: {
       status: {
-        // 200: DepositoResponseDTO,
+        200: DepositoResponseDTO,
         400: Joi.any()
       }
-    }*/
+    }
   }
 }
 

@@ -54,9 +54,9 @@ const depositoUsuario = async (idUsuario, valor) => {
     }
 }
 
-const depositoUsuarioExterno = async () => {
+const depositoUsuarioExterno = async (email, valor, cpfdepositante) => {
     try {
-        return await userServices.depositoUsuarioExterno()
+        return await userServices.depositoUsuarioExterno(email, valor, cpfdepositante)
     } catch (err) {
         console.error(err)
     }
