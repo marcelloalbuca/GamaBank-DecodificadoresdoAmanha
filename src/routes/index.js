@@ -19,7 +19,7 @@ const root = {
   options: {
     tags: ['api'],
     description: 'API Gamabank',
-    notes: 'API desenvolvida pelo Grupo Desenvolvedores do Amanhã'
+    notes: 'API desenvolvida pelo Grupo Desenvolvedores do Amanhã.'
   }
 }
 
@@ -59,7 +59,7 @@ const logarUsuario = {
       const dadosLogin = request.payload
 
       if (!dadosLogin) return h
-        .response({ message: 'preencha os campos' }).code(StatusCodes.BAD_REQUEST)
+        .response({ message: 'Preencha os campos!' }).code(StatusCodes.BAD_REQUEST)
 
       const response = await authController.login(dadosLogin, h)
 
@@ -70,7 +70,7 @@ const logarUsuario = {
   },
   options: {
     tags: ['api', 'usuarios'],
-    description: 'Logar usuário.',
+    description: 'Logar usuário na Gamabank.',
     notes: 'Logar usuário na Gamabank.',
     validate: {
       payload: LoginRequestDTO,
@@ -86,12 +86,12 @@ const logarUsuario = {
 
 const listarExtrato = {
   method: 'GET',
-  path: '/extratos',
+  path: '/extrato',
   handler: async (request, h) => {
     const token = request.headers.authorization
 
     if (!token) return h
-      .response({ message: 'token não providenciado' })
+      .response({ message: 'Token não providenciado!' })
       .code(401)
 
     verifyJWT(token, request)
@@ -99,7 +99,7 @@ const listarExtrato = {
     const id = request.userId
 
     if (!id) h
-      .response({ message: 'digite um ID válido' }).code(StatusCodes.BAD_REQUEST)
+      .response({ message: 'Digite um ID válido!' }).code(StatusCodes.BAD_REQUEST)
 
     const result = await saldoController.listarExtratoPorId(id, h)
 
@@ -110,7 +110,7 @@ const listarExtrato = {
   },
   options: {
     tags: ['api', 'extrato'],
-    description: 'Lista o extrato.',
+    description: 'Lista o extrato do usuário',
     notes: 'Lista o extrato completo do usuário.',
     validate: {
       headers: Joi.object({
@@ -130,7 +130,7 @@ const depositoUsuario = {
       const token = request.headers.authorization
 
       if (!token) return h
-        .response({ message: 'token não providenciado' })
+        .response({ message: 'Token não providenciado!' })
         .code(401)
 
       verifyJWT(token, request)
@@ -144,7 +144,7 @@ const depositoUsuario = {
   },
   options: {
     tags: ['api', 'usuarios'],
-    description: 'O usuário poderá realizar deposito em sua conta.',
+    description: 'O usuário poderá realizar deposito.',
     notes: 'O usuário poderá realizar deposito em sua conta cadastrada na Gamabank.',
     validate: {
       payload: DepositoRequestDTO,

@@ -1,11 +1,8 @@
 const repository = require('../repositories/user.repository')
 const crypto = require('../../helpers/encryptPassword')
-
 const { mensagensUsuario } = require('../../helpers/userConstants')
 const { mensagensDeposito } = require('../../helpers/depositoConstants')
-
 const { StatusCodes, ReasonPhrases } = require('http-status-codes')
-
 const validaSenha = require('../../helpers/validaSenha')
 const validaCPF = require('../../helpers/validaCPF')
 

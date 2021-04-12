@@ -1,18 +1,18 @@
 module.exports = {
   mensagensUsuario: {
-    cpfInvalido: 'CPF inválido',
-    senhaInvalida: 'Senha inválida, use uma letra maiúscula, minúscula, numeros e caractere especial.'
+    cpfInvalido: 'CPF inválido!',
+    senhaInvalida: 'Senha inválida, use uma letra maiúscula, minúscula, números e caractere especial!'
   },
 
   errorsRepositories: {
     cpfRepetido: 'CPF já cadastrado!',
-    emailRepetido: 'email já cadastrado!',
+    emailRepetido: 'E-mail já cadastrado!',
   },
 
   usuarioExceptions: {
-    userSuccess: "Usuario foi criado com sucesso",
-    userError: "Erro na criação do usuario",
-    userNotFound: 'Usuario não encontrado',
-    userAlreadyExist: 'Usuario já existente'
+    userSuccess: "Usuário foi criado com sucesso!",
+    userError: "Erro na criação do usuário!",
+    userNotFound: 'Usuário não encontrado!',
+    userAlreadyExist: 'Usuário já existente!'
   }
 }
