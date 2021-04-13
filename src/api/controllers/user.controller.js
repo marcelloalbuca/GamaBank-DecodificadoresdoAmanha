@@ -62,9 +62,9 @@ const depositoUsuarioExterno = async (email, cpfdepositante, valor, h) => {
     }
 }
 
-const transferenciaEntreContas = async (email, valor, cpfdepositante) => {
+const transferenciaEntreContas = async (idUsuario, email, valor) => {
     try {
-        return await userServices.transferenciaEntreContas(email, valor, cpfdepositante)
+        return await userServices.transferenciaEntreContas(idUsuario, email, valor)
     } catch (err) {
         console.error(err)
     }

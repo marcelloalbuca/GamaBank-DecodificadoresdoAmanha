@@ -191,30 +191,24 @@ const depositoUsuarioExterno = {
   }
 }
 
-transferenciaEntreContas = {
+const transferenciaEntreContas = {
   method: 'PUT',
   path: '/transferencia',
   handler: async (request, h) => {
     try {
-      const { } = request.payload
+      const token = request.headers.authorization
+      const { email, valor } = request.payload
+      if (!token) return h
+        .response({ message: 'Token não providenciado!' })
+        .code(401)
 
-      return await userController.transferenciaEntreContas()
+      verifyJWT(token, request)
+
+      const idUsuario = request.userId
+
+      return await userController.transferenciaEntreContas(idUsuario, email, valor)
     } catch (err) {
       console.log(err)
-    }
-  },
-  options: {
-    tags: ['api', 'transferencia entre contas'],
-    description: 'trasnferencias entre contas cadastradas no sistema.',
-    notes: 'Um assinante poderá trasnferir algum valor para outras contas',
-    // validate: {
-    //   payload: DepositoExternoRequestDTO,
-    // },
-    response: {
-      status: {
-        // 200: DepositoResponseDTO,
-        400: Joi.any()
-      }
     }
   }
 }
